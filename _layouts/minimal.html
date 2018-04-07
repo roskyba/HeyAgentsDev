@@ -1,0 +1,16 @@
+---
+layout: minimal
+---
+
+<!DOCTYPE html>
+<html>
+  {% include head.md %}
+  <body class="wrapper">
+    {% include nav.md min=true %}
+    <div id="content" tabindex="-1">
+      {{ content }}
+    </div>
+    {% include min_footer.md %}
+    {% include foot.md %}
+  </body>
+</html>

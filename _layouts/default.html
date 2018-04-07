@@ -1,0 +1,16 @@
+---
+layout: default
+---
+
+<!DOCTYPE html>
+<html>
+  {% include head.md %}
+  <body class="wrapper" style="background-color:#E5E5E4">
+    <div class="page" id="content" tabindex="-1">
+      {% include nav.md min=false %}
+      {{ content }}
+    </div>
+    {% include footer.md %}
+    {% include foot.md %}
+  </body>
+</html>

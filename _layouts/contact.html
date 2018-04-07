@@ -1,0 +1,45 @@
+---
+layout: contact
+---
+
+<!DOCTYPE html>
+<html>
+  {% include head.md %}
+  <body class="wrapper">
+    {% include nav.md min=false %}
+    <div id="content" tabindex="-1">
+      {% include modules/contact_nav.md %}
+      <section class="bg-white">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-md-5">
+              {{ content }}
+            </div>
+            <div class="col-12 offset-md-1 col-md-6">
+              <form id="contact" novalidate>
+                <div class="form-group">
+                  <label for="contact_name">Name</label>
+                  <input type="text" class="form-control" id="contact_name" name="name" autocomplete="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="contact_name">Email</label>
+                  <input type="email" class="form-control" id="contact_email" name="email" autocomplete="email" required>
+                </div>
+                <div class="form-group">
+                  <label for="contact_message">{{page['message label']}}</label>
+                  <textarea type="text" class="form-control" id="contact_message" rows="4" name="message" required></textarea>
+                </div>
+                <input type="hidden" name="context" value="{{page.permalink}}">
+                <div class="form-group mt-4">
+                  <input type="submit" class="btn btn-block btn-outline-primary" value="Submit">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    {% include footer.md %}
+    {% include foot.md %}
+  </body>
+</html>

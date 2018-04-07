@@ -1,0 +1,230 @@
+---
+layout: review
+---
+
+<!DOCTYPE html>
+<html>
+  {% include head.md %}
+  <style>
+   .hidden {
+     display: none;
+   }
+  </style>
+  <body class="wrapper page">
+      {% include nav.md min=false %}
+    <div id="content" tabindex="-1">
+      <div id="review-page-header" style="display:none">
+      {% include modules/page_header_review.md %}
+      </div>
+      <div id="review-agent-header" class="review-agent-header text-center hidden">
+      </div>
+      <div id="review-confirmed-header" class="review-confirmed-header text-center hidden py-5">
+        <div class="text-center page-header-review">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-sm-10 offset-sm-1 col-lg-8 offset-lg-2">
+                <h2 class="mb-3">{{page.confirmation.header}}</h2>
+                <small class="mb-4">{{page.confirmation["general description"]}} <span class="positive_review hidden dynamic_review">{{page.confirmation["good description"]}}</span>
+                <span class="average_review dynamic_review">{{page.confirmation["average description"]}}</span>
+                <span class="negative_review hidden dynamic_review">{{page.confirmation["bad description"]}}</span></small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="review-body-section">
+        <div class="container">
+          <div class="row review-body">
+            <div class="col-12 col-md-8 offset-md-2 text-center">
+              <div class="step" data-progress="10" data-step="1">
+                {% if page.steps[0].text %}
+                  <p class="mt-3">{{page.steps[0].text}}</p>
+                {% endif %}
+                <form class="row mt-3" id="agentreview1" novalidate>
+                    <div class="col-12 form-group">
+                        <input type="text" class="form-control address_autocomplete" name="address" placeholder="Sold property address" required>
+                        <p class="notification" style="color:#F00"></p>
+                      </div>
+                      <div class="col-12 form-group agent-name">
+                          <input type="text" class="form-control" name="agent_name" placeholder="Your agents full name" required>
+                          <input type="hidden" name="domainAgentId">
+                      </div>
+                      <input type="hidden" name="agentreviewstep" value="1">
+                      <div class="m-auto col-12 row">
+                          <div class="form-group m-0 col-12">
+                            <div class="align-items-center hidden agent-card">
+                            </div>
+                          </div>
+                      </div>
+                      <div style="width:100%" class="m-auto row">
+                        <div class="align-items-center col-12 my-3">
+                          <input type="submit" class="btn btn-primary px-5 py-2" style="border-radius:3px" value="{{page.steps[0].cta}}" disabled>
+                        </div>
+                      </div>
+                </form>
+              </div>
+              <input id="street_number" type="hidden">
+              <div class="mt-3 step hidden" data-step="2" data-progress="40">
+                {% if page.steps[1].text %}
+                  <p class="mt-3">{{page.steps[1].text}}</p>
+                {% endif %}
+                <form class="mt-3" id="agentreview2">
+                  <div class="row agent-skill-forms">
+                    {% for skill in page["reviewable qualities"] %}
+                    <div class="form-group col-12 col-md-12 agent-skill">
+                      <div class="row">
+                        <div class="col-xl-7 text-left">
+                          <div>
+                            <h6>{{skill.title}}</h6>
+                          </div>
+                          {% if skill.description %}
+                          <div>
+                            <p>{{skill.description}}</p>
+                          </div>
+                          {% endif %}
+                        </div>
+                        <div class="col-xl-5">
+                          <fieldset class="{{skill.api_id}}_rating rating">
+                            {% for i in (1..5) reversed %}
+                                <input id="{{skill.api_id}}_star{{i}}" class="rating_input" type="radio" name="{{skill.api_id}}" value="{{i}}" required />
+                                <label for="{{skill.api_id}}_star{{i}}">★</label>
+                            {% endfor %}
+                          </fieldset>
+                        </div>
+                      </div>
+                      <hr/>
+                    </div>
+                    {% endfor %}
+                    <div class="form-group col-12 bg-white overall-rating-container">
+                      <label class="d-block"><strong>Your Overall Rating of <span class="replace-agent-name">this agent</span></strong></label>
+                      <div class="overall-rating">
+                        <div class="overall-rating-top" style="width: 0%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                        <div class="overall-rating-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                      </div>
+                      <div class="d-inline-block overall-rating-numeric">
+                        <span class="rating-replace"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <input type="hidden" name="agentreviewstep" value="2">
+                  <div class="row my-4">
+                    <div class="form-group text-center col-12">
+                      <input type="submit" class="btn btn-primary px-5 py-2" value="{{page.steps[1].cta}}">
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="mt-5 step hidden" data-step="3" data-progress="70">
+                <h2>{{page.steps[2].header}}</h2>
+                {% if page.steps[2].text %}
+                  <small class="mt-3">{{page.steps[2].text}}</small>
+                {% endif %}
+                <form class="mt-3" id="agentreview3">
+                    <div class="form-group">
+                      <label for="note" class="sr-only">Your review</label>
+                      <textarea rows="8" maxlength="4000" class="form-control" name="note"></textarea>
+                    </div>
+                  <div class="row mb-4">
+                    <div class="col-12 text-left">
+                      <small>See <a tabindex="0" role="button" class="popover-trigger" data-toggle="popover" data-placement="top" data-content="{{page['example review']}}" data-trigger="focus">an example of a review</a></small>
+                    </div>
+                  </div>
+                  <input type="hidden" name="agentreviewstep" value="3">
+                  <div class="row my-4">
+                    <div class="form-group text-center col-12">
+                      <input type="submit" class="btn btn-primary px-5 py-2" value="{{page.steps[2].cta}}">
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="step hidden" data-step="4" data-progress="90">
+                <p class="my-4">{{page.steps[3].header}}</p>
+                <form class="mt-3 social-login" id="agentreview4" novalidate data-submitfunction="reviewAgent">
+                  <div class="row">
+                    <div class="col-12 text-center my-2">
+                      <button id="google-login-button" class="btn btn-google">
+                        <i class="fa fa-google fa-lg"></i>
+                        Verify with Google
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 text-center my-2">
+                      <button id="fb-login-button" class="btn btn-facebook">
+                        <i class="fa fa-facebook-official fa-lg"></i>
+                        Verify with Facebook
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 text-center my-2">
+                      <button id="linkedin-login-button" class="btn btn-linkedin">
+                        <i class="fa fa-linkedin fa-lg"></i>
+                        Verify with LinkedIn
+                      </button>
+                    </div>
+                  </div>
+                  {% if page.steps[3].text %}
+                  <div class="row">
+                    <div class="col-md-6 offset-md-3 my-2">
+                      <i class="fa fa-lock"></i>
+                      <small class="mt-3">{{page.steps[3].text}}</small>
+                    </div>
+                  </div>
+                  {% endif %}
+                  <input type="hidden" name="firstname">
+                  <input type="hidden" name="lastname">
+                  <input type="hidden" name="revieweremail">
+                  <input type="hidden" name="agentreviewstep" value="4">
+                  <div class="row my-4">
+                    <div class="form-group text-center col-12">
+                      <input type="submit" class="hidden btn btn-primary px-4 py-2" value="{{page.steps[3].cta}}" disabled>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="confirmed text-center hidden">
+                <div class="row">
+                  <div class="col-12 col-lg-6 my-2">
+                    <div class="card mx-auto h-100" style="max-width: 500px">
+                      <div class="card-block">
+                        <h2>{{page.confirmation.options[0].header}}</h2>
+                        <small>{{page.confirmation.options[0].text}}</small>
+                        <div>
+                        <a href="/how-it-works" class="btn btn-primary mt-4">
+                          {{page.confirmation.options[0].cta}}</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-lg-6 my-2">
+                    <div class="card mx-auto h-100" style="max-width: 500px">
+                      <div class="card-block">
+                        <h2>{{page.confirmation.options[1].header}}</h2>
+                        <small>{{page.confirmation.options[1].text}}</small>
+                        <div>
+                        <button class="btn btn-outline-primary mt-4" id="share">
+                          {{page.confirmation.options[1].cta}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                <!--
+                    Added DIV to body - script is located in footer.md 
+                    <div class=“friendbuy-dAJ-mYf”></div>
+                -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    {% include foot.md %}
+    <script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
+    <script src="/assets/scripts/review.js"></script>
+  </body>
+</html>

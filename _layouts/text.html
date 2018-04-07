@@ -1,0 +1,24 @@
+---
+layout: text
+---
+
+<!DOCTYPE html>
+<html>
+  {% include head.md %}
+  <style>
+    #content h3 {
+      margin-top: 1.5rem;
+    }
+    #content p, #content li:not(.nav-item) {
+      margin: 1rem 0;
+    }
+  </style>
+  <body class="wrapper">
+    {% include nav.md min=false %}
+    <div id="content" class="bg-white" tabindex="-1">
+      {{ content }}
+    </div>
+    {% include footer.md %}
+    {% include foot.md %}
+  </body>
+</html>

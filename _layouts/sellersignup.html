@@ -1,0 +1,930 @@
+---
+layout: sellersignup
+---
+
+<!DOCTYPE html>
+<html>
+{% include head.md %}
+<style>
+  .hidden {
+    display: none
+  }
+</style>
+
+<body class="wrapper" style="background-color: #f8fbfd">
+  {% include nav.md min=true %}
+  <div id="content" tabindex="-1">
+    <div class="container-fluid d-flex signup-container" style="padding-left:0; padding-right:0">
+      <div class="row signup-begin">
+        <div class="col-12 offset-md-3 col-lg-6 col-md-6 text-center">
+          <div>
+            <p class="signup-begin-heading pb-2">Hey, I’m Matthew</p>
+            <p class="pb-2">To build your brief, I’m going to ask you some questions related to your property and selling preferences. This will help us get the most relevant agents responding with tailored proposals.</p>
+            <p class="sub-headline-blue">This is an anonymous brief, and your personal details are not shared with agents.</p>
+            <div class="row pt-4">
+              <div class="offset-sm-3 col-sm-6 col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+                <input type="text" name="begin-firstname" class="form-control" placeholder="First Name" required>
+              </div>
+              <div class="offset-sm-3 col-sm-6 col-lg-6 offset-lg-3 col-md-8 offset-md-2 text-center begin">
+                <button class="btn btn-primary px-3" onclick="beginSignUp()">Lets get started</button>
+                <!-- -->
+                
+              <!-- -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row signup text-center hidden">
+
+        <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 m-auto col-xl-8">
+          <div>
+            <div class="step" data-step="1">
+              <small>1/6 Questions about your property</small>
+              <form id="sellersignup1" novalidate>
+                <h1 class="mb-5 text-center"></h1>
+                <div class="form-group">
+                  <div class="address-wrap">
+                    <input id="address" type="text" class="input-width form-control address_autocomplete" name="address" placeholder="Property Address" required>
+                    <p class="notification" style="color:#F00"></p>  
+                  </div>
+                  <input id="street_number" type="hidden">
+                  <input id="route" type="hidden">
+                  <input id="locality" type="hidden">
+                  <input id="administrative_area_level_1" type="hidden">
+                  <input id="postal_code" type="hidden">
+                </div>
+                <input type="hidden" class="sellersignupstep" value=1>
+
+                <div class="row">
+                    <div class="form-group text-center col-12 col-md-3">
+                      <input type="submit" class="btn btn-primary px-3" value="Next">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group text-center col-12 col-md-3">
+                      <button type="button" class="btn btn-outline-primary px-3" onclick="toSignupBeginning()"><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                    </div>
+                </div>
+
+
+              </form>
+            </div>
+            <div class="step hidden" data-step="2">
+              <small>2/6 Questions about your property</small>
+              <form id="sellersignup2" novalidate>
+                <h1 class="mb-5 text-center">What type of property is it?</h1>
+                <div class="row">
+                  <div class="form-group flex-override col-4">
+                    <div class="seller-signup-card">
+                    <div class="card-img-wrap">
+                        <img src="/assets/images/signup/house.png"/>
+                    </div>
+                      <label for="type">House</label>
+                      <label class="custom-control custom-radio">
+                        <input name="type" type="radio" class="custom-control-input" value="house">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-4">
+                    <div class="seller-signup-card">
+                        <div class="card-img-wrap">
+                            <img src="/assets/images/signup/apartment.png"/>
+                        </div>
+                      <label for="type">Apartment</label>
+                      <label class="custom-control custom-radio">
+                        <input name="type" type="radio" class="custom-control-input" value="apartment">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-4">
+                    <div class="seller-signup-card">
+                        <div class="card-img-wrap">
+                            <img src="/assets/images/signup/land.png"/>
+                        </div>
+                      <label for="type">Land</label>
+                      <label class="custom-control custom-radio">
+                        <input name="type" type="radio" class="custom-control-input" value="land">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <input type="hidden" class="sellersignupstep" value="2">
+
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <input type="submit" class="btn btn-primary px-3" value="Next">
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                          <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=1><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                      </div>
+                  </div>
+
+
+                  <!-- <div class="row my-4">
+                      <div class="form-group text-center col-6">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=1>Back</button>
+                      </div>
+                    <div class="form-group text-center col-6">
+                      <input type="submit" class="btn btn-primary px-3" value="Next">
+                    </div>
+                  </div> -->
+
+                </div>
+              </form>
+            </div>
+            <div class="step hidden" data-step="3" >
+                <small>3/6 Questions about your property</small>
+                <form id="sellersignup3" novalidate>
+                  <h1 class="mb-5 text-center">What’s the property’s accommodation?</h1>
+                  <div class="row">
+
+                    <div tabindex="-1" class="dropdown-container flex-override col-4">
+                      <div class="seller-signup-card">
+                          <div class="card-img-wrap">
+                              <img src="/assets/images/signup/bed.png"/>
+                          </div>
+                        <small>Bedrooms</small>
+                        <p class="mt-4 mb-0 py-2"><span name="label-bedrooms">Select</span> <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+                        <ul name="select-bedrooms" class="custom-dropdown hidden">
+                          <li class="custom-dropdown-option" data-value="studio">Studio</li>
+                          <li class="custom-dropdown-option" data-value="1">1</li>
+                          <li class="custom-dropdown-option" data-value="2">2</li>
+                          <li class="custom-dropdown-option" data-value="3">3</li>
+                          <li class="custom-dropdown-option" data-value="4+">4+</li>
+                        </ul>
+                        <input type="hidden" name="bedrooms"></input>
+                      </div>
+                    </div>
+
+                    <div tabindex="-1" class="dropdown-container flex-override col-4">
+                      <div class="seller-signup-card">
+                          <div class="card-img-wrap">
+                              <img src="/assets/images/signup/bath.png"/>
+                          </div>
+                        <small>Bathrooms</small>
+                        <p class="mt-4 mb-0 py-2"><span name="label-bathrooms">Select</span> <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+                        <ul name="select-bathrooms" class="custom-dropdown hidden">
+                          <li class="custom-dropdown-option" data-value="1">1</li>
+                          <li class="custom-dropdown-option" data-value="1.5">1.5</li>
+                          <li class="custom-dropdown-option" data-value="2">2</li>
+                          <li class="custom-dropdown-option" data-value="2.5">2.5</li>
+                          <li class="custom-dropdown-option" data-value="3">3</li>
+                          <li class="custom-dropdown-option" data-value="3.5">3.5</li>
+                          <li class="custom-dropdown-option" data-value="4+">4+</li>
+                        </ul>
+                        <input type="hidden" name="bathrooms"></input>
+                      </div>
+                    </div>
+
+                    <div tabindex="-1" class="dropdown-container flex-override col-4">
+                        <div class="seller-signup-card">
+                            <div class="card-img-wrap">
+                                <img src="/assets/images/signup/car.png"/>
+                            </div>
+                          <small>Car spaces</small>
+                          <p class="mt-4 mb-0 py-2"><span name="label-parking">Select</span> <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+                          <ul name="select-parking" class="custom-dropdown hidden">
+                            <li class="custom-dropdown-option" data-value="0">0</li>
+                            <li class="custom-dropdown-option" data-value="1">1</li>
+                            <li class="custom-dropdown-option" data-value="2">2</li>
+                            <li class="custom-dropdown-option" data-value="3+">3+</li>
+                          </ul>
+                          <input type="hidden" name="parking"></input>
+                        </div>
+                      </div>
+                    <input type="hidden" class="sellersignupstep" value="3">
+  
+  
+                    <div class="row">
+                        <div class="form-group text-center col-12 col-md-3">
+                          <input type="submit" class="btn btn-primary px-3" value="Next">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group text-center col-12 col-md-3">
+                          <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=2><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                        </div>
+                    </div>
+  
+  
+                    <!-- <div class="row my-4">
+                        <div class="form-group text-center col-6">
+                          <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=2>Back</button>
+                        </div>
+                      <div class="form-group text-center col-6">
+                        <input type="submit" class="btn btn-primary px-3" value="Next">
+                      </div>
+                    </div> -->
+  
+  
+  
+                  </div>
+                </form>
+              </div>
+            <div class="step hidden" data-step="4">
+              <small>4/6 Questions about your property</small>
+              <form id="sellersignup4" novalidate>
+                <h1 class="mb-5 text-center">Which best describes your property?</h1>
+                <div class="row">
+                  <div class="form-group flex-override col-6 col-md-4">
+                    <div class="seller-signup-card">
+                        <div class="card-img-wrap">
+                            <img src="/assets/images/signup/house.png"/>
+                        </div>
+                      <label for="ownershipstyle">Family Home</label>
+                      <label class="custom-control custom-radio">
+                        <input name="ownershipstyle" type="radio" class="custom-control-input" value="family home">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-6 col-md-4">
+                    <div class="seller-signup-card">
+                        <div class="card-img-wrap">
+                            <img src="/assets/images/signup/investment.png"/>
+                        </div>
+                      <label for="ownershipstyle">Investment property</label>
+                      <label class="custom-control custom-radio">
+                        <input name="ownershipstyle" type="radio" class="custom-control-input" value="investment">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <input type="hidden" class="sellersignupstep" value="4">
+
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <input type="submit" class="btn btn-primary px-3" value="Next">
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=3><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                      </div>
+                  </div>
+
+
+                  <!-- <div class="row my-4">
+                      <div class="form-group text-center col-6">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=3>Back</button>
+                      </div>
+                    <div class="form-group text-center col-6">
+                      <input type="submit" class="btn btn-primary px-3" value="Next">
+                    </div>
+                  </div> -->
+
+
+                </div>
+              </form>
+            </div>
+            <div class="step hidden" data-step="5">
+              <small>5/6 Questions about your property</small>
+              <form id="sellersignup5" novalidate>
+                <h1 class="mb-5 text-center">What’s the condition of your property?</h1>
+                <div class="row">
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="condition">New</label>
+                      <label class="custom-control custom-radio">
+                        <input name="condition" type="radio" class="custom-control-input" value="new">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="condition">Recently renovated</label>
+                      <label class="custom-control custom-radio">
+                        <input name="condition" type="radio" class="custom-control-input" value="recently renovated">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="condition">Well-kept</label>
+                      <label class="custom-control custom-radio">
+                        <input name="condition" type="radio" class="custom-control-input" value="well-kept">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="condition">Needs work</label>
+                      <label class="custom-control custom-radio">
+                        <input name="condition" type="radio" class="custom-control-input" value="needs work">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <input type="hidden" class="sellersignupstep" value="5">
+
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <input type="submit" class="btn btn-primary px-3" value="Next">
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=4><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                      </div>
+                  </div>
+
+                  <!-- <div class="row my-4">
+                      <div class="form-group text-center col-6">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=4>Back</button>
+                      </div>
+                    <div class="form-group text-center col-6">
+                      <input type="submit" class="btn btn-primary px-3" value="Next">
+                    </div>
+                  </div> -->
+
+
+                </div>
+              </form>
+            </div>
+            <div class="step hidden" data-step="6">
+              <small>6/6 Questions about your property</small>
+              <form id="sellersignup6" novalidate>
+                <h1 class="text-center">What’s your opinion of the value?</h1>
+                <div class="row">
+                  <div tabindex="-1" class="dropdown-container price col-12 col-md-6 mb-5 mt-4">
+                      <div class="seller-signup-card">
+                        <p class="py-2"><span name="label-price">Please select...</span> <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+                        <ul name="select-price" class="custom-dropdown hidden">
+                          <li class="custom-dropdown-option" data-value="lt250">&lt; $250K</li>
+                          <li class="custom-dropdown-option" data-value="250-500">$250K-$500K</li>
+                          <li class="custom-dropdown-option" data-value="500-750">$500K-$750K</li>
+                          <li class="custom-dropdown-option" data-value="750-1000">$750K-$1M</li>
+                          <li class="custom-dropdown-option" data-value="1000-1500">$1.0M-$1.25M</li>
+                          <li class="custom-dropdown-option" data-value="1500-2000">$1.25M-$2M</li>
+                          <li class="custom-dropdown-option" data-value="mt2000">$2M-$2.5M</li>
+                          <li class="custom-dropdown-option" data-value="mt2000">$2.5M-$3M</li>
+                          <li class="custom-dropdown-option" data-value="mt2000">$3M-$3.5M</li>
+                          <li class="custom-dropdown-option" data-value="mt2000">$3.5M-$4M</li>
+                          <li class="custom-dropdown-option" data-value="mt2000">$4M-$4.5M</li>
+                          <li class="custom-dropdown-option" data-value="mt2000">$4.5M-$5M</li>
+                          <li class="custom-dropdown-option" data-value="mt2000">$5M &gt; </li>
+                        </ul>
+                        <input type="hidden" name="price"></input>
+                      </div>
+                    </div>
+
+                  <input type="hidden" class="sellersignupstep" value="6">
+
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <input type="submit" class="btn btn-primary px-3" value="Next">
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=5><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                      </div>
+                  </div>
+
+                  <!-- <div class="row my-4">
+                      <div class="form-group text-center col-6">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=6>Back</button>
+                      </div>
+                    <div class="form-group text-center col-6">
+                      <input type="submit" class="btn btn-primary px-3" value="Next">
+                    </div>
+                  </div> -->
+
+
+                </div>
+              </form>
+            </div>
+            <div class="step hidden" data-step="7" >
+              <small>1/6 Questions about your sale</small>
+              <form id="sellersignup8" novalidate>
+                <h1 class="mb-5 text-center">When are you thinking of selling?</h1>
+                <div class="row">
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="salestimeframe">Soon</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salestimeframe" type="radio" class="custom-control-input" value="asap">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="salestimeframe">Within 3 months</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salestimeframe" type="radio" class="custom-control-input" value="within 3 months">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="salestimeframe">Within 6 months</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salestimeframe" type="radio" class="custom-control-input" value="within 6 months">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="salestimeframe">Within 12 months</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salestimeframe" type="radio" class="custom-control-input" value="within 12 months">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <input type="hidden" class="sellersignupstep" value="7">
+
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <input type="submit" class="btn btn-primary px-3" value="Next">
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=6><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                      </div>
+                  </div>
+
+
+                  <!-- <div class="row my-4">
+                      <div class="form-group text-center col-6">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=7>Back</button>
+                      </div>
+                    <div class="form-group text-center col-6">
+                      <input type="submit" class="btn btn-primary px-3" value="Next">
+                    </div>
+                  </div> -->
+
+                </div>
+              </form>
+            </div>
+            <div class="step hidden" data-step="8" >
+              <small>2/6 Questions about your sale</small>
+              <form id="sellersignup9" novalidate>
+                <h1 class="mb-5 text-center">What’s the reason for your sale?</h1>
+                <div class="row">
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="salereason">Upsizing</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salereason" type="radio" class="custom-control-input" value="upsizing">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="salereason">Downsizing</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salereason" type="radio" class="custom-control-input" value="downsizing">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="salereason">Sea change</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salereason" type="radio" class="custom-control-input" value="sea change">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-6 col-md-3">
+                    <div class="seller-signup-card">
+                      <label for="salereason">Other</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salereason" type="radio" class="custom-control-input" value="other">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <input type="hidden" class="sellersignupstep" value="8">
+
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <input type="submit" class="btn btn-primary px-3" value="Next">
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=7><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                      </div>
+                  </div>
+
+
+                  <!-- <div class="row my-4">
+                      <div class="form-group text-center col-6">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=8>Back</button>
+                      </div>
+                    <div class="form-group text-center col-6">
+                      <input type="submit" class="btn btn-primary px-3" value="Next">
+                    </div>
+                  </div> -->
+
+
+                </div>
+              </form>
+            </div>
+            <div class="step hidden" data-step="9" >
+              <small>3/6 Questions about your sale</small>
+              <form id="sellersignup10" novalidate>
+                <h1 class="mb-5 text-center">What’s your preferred method of sale?</h1>
+                <div class="row">
+                  <div class="form-group flex-override col-4">
+                    <div class="seller-signup-card">
+                        <div class="card-img-wrap">
+                            <img src="/assets/images/signup/sale.png"/>
+                        </div>
+                      <label for="salepreference">Private treaty</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salepreference" type="radio" class="custom-control-input" value="private treaty">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-4">
+                    <div class="seller-signup-card">
+                        <div class="card-img-wrap">
+                            <img src="/assets/images/signup/auction.png"/>
+                        </div>
+                      <label for="salepreference">Auction</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salepreference" type="radio" class="custom-control-input" value="auction">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-4">
+                    <div class="seller-signup-card">
+                        <div class="card-img-wrap">
+                            <img src="/assets/images/signup/man.png"/>
+                        </div>
+                      <label for="salepreference">I’m not sure</label>
+                      <label class="custom-control custom-radio">
+                        <input name="salepreference" type="radio" class="custom-control-input" value="not sure">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <input type="hidden" class="sellersignupstep" value="9">
+
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <input type="submit" class="btn btn-primary px-3" value="Next">
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=8><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                      </div>
+                  </div>
+
+                  <!-- <div class="row my-4">
+                      <div class="form-group text-center col-6">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=9>Back</button>
+                      </div>
+                    <div class="form-group text-center col-6">
+                      <input type="submit" class="btn btn-primary px-3" value="Next">
+                    </div>
+                  </div> -->
+
+
+                </div>
+              </form>
+            </div>
+            <div class="step hidden" data-step="10" >
+              <small>4/6 Questions about your sale</small>
+              <form id="sellersignup11" novalidate>
+                <h1 class="mb-5 text-center">What agents would you like responding?</h1>
+                <div class="row">
+                  <div class="form-group flex-override col-4">
+                    <div class="seller-signup-card">
+                      <label for="agentexperience">Experts</label>
+                      <p class="agents-rank">Proven track record</p>
+                      <small>$$$</small><br>
+                      <label class="custom-control custom-checkbox">
+                        <input name="agentexperience" type="checkbox" class="custom-control-input" value="expert" checked>
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-4">
+                    <div class="seller-signup-card">
+                      <label for="agentexperience">Intermediate</label>
+                      <p class="agents-rank">Decent track record</p>
+                      <small>$$</small><br>
+                      <label class="custom-control custom-checkbox">
+                        <input name="agentexperience" type="checkbox" class="custom-control-input" value="intermediate" checked>
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group flex-override col-4">
+                    <div class="seller-signup-card">
+                      <label for="agentexperience">Beginners</label>
+                      <p class="agents-rank">Light track record</p>
+                      <small>$</small><br>
+                      <label class="custom-control custom-checkbox">
+                        <input name="agentexperience" type="checkbox" class="custom-control-input" value="beginner">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <small>An agent’s fee is bespoke to your property, and typically reflects their level of expertise</small><br><br>
+                  <input type="hidden" class="sellersignupstep" value="10">
+
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <input type="submit" class="btn btn-primary px-3" value="Next">
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=9><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                      </div>
+                  </div>
+
+                  <!-- <div class="row my-4">
+                      <div class="form-group text-center col-6">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=10>Back</button>
+                      </div>
+                    <div class="form-group text-center col-6">
+                      <input type="submit" class="btn btn-primary px-3" value="Next">
+                    </div>
+                  </div> -->
+
+                </div>
+              </form>
+            </div>
+            <div class="step hidden" data-step="11" >
+              <small>5/6 Questions about your sale</small>
+              <form id="sellersignup12" novalidate>
+                <h1 class="mb-5 text-center">Is there an agent you typically deal with?</h1>
+                <div class="row">
+                  <div class="form-group col-12">
+                    <input type="text" class="input-width form-control" name="agent_name" placeholder="Enter agents name">
+                    <input type="hidden" name="domain_agent_id">
+                    <div class="align-items-center hidden agent-card"></div>
+                  </div>
+                  <input type="hidden" class="sellersignupstep" value="11">
+                  <p>They will not be charged a referral fee if you ultimately select them</p>
+                  <div class="row">
+                    <div class="form-group col-12 col-md-3">
+                      <input type="button" class="btn btn-skip btn-primary px-3" value="Skip">
+                    </div>
+                    <div class="form-group col-12 col-md-3">
+                      <input type="submit" class="btn btn-primary px-3 btn-agnt" value="Next" disabled>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=10><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                      </div>
+                  </div>
+
+                  <!-- <div class="row my-4">
+                      <div class="form-group text-center col-6">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=11>Back</button>
+                      </div>
+                    <div class="form-group text-center col-6">
+                      <input type="submit" class="btn btn-primary px-3" value="Next" disabled>
+                      <button onclick="skipAgent()" class="btn btn-outline-primary px-3">Skip</button>
+                    </div>
+                  </div> -->
+                </div>
+              </form>
+            </div>
+            <div class="step hidden" data-step="12">
+              <small>6/6 Questions about your sale</small>
+              <form id="sellersignup13" novalidate>
+                <h1 class="mb-5 text-center">Ask the agents some questions</h1>
+                <div class="row">
+                  <div class="form-group col-12 col-lg-11">
+                      <div class="col-12 col-lg-10 col-md-8" style="margin:auto;">
+                        <div class="questions-group"></div>
+                      </div>            
+                      <div class="col-12 col-lg-10 col-md-8" style="margin:auto;">
+                        <div class="input-group">
+                          <div class="select-icon input-group-btn">
+                            <button name="select-question-button" type="button" class="btn btn-secondary btn-question" style="width:100%" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Select from popular questions</span><i class="fa fa-angle-down" aria-hidden="true"></i></b>
+                            </button>
+                            <div class="scrollbar dropdown-menu dropdown-menu-right question-menu" id="scrollbar">
+                            </div>
+                          </div>
+                          <br/>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="add-question-area col-12 col-lg-11">
+                      <input name="question-input-add" type="text" class="mb-3 col-12 col-lg-10 col-md-8 add-question-input form-control question-input" placeholder="Start typing your own question... " style="margin: auto;">
+                      <div class="input-meta m-auto col-12 col-lg-10 col-md-8">
+                        <span class="word-count"><span class="words-left">200 Words </span></span>
+                        <button name="add-question-button" type="button" class="add-question-button btn-secondary btn-question">
+                          <b>Add Question</b>
+                        </button>
+                      </div>
+                    </div>
+                  <div>
+                    <p>Ask agents between 1 and 5 questions <span class="mob-elem-hidden">to get started</span></p>
+                  </div>
+                </div>
+
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <input id="to-preview-button" type="submit" class="btn btn-primary px-3" value="Next">
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group text-center col-12 col-md-3">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=11><i class="fa fa-angle-left" aria-hidden="true"></i>Back</button>
+                      </div>
+                  </div>
+
+                  <!-- <div class="row my-4">
+                      <div class="form-group text-center col-6">
+                        <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=12>Back</button>
+                      </div>
+                    <div class="form-group text-center col-6">
+                      <button id="to-preview-button" class="btn btn-primary px-3">Next</button>
+                    </div>
+                  </div> -->
+
+
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-12" style="padding-left: 0;padding-right: 0">
+            <div class="preview-brief hidden">
+              <h1 class="my-5 text-center">Preview your brief</h1>
+              <div style="position:relative;max-width:100%;height:40vh">
+                  <div class="pop-up hidden-md-down">
+                      <img src="/assets/img/matthew-gregory-profile-picture.png" class="rounded-circle m-1">
+                      <span><b>What do agents see?</b></span>
+                      <p class="preview-heading"><img src='/assets/images/signup/lightbulb.png' alt="Lightbulb icon"/><br/>Here is a preview of your brief, and what your local agents will receive.</p>
+                      <button name="make-changes-button" class="btn btn-outline-primary my-4 px-3 mr-2">Edit</button>
+                      <input name="to-last-step" type="submit" class="btn btn-primary my-4 px-5" value="Next">
+                    </div>
+                  <div class="align-self-center stretch" id="map">
+                  </div>
+              </div>
+              <div class="brief-info row text-left" style="padding-left:15px;padding-right:15px">
+                <div class="col-12 col-md-10">
+                  <h3>Property Details</h3>
+                  <table>
+                    <tr class="table-start" style="border-bottom: none;">
+                      <td>Address</td>
+                      <td id="brief-1" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-gap"></td>
+                      <td colspan=2 class="notify-text"><img src='/assets/images/signup/lightbulb.png' alt="Lightbulb icon"/>Agents will not receive your street or unit number</td>
+                    </tr>
+                    <tr>
+                      <td>Property Type</td>
+                      <td id="brief-2" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Accommodation</td>
+                      <td id="brief-3" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Relationship to property</td>
+                      <td id="brief-4" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Estimated Size</td>
+                      <td id="brief-5" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Condition</td>
+                      <td id="brief-6" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Price Estimated</td>
+                      <td id="brief-7" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                  </table>
+                  <h3>Selling preferences</h3>
+                  <table>
+                    <tr>
+                      <td>Listing timeframe</td>
+                      <td id="brief-8" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Method of sale</td>
+                      <td id="brief-9" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Agent experience</td>
+                      <td id="brief-10" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Reason of sale</td>
+                      <td id="brief-11" class="text-right text-lg-left">
+                      </td>
+                    </tr>
+                  </table>
+                  <h3>Your questions for the agents</h3>
+                  <div id="brief-questions">
+                    <!--here will be questions-->
+                  </div>
+                </div>
+
+                <div class="row preview-buttons">
+                    <p class="additional-text"><img src='/assets/images/signup/lightbulb.png' alt="Lightbulb icon"/>Here is a preview of your brief, and what your local agent will receive</p>
+                    <div class="form-group text-center col-5 col-md-3 col-lg-2">
+                      <button name="make-changes-button" class="btn btn-outline-primary px-3">Edit</button>
+                    </div>
+                    <div class="form-group text-center col-7 col-md-3 col-lg-2">
+                      <input name="to-last-step" type="submit" class="btn btn-primary px-3" value="Next">
+                    </div>
+                </div>
+
+
+                <!-- <div class="row my-4">
+                  <div class="form-group text-center col-12">
+                    <input type="submit" class="btn btn-primary px-3" value="Submit">
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div class="last-step-view col-sm-10 offset-sm-1 col-md-8 offset-md-2 mt-4">
+            <div class="last-step hidden">
+              <form id="sellersignup14" data-submitfunction="waitingList">
+                <h1 class="pt-3 mb-4 text-center">Start receiving proposals from agents who specialise in <span id="replace-city"></span>.</h1>
+                <!-- <h1 class="mb-4 text-center">Alright, let’s find you an agent</h1> -->
+                <!-- <p>Please enter your details below to start receiving proposals from local agents in <span id="replace-city"></span></p> -->
+                <p class="mb-3 additional-text"><img src='/assets/images/signup/lightbulb.png' alt="Lightbulb icon"/>Your mobile number is only used to send a text message verfivation code.</p>
+                <div class="row">
+                  <div class="col-11 col-xl-6">
+                    <div class="row">
+                      <div class="col-6 last-step-field">
+                        <input tabindex="1" name="firstName" type=text class="form-control mb-3" placeholder="First name" required>
+                      </div>
+                      <div class="col-6 last-step-field">
+                        <input tabindex="2" name="lastName" type=text class="form-control mb-3" placeholder="Last name" required>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 col-md-6 last-step-field">
+                        <input tabindex="4" name="phone" type=text class="form-control mb-3" placeholder="Mobile number" required>
+                      </div>
+                      <div class="col-12 col-md-6 last-step-field flex-first">
+                        <input tabindex="3" type="email" type=text name="email" class="form-control mb-3" placeholder="Email" required>
+                      </div>
+                      <div class="col-12 last-step-field">
+                        <input tabindex="5" type="password" type=text name="password" class="form-control mb-2" placeholder="Create a password" required>
+                        <span class="password-info hidden">Password must be at least 8 characters with at least one upper-case and one number</span><br/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <small style="padding:0">I agree to the <a href="/terms-and-conditions/" target="_blank">terms &amp; conditions</a> and <a href="/privacy-policy" target="_blank">privacy policy</a> of Hey Agents</small>
+                  <input type="checkbox" name="agree" disabled="true">
+                </div>
+                <div class="col-md-5 col-sm-12 m-auto">
+                  <input id="submit-form" type="submit" class="btn btn-primary px-3 my-4" value="Finish" style="width: 100%" disabled>
+                </div>
+              </form>
+            </div>
+            <div class="confirmation hidden">
+              <h1 class="mb-5 text-center">Please check your inbox</h1>
+              <p>We have sent you an email with a unique link to verify your email address.</p>
+              <p>Please go to your inbox or junk and click the verification link.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% include foot.md %}
+  <script src="/assets/scripts/sellersignup.js"></script>
+</body>
+
+</html>

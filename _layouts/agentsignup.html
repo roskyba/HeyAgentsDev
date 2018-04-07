@@ -1,0 +1,124 @@
+---
+layout: agentsignup
+---
+
+<!DOCTYPE html>
+<html>
+  {% include head.md %}
+  <style> .hidden { display: none }</style>
+  <body class="wrapper" style="padding-top:65px !important">
+    {% include nav.md min=true %}
+    <div class="page" id="content" tabindex="-1">
+      <div class="container-fluid d-flex signup-container">
+        <div class="row signupagent">
+          <div class="col-12 col-lg-6 left hidden-md-down" style="padding-top:3%">
+            <div class="step align-self-center hidden-md-down" style="margin-right:0px;margin-left:auto;padding-left:10%;padding-right:10%" data-progress="25" data-step="1">
+              <h1 class="mb-5 text-center">{{page.title}}</h1>
+              {% for prop in page['value propositions'] %}
+                <div class="my-5">
+                  <h4><img src="{{prop.image.file}}" alt="{{prop.image.alt}}" class="prop-image mr-3" style="width: 60px">{{prop.header}}</h4>
+                  <p>{{prop.text}}</p>
+                </div>
+              {% endfor %}
+            </div>
+            <div class="step hidden align-self-center stretch" id="map" data-progress="60" data-step="2">
+            </div>
+          </div>
+          <div class="col-12 col-lg-6 right bg-white" style="padding-top:3%;padding-left:5%;padding-right:5%">
+              <h2 class="mb-5 text-center">Sign up now</h2>
+              <div class="progress rounded-0 mb-4">
+                <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 25%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+              <div class="step" data-progress="25" data-step="1">
+                <form id="agentsignup1" novalidate>
+                  <div class="form-group agent-name">
+                    <input type="text" class="form-control" name="agent_name" placeholder="Agent full name" required>
+                    <input type="hidden" name="domainAgentId">
+                    <input type="hidden" name="company">
+                    <input type="hidden" name="license">
+                  </div>
+                <!-- <div class="d-flex align-items-center signup-info">
+                    <img src="/assets/images/sigup_profile.jpg" alt="Profile icon">
+                  <div class="ml-3 agent-info">        
+                    <h2>Max Spartalis</h2>
+                    <span>Raine & Horne - Double Bay</span>
+                  </div>
+                </div> -->
+                  <div class="row">
+                    <div class="form-group m-0 col-12">
+                      <div class="align-items-center hidden agent-card">
+                      </div>
+                    </div>
+                  </div>
+                  <input type="hidden" class="agentsignupstep" value=1>
+                  <div class="row my-4 justify-content-end">
+                    <div class="form-group text-right col-6">
+                      <input type="submit" class="btn btn-primary px-3" value="Next" disabled>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            <div class="step hidden" data-progress="60" data-step="2">
+              <p>{{page['suburb step copy']}}</p>
+              <form id="agentsignup2" novalidate>
+                <div class="form-group">
+                  <input id="suburbs" name="suburbs" type="text" placeholder="Suburb">
+                  <input name="postcodes" type="hidden">
+                </div>
+                <input type="hidden" class="agentsignupstep" value="2">
+                <div class="row my-4">
+                  <div class="form-group col-6">
+                    <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=1>Back</button>
+                  </div>
+                  <div class="form-group text-right col-6">
+                    <input type="submit" class="btn btn-primary px-3 tag-submit" data-requiremax="true" disabled value="Next">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-12 col-md-12 step hidden" data-progress="90" data-step="3">
+              <p>{{page['final step copy'] | markdownify}}</p>
+              <form id="agentsignup3" novalidate data-submitfunction="registerAgent">
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input id="password-agent" type="password" class="form-control" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Confirm password</label>
+                    <input id="confirm-password-agent" type="password" class="form-control" required><span id='message'></span>
+                  </div>
+                <div class="form-check my-4">
+                  <label class="form-check-label">
+                    <input id="agree" class="form-check-input" type="checkbox" style="width:1rem;height:1rem"> I agree to the <a href="/terms-and-conditions/agents">terms & conditions</a>.
+                  </label>
+                </div>
+                <input type="hidden" name="usertype" value="agent">
+                <input type="hidden" class="agentsignupstep" value=3>
+                <div class="row my-4">
+                  <div class="form-group col-6">
+                    <button type="button" class="btn btn-outline-primary px-3 back" data-backstep=2>Back</button>
+                  </div>
+                  <div class="form-group text-right col-6">
+                    <input type="submit" class="btn btn-primary px-3" value="Submit" disabled>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="row hidden confirmed bg-white">
+          <div class="col-12 align-self-center" style="position: relative; top: -30px">
+            <h2 class="text-center"><i class="fa fa-envelope-o text-primary my-3" aria-hidden="true"></i><br>&ensp;{{page.confirmation.header}}</h2>
+            <p style="width: 400px; max-width: 90%; margin: 20px auto;">{{page.confirmation.copy}}</p>
+          </div>
+        </div>
+      </div>
+      {% include min_footer.md %}
+      {% include foot.md %}
+    </div>
+    <script src="/assets/scripts/tagsinput.js"></script>
+    <script src="/assets/scripts/agentsignup.js"></script>
+    <!-- <script src="/assets/scripts/review.js"></script> -->
+  </body>
+</html>

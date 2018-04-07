@@ -1,0 +1,31 @@
+/*
+ * bootstrap-tagsinput v0.8.0
+ *
+ */
+
+.selected-tags {
+  .badge {
+    width: 100%;
+    padding: 12px 51px 12px 15px;
+    background: $gray-lighter;
+    color: $gray;
+    text-align: left;
+    position: relative;
+    margin: 5px 0;
+
+    .remove:after {
+      font-family: FontAwesome;
+      content: "\f00d";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 36px;
+      background: $gray-light;
+      border-radius: 0 0.25rem 0.25rem 0;
+      color: white;
+      text-align: center;
+      line-height: 36px;
+    }
+  }
+}
