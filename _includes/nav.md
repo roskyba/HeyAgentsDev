@@ -29,8 +29,8 @@
           <li><a href='/about/'>About us</a></li>
           <li><a href='/how-it-works/'>How it works</a></li>  
           <li><a href='/review/'>Review an agent</a></li>
-          <li style="position:relative"><button class="primary-header-cta" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Get started</button>
-              <div class="mt-4 dropdown-menu dropdown-menu-right">
+          <li style="position:relative"><button class="primary-header-cta">Get started</button>
+              <div class="mt-4 dropdown-menu">
                 <a class="dropdown-item" href="/signup/">I'm a seller</a>
                 <a class="dropdown-item" href="/signup/agents">I'm an agent</a>
               </div>

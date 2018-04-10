@@ -701,6 +701,10 @@ header {
     background-size: auto 35px;
 }
 
+.expanded {
+    display: block;
+}
+
 .about-section-2 {
     h1  {
         font-size: 42px;
@@ -715,12 +719,14 @@ header {
             li {
                 margin-bottom: 30px;
                 span, p {
+                    font-family: 'HarmoniaSansProCyr-SemiBd';
                     color: #1e2b4d;
                     position: relative;
                     top: -3px;
                     left: 10px;
                 }
                 p {
+                    font-family: 'HarmoniaSansProCyr-Regular', 'Helvetica', 'Helvetica Neue', helvetica, sans-serif;
                     top: 0;
                     color: #565c73;
                     font-size: 15px;
@@ -850,6 +856,9 @@ header {
     padding-top: 120px;
     border-bottom: 1px solid #f0f0f0;
     margin-bottom: 100px;
+    h2 {
+        margin-top: 60px;
+    }
 }
 
 .story-paragraph {

@@ -115,7 +115,7 @@ layout: default
           <img src="/assets/img/mobile-ui-preview.jpg" alt="hey agents interface" class="mobile-ui-image">
         </div>
         <div class="col-xs-12 col-sm-6">
-          <h2 class="large-margin-top wow fadeInUp" >Connect with new clients</h2>
+          <h2 class="wow fadeInUp">Connect with new clients</h2>
           <p class="medium-margin-bottom wow fadeInUp" data-wow-delay="0.3s">We designed HeyAgents.com.au to integrate seamlessly into your busy schedule.
             It takes just 3 minutes to respond to new opportunities and can be
             done anytime, anywhere.
@@ -124,7 +124,7 @@ layout: default
         </div>
       </div>
     </div>
-    <div class="regular-container section-featured text-center">
+    <div class="regular-container text-center">
       <div class="row medium-margin-top">
         <div class="col-xs-12 col-sm-4 one-step text-center wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
           <div class="step-number">

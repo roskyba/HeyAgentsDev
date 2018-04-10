@@ -38,6 +38,9 @@ $('.step-bar a').click(activateSubHeading);
 $(document).ready(function() {
 	var pathname = window.location.pathname;
   $('.main-menu  li > a[href="'+pathname+'"]').parent().addClass('active');
+  $('.main-menu button').click(function() {
+    $('.main-menu .dropdown-menu').toggleClass('expanded');
+  });
 })
 
 //initialize tooltips
