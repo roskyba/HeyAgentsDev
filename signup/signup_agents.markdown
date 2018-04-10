@@ -1,6 +1,6 @@
 ---
 title: Hey Agents | Agent sign up
-date: 2017-06-28 11:29:00 +10:00
+date: 2017-06-28 01:29:00 Z
 permalink: "/signup/agents/"
 meta title: Hey Agents | Agent sign up
 meta description: Select your 5 free suburbs, and access a steady stream of new client

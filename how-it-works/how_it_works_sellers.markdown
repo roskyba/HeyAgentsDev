@@ -1,6 +1,6 @@
 ---
 title: Hey Agents | How it works
-date: 2017-06-28 11:29:00 +10:00
+date: 2017-06-28 01:29:00 Z
 permalink: "/how-it-works/"
 meta title: Hey Agents | How it works
 meta description: Create a brief, receive & review proposals and connect with your

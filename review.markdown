@@ -1,6 +1,6 @@
 ---
 title: Hey Agents | Review a real estate agent
-date: 2017-06-28 11:29:00 +10:00
+date: 2017-06-28 01:29:00 Z
 permalink: "/review/"
 meta title: Hey Agents | Review a real estate agent
 meta description: Review your agent, and share your experience to help other property

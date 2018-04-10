@@ -1,6 +1,6 @@
 ---
 title: Hey Agents | How it works for agents
-date: 2017-06-28 11:29:00 +10:00
+date: 2017-06-28 01:29:00 Z
 permalink: "/how-it-works/agents/"
 meta title: Hey Agents | How it works for agents
 meta description: We designed Hey Agents to integrate seamlessly into your busy schedule.

@@ -1,6 +1,6 @@
 ---
 title: Home
-date: 2017-06-28 11:29:00 +10:00
+date: 2017-06-28 01:29:00 Z
 permalink: "/"
 meta title: Hey Agents | Compare your local agents online, anonymously
 meta description: Hey Agents is a new data-driven marketplace on a mission to simplify
