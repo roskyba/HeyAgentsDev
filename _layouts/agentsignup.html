@@ -12,25 +12,17 @@ layout: agentsignup
       <div class="container-fluid d-flex signup-container">
         <div class="row signupagent">
           <div class="col-12 col-lg-6 left hidden-md-down" style="padding-top:3%">
-            <div class="step align-self-center hidden-md-down" style="margin-right:0px;margin-left:auto;padding-left:10%;padding-right:10%" data-progress="25" data-step="1">
-              <h1 class="mb-5 text-center">{{page.title}}</h1>
-              {% for prop in page['value propositions'] %}
-                <div class="my-5">
-                  <h4><img src="{{prop.image.file}}" alt="{{prop.image.alt}}" class="prop-image mr-3" style="width: 60px">{{prop.header}}</h4>
-                  <p>{{prop.text}}</p>
-                </div>
-              {% endfor %}
-            </div>
-            <div class="step hidden align-self-center stretch" id="map" data-progress="60" data-step="2">
+            <div class="align-self-center stretch" id="map">
             </div>
           </div>
-          <div class="col-12 col-lg-6 right bg-white" style="padding-top:3%;padding-left:5%;padding-right:5%">
-              <h2 class="mb-5 text-center">Sign up now</h2>
-              <div class="progress rounded-0 mb-4">
-                <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 25%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                </div>
-              </div>
-              <div class="step" data-progress="25" data-step="1">
+          <div class="col-12 col-lg-6 px-5 d-flex flex-column justify-content-center right bg-white">
+            <div class="step" data-progress="25" data-step="1">
+                  <h2 class="mb-5 text-center">Sign up now</h2>
+                  <div class="progress rounded-0 mb-4">
+                    <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 25%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                  </div>
+                <p>Open new doors with HeyAgents.com.au</p>
                 <form id="agentsignup1" novalidate>
                   <div class="form-group agent-name">
                     <input type="text" class="form-control" name="agent_name" placeholder="Agent full name" required>
@@ -38,13 +30,6 @@ layout: agentsignup
                     <input type="hidden" name="company">
                     <input type="hidden" name="license">
                   </div>
-                <!-- <div class="d-flex align-items-center signup-info">
-                    <img src="/assets/images/sigup_profile.jpg" alt="Profile icon">
-                  <div class="ml-3 agent-info">        
-                    <h2>Max Spartalis</h2>
-                    <span>Raine & Horne - Double Bay</span>
-                  </div>
-                </div> -->
                   <div class="row">
                     <div class="form-group m-0 col-12">
                       <div class="align-items-center hidden agent-card">
@@ -58,8 +43,13 @@ layout: agentsignup
                     </div>
                   </div>
                 </form>
-              </div>
+            </div>
             <div class="step hidden" data-progress="60" data-step="2">
+                <h2 class="mb-5 text-center">Select your suburbs</h2>
+                <div class="progress rounded-0 mb-4">
+                  <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 60%; height: 10px" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                  </div>
+                </div>
               <p>{{page['suburb step copy']}}</p>
               <form id="agentsignup2" novalidate>
                 <div class="form-group">
@@ -77,7 +67,12 @@ layout: agentsignup
                 </div>
               </form>
             </div>
-            <div class="col-12 col-md-12 step hidden" data-progress="90" data-step="3">
+            <div class="step hidden" data-progress="90" data-step="3">
+              <h2 class="mb-5 text-center">Last step</h2>
+              <div class="progress rounded-0 mb-4">
+                  <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 60%; height: 10px" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                  </div>
+                </div>
               <p>{{page['final step copy'] | markdownify}}</p>
               <form id="agentsignup3" novalidate data-submitfunction="registerAgent">
                 <div class="form-group">
@@ -114,7 +109,6 @@ layout: agentsignup
           </div>
         </div>
       </div>
-      {% include min_footer.md %}
       {% include foot.md %}
     </div>
     <script src="/assets/scripts/tagsinput.js"></script>

@@ -504,7 +504,7 @@ section.hero {
 }
 
 .signup-container {
-    min-height: calc(100vh - 115px);
+    min-height: calc(100vh - 65px);
     .signup-begin {
         padding-left: 15px;
         padding-right: 15px;
@@ -525,7 +525,9 @@ section.hero {
         }
     }
     .signupagent {
-        padding-top: 65px;
+        .step {
+            margin-top: 0;
+        }
     }
     .signup {
         margin-top: 100px;
@@ -813,8 +815,8 @@ section.hero {
         background-position: center center;
     }
     #agentsignup1 {
-        background: $brand-gray;
-        padding: 1rem;
+        padding: 1rem 0;
+        margin-top: 0;
     }
     .signup-info {
         img {
@@ -1024,6 +1026,9 @@ span.twitter-typeahead {
           position: absolute;
           top: 8px;
           left: 15px;
+          @include media-breakpoint-down(xs) {
+            font-size: 16px;
+          }
         }
         i {
           line-height: 22px;

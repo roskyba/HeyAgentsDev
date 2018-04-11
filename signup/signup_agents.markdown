@@ -29,14 +29,12 @@ value propositions:
   text: With Hey Agents, sellers are no longer guided by gut instinct, instead, they
     can identify top agents based on performance. This means you are winning business
     on merit, not showmanship.
-suburb step copy: Select the five free suburbs included with your account. You’ll
+suburb step copy: Please select five core suburbs you wish to add to your free account. You’ll
   be notified of and can apply to every property brief in your chosen suburbs.
 final image:
   file: "/assets/images/buildings.jpg"
   alt: building image
-final step copy: Almost there – we just need some contact information to verify your
-  identity. Your personal data will be kept secure and used in accordance with [our
-  privacy policy](/privacy-policy).
+final step copy: Create a password for your free account.
 confirmation:
   header: Just one last thing...
   copy: We’re happy to have you onboard<span class="username"></span>. You should

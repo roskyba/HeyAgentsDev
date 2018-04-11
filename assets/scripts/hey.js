@@ -255,7 +255,7 @@ function mapcallback(results, status) {
             map.fitBounds(place.geometry.viewport);
           } else {
             map.setCenter(place.geometry.location);
-            map.setZoom(17);
+            map.setZoom(16);
           }
           marker.setIcon(/** @type {google.maps.Icon} */({
             url: place.icon,
@@ -356,7 +356,7 @@ function initStepForm(id, steps) {
       oldStep.fadeOut(500, function() {
           scroll(0,0);
           //for agent signup
-          if(($(".signupagent").length>0)&&newStep===3){
+          if(($(".signupagent").length>0)&&newStep > 3){
             $(".left").addClass("hidden");
             $(".right").addClass("offset-lg-3");
           }
@@ -423,13 +423,7 @@ if($(".address_autocomplete").length>0||$("#suburbs").length>0){
 
   function initializeMap(query) {
     var center, zoom;
-    if ($(window).width() < 500) {
-      zoom = 4;
-    } else if ($(window).width() < 992) {
-      zoom = 4;
-    } else {
-      zoom = 5;
-    }
+    zoom = 4.6;
     map = new google.maps.Map($("#map")[0], {
         zoom: zoom,
         center: sydney,
