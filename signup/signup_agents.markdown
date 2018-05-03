@@ -29,8 +29,8 @@ value propositions:
   text: With Hey Agents, sellers are no longer guided by gut instinct, instead, they
     can identify top agents based on performance. This means you are winning business
     on merit, not showmanship.
-suburb step copy: Please select five core suburbs you wish to add to your free account. You’ll
-  be notified of and can apply to every property brief in your chosen suburbs.
+suburb step copy: Please select five core suburbs you wish to add to your free account.
+  You’ll be notified of and can apply to every property brief in your chosen suburbs.
 final image:
   file: "/assets/images/buildings.jpg"
   alt: building image
