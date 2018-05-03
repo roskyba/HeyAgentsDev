@@ -1,6 +1,6 @@
 ---
 title: Hey Agents | Media
-date: 2018-03-26 01:35:00 Z
+date: 2018-03-26 12:35:00 +11:00
 permalink: "/contact/media/"
 meta title: Hey Agents | Media
 meta description: 'We''re a growing team with a background in real estate and technology,

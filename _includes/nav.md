@@ -9,7 +9,8 @@
   {% when "/how-it-works/agents/" %}
     <nav class="row navbar navbar-how-it-works navbar-cus navbar-toggleable-md navbar-light {% if include.min == true %} min {% endif %}">
   {% when "/signup/agents/" %}
-    <nav class="row navbar navbar-signup signup-agents navbar-toggleable-md navbar-light {% if include.min == true %} min {% endif %}">
+    <nav class="row d-flex navbar navbar-signup signup-agents navbar-toggleable-md navbar-light {% if include.min == true %} min {% endif %}">
+        <a href="http://app.heyagents.com.au/access/login" class="secondary-header-cta">Login</a>
   {% when "/for-agents/" %}
     <nav class="row navbar navbar-toggleable-md navbar-light {% if include.min == true %} min {% endif %}">
   {% when "/signup/" %}

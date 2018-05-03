@@ -1,6 +1,6 @@
 ---
 title: Terms and Conditions for Agents and Agencies
-date: 2018-03-26 01:35:00 Z
+date: 2018-03-26 12:35:00 +11:00
 permalink: "/terms-and-conditions/agents/"
 meta title: Hey Agents | Terms & Conditions for agents
 layout: text

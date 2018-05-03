@@ -404,7 +404,7 @@ layout: sellersignup
             </div>
             <div class="step hidden" data-step="7" >
               <small>1/6 Questions about your sale</small>
-              <form id="sellersignup8" novalidate>
+              <form id="sellersignup7" novalidate>
                 <h1 class="mb-5 text-center">When are you thinking of selling?</h1>
                 <div class="row">
                   <div class="form-group flex-override col-6 col-md-3">
@@ -471,7 +471,7 @@ layout: sellersignup
             </div>
             <div class="step hidden" data-step="8" >
               <small>2/6 Questions about your sale</small>
-              <form id="sellersignup9" novalidate>
+              <form id="sellersignup8" novalidate>
                 <h1 class="mb-5 text-center">What’s the reason for your sale?</h1>
                 <div class="row">
                   <div class="form-group flex-override col-6 col-md-3">
@@ -539,7 +539,7 @@ layout: sellersignup
             </div>
             <div class="step hidden" data-step="9" >
               <small>3/6 Questions about your sale</small>
-              <form id="sellersignup10" novalidate>
+              <form id="sellersignup9" novalidate>
                 <h1 class="mb-5 text-center">What’s your preferred method of sale?</h1>
                 <div class="row">
                   <div class="form-group flex-override col-4">
@@ -606,7 +606,7 @@ layout: sellersignup
             </div>
             <div class="step hidden" data-step="10" >
               <small>4/6 Questions about your sale</small>
-              <form id="sellersignup11" novalidate>
+              <form id="sellersignup10" novalidate>
                 <h1 class="mb-5 text-center">What agents would you like responding?</h1>
                 <div class="row">
                   <div class="form-group flex-override col-4">
@@ -642,7 +642,7 @@ layout: sellersignup
                       </label>
                     </div>
                   </div>
-                  <small>An agent’s fee is bespoke to your property, and typically reflects their level of expertise</small><br><br>
+                  <small class="hidden-sm-down">An agent’s fee is bespoke to your property, and typically reflects their level of expertise</small><br><br>
                   <input type="hidden" class="sellersignupstep" value="10">
 
                   <div class="row">
@@ -670,7 +670,7 @@ layout: sellersignup
             </div>
             <div class="step hidden" data-step="11" >
               <small>5/6 Questions about your sale</small>
-              <form id="sellersignup12" novalidate>
+              <form id="sellersignup11" novalidate>
                 <h1 class="mb-5 text-center">Is there an agent you typically deal with?</h1>
                 <div class="row">
                   <div class="form-group col-12">
@@ -708,7 +708,7 @@ layout: sellersignup
             </div>
             <div class="step hidden" data-step="12">
               <small>6/6 Questions about your sale</small>
-              <form id="sellersignup13" novalidate>
+              <form id="sellersignup12" novalidate>
                 <h1 class="mb-5 text-center">Ask the agents some questions</h1>
                 <div class="row">
                   <div class="form-group col-12 col-lg-11">
@@ -809,7 +809,7 @@ layout: sellersignup
                       </td>
                     </tr>
                     <tr>
-                      <td>Estimated Size</td>
+                      <td>Estimated Size (m<sup>2</sup>)</td>
                       <td id="brief-5" class="text-right text-lg-left">
                       </td>
                     </tr>
@@ -878,7 +878,7 @@ layout: sellersignup
                 <h1 class="pt-3 mb-4 text-center">Start receiving proposals from agents who specialise in <span id="replace-city"></span>.</h1>
                 <!-- <h1 class="mb-4 text-center">Alright, let’s find you an agent</h1> -->
                 <!-- <p>Please enter your details below to start receiving proposals from local agents in <span id="replace-city"></span></p> -->
-                <p class="mb-3 additional-text"><img src='/assets/images/signup/lightbulb.png' alt="Lightbulb icon"/>Your mobile number is only used to send a text message verfivation code.</p>
+                <p class="mb-3 additional-text"><img src='/assets/images/signup/lightbulb.png' alt="Lightbulb icon"/>Your mobile number is only used to send a text message verification code.</p>
                 <div class="row">
                   <div class="col-11 col-xl-6">
                     <div class="row">
@@ -891,7 +891,8 @@ layout: sellersignup
                     </div>
                     <div class="row">
                       <div class="col-12 col-md-6 last-step-field">
-                        <input tabindex="4" name="phone" type=text class="form-control mb-3" placeholder="Mobile number" required>
+                        <input tabindex="4" type="tel" name="phone" type=text class="form-control mb-3" placeholder="Mobile number" maxlength=10 required>
+                        <span class="phone-info text-muted hidden">Please enter a valid Australian phone number that starts with 04</span>
                       </div>
                       <div class="col-12 col-md-6 last-step-field flex-first">
                         <input tabindex="3" type="email" type=text name="email" class="form-control mb-3" placeholder="Email" required>

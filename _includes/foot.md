@@ -11,7 +11,7 @@
 {% if page.permalink contains "for-agencies" or page.permalink contains "review" or page.permalink contains "signup" %}
 <script src="/assets/scripts/typeahead.bundle.min.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtmxHRvhLawOsRnTEN9JJypnM55Lgkbos&libraries=places"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAj6XOc66rQpTZzrfZKnTIYcm8Mpab1c6A&libraries=places"></script>
 {% endif %}
 {% if page.permalink contains "for-agencies" or page.permalink contains "signup" or page.permalink contains "contact" or page.permalink contains "review" %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
@@ -19,7 +19,7 @@
 {% if page.permalink contains "how-it-works" %}
 <script src="/assets/scripts/stepbar.js"></script>
 {% endif %}
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://apis.google.com/js/platform.js" defer></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
 <script src="/assets/scripts/hey.js"></script>

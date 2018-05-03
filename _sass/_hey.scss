@@ -504,7 +504,7 @@ section.hero {
 }
 
 .signup-container {
-    min-height: calc(100vh - 65px);
+    min-height: 100vh;
     .signup-begin {
         padding-left: 15px;
         padding-right: 15px;
@@ -727,6 +727,7 @@ section.hero {
             input[type=text],
             input[type=email],
             input[type=password],
+            input[type=tel]
             {
                 height: 3rem;
                 border: 1px solid #CCC;
@@ -858,6 +859,15 @@ section.hero {
 .sticky:after {
     content: '';
     display: table;
+}
+
+.loader {
+     background-image: url('../img/ajax_loader.gif');
+     display: inline-block;
+     background-size: 5%;
+     background-repeat: no-repeat;
+     background-position: right;
+     vertical-align: middle;
 }
 
 span.twitter-typeahead {
@@ -998,7 +1008,7 @@ span.twitter-typeahead {
     }
 }
 
-#sellersignup13 {
+#sellersignup12 {
     .form-control:disabled {
         background: #fff !important;
     }
@@ -1140,11 +1150,6 @@ span.twitter-typeahead {
             color: #1E2B4D;
         }
     }
-    #sellersignup7 {
-        select {
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-    }
     select {
         outline: none;
         border: none;
@@ -1227,8 +1232,9 @@ span.twitter-typeahead {
 }
 
 .navbar-signup {
-    border-bottom: 1px solid #eee!important;
-    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+    padding-top: 12px;
     .navbar-brand {
         @include media-breakpoint-down(md) {
             img {
@@ -1448,7 +1454,7 @@ body.wrapper {
     max-width: 600px;
 }
 
-#sellersignup11 {
+#sellersignup9 {
     .seller-signup-card {
         height: 100%;
         label {

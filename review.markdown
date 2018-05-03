@@ -1,6 +1,6 @@
 ---
 title: Hey Agents | Review a real estate agent
-date: 2017-06-28 01:29:00 Z
+date: 2017-06-28 11:29:00 +10:00
 permalink: "/review/"
 meta title: Hey Agents | Review a real estate agent
 meta description: Review your agent, and share your experience to help other property
@@ -25,8 +25,8 @@ steps:
     like to share?
   cta: Next
 - header: The integrity of our platform relies on trust and transparency. Please help
-    us verify this review of Ben by using one of the social links below. We use social
-    to verify your identity and match that with the sale.
+    us verify this review by using one of the social links below. We use social to
+    verify your identity and match that with the sale.
   text: We use this information to verify your sale. Your personal details will not
     be displayed with your review.
   cta: Submit
@@ -62,6 +62,14 @@ confirmation:
   good description: find an excellent agent like <span class='replace-agent-name'>yours</span>.
   average description: find an agent that suits their specific needs.
   bad description: avoid the negative experience you had with your agent.
+  heading: See who the right agent is next time you sell with Hey Agents
+  sharing: Know someone who is thinking of selling?
+  sharing quote: We believe Hey Agents removes a lot of the pain points associated
+    with the agent selection process. We would really appreciate if you could share
+    our amazing free service with your friends & family.
+  image:
+    file: "/assets/img/pad-app.png"
+    alt: App screenshot
   options:
   - header: Looking to sell again?
     text: Learn more about receiving bespoke proposals from top local agents through

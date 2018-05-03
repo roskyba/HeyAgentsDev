@@ -2,9 +2,9 @@ $( window ).resize(function() {
     mobileSwap();
 });
 
-window.onload = function() {
+window.addEventListener("load", function() {
   $(".homepage-hero input[type=text]").focus();
-};
+});
 
 mobileSwap();
 
@@ -36,10 +36,29 @@ function iphoneSticky(){
 $('.step-bar a').click(activateSubHeading);
 
 $(document).ready(function() {
+  var inputVal;
 	var pathname = window.location.pathname;
   $('.main-menu  li > a[href="'+pathname+'"]').parent().addClass('active');
   $('.main-menu button').click(function() {
     $('.main-menu .dropdown-menu').toggleClass('expanded');
+  });
+  $('.twitter-typeahead input').focusout(function() {
+      $(this).removeClass('loader');
+   });
+   $('.twitter-typeahead input').on("change paste keyup", function() {
+    inputVal = $('.twitter-typeahead input').val();
+    if (inputVal.length <=3 ) {
+       $('.twitter-typeahead input').addClass('loader');
+    }
+  });
+  var regexRule = /^0(4)\d{8}$/
+  var phoneErrorMsg = $('.phone-info');
+  $('[type=tel]').on("change paste keyup", function() {
+    if($(this).val().match(regexRule)) {
+      phoneErrorMsg.addClass('hidden');
+    } else {
+      phoneErrorMsg.removeClass('hidden');
+    }
   });
 })
 
@@ -178,7 +197,10 @@ function mapcallback(results, status) {
       source: portals
     });
   }
-  var sydney = new google.maps.LatLng(-33.8688,151.2093);
+  var sydney = new google.maps.LatLng(-33.8688,151.2093),
+      lat, 
+      lng,
+      placeSuburb;
   if ($(".address_autocomplete").length) {
     var input;
     var options = {
@@ -250,7 +272,7 @@ function mapcallback(results, status) {
           } 
 
           marker.setVisible(false);
-
+          
           if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport);
           } else {
@@ -267,6 +289,9 @@ function mapcallback(results, status) {
           marker.setPosition(place.geometry.location);
           marker.setVisible(false);
         }
+        placeSuburb = place.vicinity;
+        lat = place.geometry.location.lat();
+        lng = place.geometry.location.lng();
       }
 
 // Step by step modular functions
@@ -362,11 +387,7 @@ function initStepForm(id, steps) {
           }
           
           var $parent = $(".step[data-step='" + newStep + "']");
-          $parent.fadeIn(500, function(){
-            if($("#suburbs").length>0){
-              map.setCenter(sydney);
-            }
-          });
+          $parent.fadeIn(500);
           var progress = $parent.data("progress");
           $("#progress").width(progress + "%").attr("aria-valuenow", progress);
 
@@ -415,17 +436,17 @@ function initStepForm(id, steps) {
     });
   }
 }
+
 if($(".address_autocomplete").length>0||$("#suburbs").length>0){
   /* GOOGLE MAPS REAL ESTATE AGENCY AUTOCOMPLETE */
   var map;
   var service;
-    var sydney = new google.maps.LatLng(-24.8688,134.2093);
+  var sydney = new google.maps.LatLng(-24.8688,134.2093);
 
   function initializeMap(query) {
-    var center, zoom;
-    zoom = 4.6;
+    var center;
     map = new google.maps.Map($("#map")[0], {
-        zoom: zoom,
+        zoom: 4,
         center: sydney,
         disableDefaultUI: true,
         zoomControl: false,
@@ -474,21 +495,6 @@ const url = "https://api-dev.heyagents.com.au/v2/";
 function apiurl(endpoint) {
   var token = localStorage.getItem("token");
   return url + endpoint + "?token=" + token;
-}
-
-if($("[name=contactnumber]").length>0){
-  $.validator.addMethod("phone", function(value, element) {
-    var val = value.replace(/\D/g,'');
-    var tendigits = /^0[0-8]\d{8}$/g;
-    var eldigits = /^[0-8]\d{11}$/g;
-    var ninedigits = /^[0-8]\d{8}$/g;
-    var codeArea =  /^\({0,1}((0|\+61)(2|4|3|7|8)){0,1}\){0,1}(\|-){0,1}[0-9]{2}(\|-){0,1}[0-9]{2}(\|-){0,1}[0-9]{1}(\|-){0,1}[0-9]{3}$/;
-    var valid = false;
-    if (tendigits.test(val) || ninedigits.test(val) || codeArea.test(val) || eldigits.test(val)) {
-      valid = true;
-    }
-    return valid;
-  }, "Please enter a valid Australian phone number.");
 }
 
   var accordionHeader = $('.accordion__header'),

@@ -365,6 +365,13 @@ header {
     }
 }
 
+.fixed-footer {
+    position: fixed;
+    bottom: 0;
+    background: white;
+    width: 100%;
+    z-index: 999
+}
 
 /* --------------------------------------------------------------
 /* =HOMEPAGE
@@ -968,13 +975,13 @@ header {
         line-height: 1.1;
     }
     h2 {
-        font-size: 25px !important;
+        font-size: 25px;
     }
     h3 {
-        font-size: 20px !important;
+        font-size: 20px;
     }
     p {
-        font-size: 16px !important;
+        font-size: 16px;
     }
     .hero-testimonial-text {
         display: none;
@@ -1251,9 +1258,6 @@ header {
         }
     }
     .homepage-section-8 {
-        .large-margin-top {
-
-        }
         .small-container {
             >p {
                 width: 610px;
@@ -1366,7 +1370,7 @@ header {
                         }
                     }
                 }
-                #sellersignup11 {
+                #sellersignup10 {
                             .seller-signup-card {
                                 padding: 0;
                                 padding: 1rem 0;
@@ -1378,7 +1382,7 @@ header {
                         
                     
                 }
-                #sellersignup13 {
+                #sellersignup12 {
                     .form-group {
                         padding: 0;
                     }
@@ -1390,7 +1394,7 @@ header {
             }
             .last-step-view {
               margin-top: 0 !important;
-              #sellersignup14 {
+              #sellersignup13 {
                 h1 {
                   padding: 0 !important;
                 }
@@ -1559,7 +1563,7 @@ header {
         padding: 0;
         padding-top: 125px;
         h1 {
-            font-size: 35px;
+            font-size: 27px;
         }
     }
     .agent-skill-forms {

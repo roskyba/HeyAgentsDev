@@ -1,6 +1,6 @@
 ---
-title: Hey Agents Dev
-timezone: UTC
+title: Hey Agents
+timezone: Australia/Sydney
 collections:
   posts:
     title: Posts
@@ -19,5 +19,51 @@ defaults:
     path: ''
     type: pages
   values:
-    layout: page
+    layout: default
+    meta title: 
+    meta description: 
 permalink: pretty
+meta description: 
+header scripts: "<!-- Start Visual Website Optimizer Asynchronous Code -->\n<script
+  type='text/javascript'>\nvar _vwo_code=(function(){\nvar account_id=317156,\nsettings_tolerance=2000,\nlibrary_tolerance=2500,\nuse_existing_jquery=false,\n/*
+  DO NOT EDIT BELOW THIS LINE */\nf=false,d=document;return{use_existing_jquery:function(){return
+  use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var
+  a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return
+  f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);var
+  a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0)
+  !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else
+  a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());return
+  settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();\n</script>\n<!-- End
+  Visual Website Optimizer Asynchronous Code -->\n\n<script>\n  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n
+  \ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n
+  \ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n
+  \ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');\n\n
+  ga('create', 'UA-87368833-2', 'auto');\n  ga('send', 'pageview');\n</script>\n<script>\n
+  \ window.intercomSettings = {\n    app_id: \"kb41vomp\"\n  };\n</script>\n<script>(function(){var
+  w=window;var ic=w.Intercom;if(typeof ic===\"function\"){ic('reattach_activator');ic('update',intercomSettings);}else{var
+  d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function
+  l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/kb41vomp';var
+  x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>\n\n
+  \ <script>\n    window['friendbuy'] = window['friendbuy'] || [];\n    window['friendbuy'].push(['site',
+  'site-6f0c9f54-www.heyagents.com.au']);\n    window['friendbuy'].push(['track',
+  'customer',\n        {\n            id: '', //INSERT CUSTOMER ID PARAMETER\n            email:
+  '', //INSERT CUSTOMER EMAIL PARAMETER\n            first_name: '', //INSERT CUSTOMER
+  FIRST NAME PARAMETER\n            last_name: '' //INSERT CUSTOMER LAST NAME PARAMETER\n
+  \       }\n    ]);\n    (function (f, r, n, d, b, y) {\n        b = f.createElement(r),
+  y = f.getElementsByTagName(r)[0];b.async = 1;b.src = n;y.parentNode.insertBefore(b,
+  y);\n    })(document, 'script', '//djnf6e5yyirys.cloudfront.net/js/friendbuy.min.js');\n
+  \ </script>\n\n<!-- Hotjar Tracking Code for http://www.heyagents.com.au -->\n<script>\n
+  \   (function(h,o,t,j,a,r){\n        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};\n
+  \       h._hjSettings={hjid:411149,hjsv:6};\n        a=o.getElementsByTagName('head')[0];\n
+  \       r=o.createElement('script');r.async=1;\n        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;\n
+  \       a.appendChild(r);\n    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');\n</script>\n\n<script
+  type='text/javascript'>\nwindow.__lo_site_id = 103782;\n\n\t(function() {\n\t\tvar
+  wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true;\n\t\twa.src
+  = 'https://d10lpsik1i8c69.cloudfront.net/w.js';\n\t\tvar s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(wa, s);\n\t  })();\n\t</script>"
+OG Title: Hey Agents
+OG Description: 
+OG Image: 
+gems:
+- jekyll-sitemap
+url: https://heyagents.com.au

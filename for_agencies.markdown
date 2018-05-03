@@ -1,6 +1,6 @@
 ---
 title: For Agencies
-date: 2017-06-28 01:29:00 Z
+date: 2017-06-28 11:29:00 +10:00
 permalink: "/for-agencies/"
 published: false
 meta title: Sign up your real estate agency to Hey Agents

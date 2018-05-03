@@ -1,6 +1,6 @@
 ---
 title: Hey Agents | About us
-date: 2017-06-28 01:29:00 Z
+date: 2017-06-28 11:29:00 +10:00
 permalink: "/about/"
 meta title: Hey Agents | About us
 meta description: We believe everyone should be empowered to make well-informed decisions.

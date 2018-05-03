@@ -1,6 +1,6 @@
 ---
 title: Hey Agents | For real estate agents
-date: 2017-06-28 01:29:00 Z
+date: 2017-06-28 11:29:00 +10:00
 permalink: "/for-agents/"
 meta title: Hey Agents | For real estate agents
 meta description: Open doors with Hey Agents. Access new client opportunities that

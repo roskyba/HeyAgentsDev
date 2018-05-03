@@ -74,7 +74,6 @@ html {
 body {
   min-height: 100vh;
   background: $brand-gray;
-  // padding-top: 75px;
 }
 html, body {
   overflow-x: hidden;
@@ -204,6 +203,16 @@ section{
       }
     }
   }
+}
+
+.sticky-footer {
+  position: fixed !important;
+  bottom: 0;
+  z-index: 999;
+  width: 100%;
+  background: white;
+  right: 0;
+  left: 0;
 }
 
 .step-bar-fixed {
@@ -437,23 +446,252 @@ section{
   padding: 0;
 }
 
+.review-confirmed-header {
+  .page-header-review {
+    h1 {
+      margin-bottom: 100px;
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 50px;
+      }
+    }
+  }
+  .slider-testimonials  {
+    position: relative;
+    .one-testimonial-slide {
+      width: 70%;
+      padding-bottom: 0;
+    }
+    .testimonial-text-box {
+      position: absolute;
+      width: 453px;
+      padding: 0;
+      padding-left: 45px;
+      padding-right: 45px;
+      text-align: left;
+      top: 56%;
+      left: 55%;
+    }
+  }
+  .testimonial-review {
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+      .one-testimonial-slide {
+        width: 100%;
+        .testimonial-text-box {
+          text-align: center;
+          padding: 20px 15px;
+          top: 88%;
+          left: 0;
+          right: 0;
+          max-width: 289px;
+          p {
+            font-size: 15px;
+            padding-top: 20px;
+          }
+          .testimonial-author {
+            font-size: 12px;
+          }
+        }
+      }
+      img {
+        width: 100%;
+      }
+    }
+  }
+  @include media-breakpoint-down(sm) {
+    h2 {
+      font-size: 20px;
+    }
+  }
+}
+
 .page-header-review { 
   background: #FFF;
-  padding: 1rem;
   padding-top: 200px;
   h1{
     font-family: 'TiemposHeadline-Semibold', 'Helvetica', 'Helvetica Neue', helvetica, sans-serif;
     font-weight: normal;
-    color: #1E2B4D;;
-    margin:0.5rem 0;
-    font-size: 47px;
+    color: #333333;
+    font-size: 36px;
   }
   p {
     font-family: 'HarmoniaSansProCyr-Regular', 'Helvetica', 'Helvetica Neue', helvetica, sans-serif;
     font-size: 17px;
     color: #565c73;
   }
+  .grey-backround {
+    background: #f1f1f1;
+  }
+  .app-feature {
+    min-height: 416px;
+    position: relative;
+    p {
+      line-height: 24px;
+    }
+    input {
+      border: none;
+      max-width: 273px;
+      padding: 15px 25px;
+    }
+    .primary-label {
+      color: #07d390;
+      font-size: 17px;
+      margin-left: 13px;
+    }
+    .bolder {
+      font-family: 'HarmoniaSansProCyr-SemiBd';
+    }
+    .text-contain {
+      padding: 0;
+      h2 {
+        font-size: 32px;
+      }
+      p {
+        padding: 30px 0;
+      }
+      @include media-breakpoint-down(sm) {
+        h2 {
+          padding: 35px 46px;
+          padding-bottom: 20px;
+          font-size: 20px;
+        }
+        p {
+          font-size: 14px;
+          padding: 0 46px;
+        }
+      }
+    }
+    .img-contain {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      img {
+        width: 100%;
+      }
+      @include media-breakpoint-down(sm) {
+        position: relative;
+        left: 0;
+      }
+    }
+    .testimonial-review {
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
+    }
+  }
 }
+
+.steps-section {
+  width: 100%;
+  padding: 0 40px;
+  margin-left: 0;
+  margin-right: 0;
+  @include media-breakpoint-down(sm) {
+    padding: 0 15px;
+    h2 {
+      font-size: 20px;
+    }
+  }
+  .one-step {
+    padding: 0 50px;
+    h6 {
+      font-size: 17px;
+      font-family: 'HarmoniaSansProCyr-SemiBd';
+    }
+    p {
+      color: #565c73;
+      font-family: 'HarmoniaSansProCyr';
+    }
+  }
+}
+
+.share-it-section {
+  min-height: 553px;
+  h2 {
+    padding-top: 80px;
+    padding-bottom: 30px;
+  }
+  > p {
+    padding-bottom: 50px;
+    max-width: 551px;
+  }
+  a {
+    color: white;
+    img {
+      margin-bottom: 4px;
+    }
+    span {
+      margin-left: 10px;
+      line-height: 45px;
+    }
+    &:hover {
+      color: white;
+    }
+  }
+  .share-method {
+    margin: 0 5px;
+    border-radius: 3px;
+  }
+  .share-messenger {
+    background: #4e89fc;
+  }
+  .share-sms {
+    background: #fcbd2c;
+  }
+  .share-email {
+    background: #7d7d7d;
+  }
+  @include media-breakpoint-down(sm) {
+    margin-top: 150px;
+    h2 {
+      padding-left: 65px;
+      padding-right: 65px;
+    }
+    .at-icon-wrapper {
+      margin: 0;
+    }
+  }
+}
+
+.right-arrow {
+  height: 100%;
+  margin-top: 70px;
+}
+
+.review-footer {
+  position: relative;
+  padding: 20px 0;
+  img {
+    position: absolute;
+    bottom: 0px;
+    padding: 0 30px;
+  }
+  input {
+    width: 300px;
+    padding: 13px;
+    box-shadow: none;
+    margin: 0 5px;
+  }
+  .button {
+    padding: 21px 23px;
+    border: none;
+  }
+  @include media-breakpoint-down(sm) {
+    padding: 0;
+    .property-report-btn,
+    .button {
+      width: 100%;
+      margin: 0;
+      border-radius: 0;
+      text-align: left;
+    }
+    img {
+      width: 50%;
+      bottom: -50px;
+    }
+  }
+}
+
 .agent-skill-forms{
   background:#FFF;
   padding:2rem 0;
@@ -527,16 +765,7 @@ section{
   }
 }
 
-.review-confirmed-header {
-  background: #FFF;
-  h2{
-    font-size:2.25rem;
-    font-weight: 700;
-  }
-  small{
-    opacity:0.9;
-  }
-}
+
 
 .confirmed{
   .card-block{
@@ -821,7 +1050,14 @@ select.custom-select {
 }
 
 .signup-agents {
+  border-bottom: none;
   max-width: 1600px;
+  flex-direction: row;
+  align-items: center;
+  a {
+    font-family: 'HarmoniaSansProCyr-SemiBd';
+    order: 2;
+  }
 }
 
 .navbar-signup {
@@ -983,7 +1219,8 @@ input[name=agentquestions] {
 
 #scrollbar::-webkit-scrollbar-thumb {
 	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #06d391;
 }
 

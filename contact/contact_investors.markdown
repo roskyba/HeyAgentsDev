@@ -1,6 +1,6 @@
 ---
 title: Hey Agents | Investors
-date: 2018-03-26 01:35:00 Z
+date: 2018-03-26 12:35:00 +11:00
 permalink: "/contact/investors/"
 meta title: Hey Agents | Investors
 meta description: Hey Agents is a high growth marketplace solution for the real estate

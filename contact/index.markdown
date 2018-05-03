@@ -1,6 +1,6 @@
 ---
 title: Hey Agents | Contact us
-date: 2018-03-26 01:35:00 Z
+date: 2018-03-26 12:35:00 +11:00
 permalink: "/contact/"
 meta title: Hey Agents | Contact us
 meta description: Contact Hey Agents to discuss your property and brief local agents

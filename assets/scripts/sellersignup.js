@@ -54,7 +54,7 @@ $('[name="agent_name"]').typeahead({
     });
   }).bind('typeahead:select', function (ev, suggestion) {
     $('.twitter-typeahead').hide()
-    $("#sellersignup12 input[disabled]").removeAttr("disabled");
+    $("#sellersignup11 input[disabled]").removeAttr("disabled");
     updateAgentHTML(suggestion.firstname, suggestion.lastname, suggestion.photo, suggestion.agency, suggestion.agentId);
     cancelAgent();
   });
@@ -69,7 +69,7 @@ function updateAgentHTML(firstname, lastname, photo, agency, id) {
     $("[name='agent_name']").val(firstname + " " + lastname);
     $("[name='domain_agent_id']").val(id);
   }
-  $("#sellersignup12 input[disabled]").removeAttr("disabled");
+  $("#sellersignup11 input[disabled]").removeAttr("disabled");
 }
 
 /**
@@ -121,6 +121,7 @@ function waitingList() {
   briefData.firstName = $("[name=firstName]").val();
   briefData.lastName = $("[name=lastName]").val();
   briefData.phone = $("[name=phone]").val();
+  console.log(briefData);
   $.ajax({
     method: 'post',
     url: url + "sellers",
@@ -197,7 +198,7 @@ function toLastStep() {
     briefData.brief.city = $("#locality").val();
     briefData.brief.priceMin = price[0];
     briefData.brief.priceMax = price[1];
-    briefData.brief.sizeRange = $('#brief-5').html();
+    briefData.brief.sizeRange = $('select[name=brief-size]')[0].selectedOptions[0].value;
     if (agentquestions.length > 0) {
       briefData.brief.questions = agentquestions;
     }
@@ -213,10 +214,9 @@ function toLastStep() {
     briefData.brief.property.state = $("#administrative_area_level_1").val();
     briefData.brief.property.city = $("#locality").val();
     briefData.brief.property.street = $("#route").val();
-    briefData.brief.property.geolocation.latitude = -33.8678064;
-    briefData.brief.property.geolocation.longitude = 151.1892544;
-    briefData.brief.property.address = $("[name=brief-address]").val();
-    briefData.brief.property.address1 = $("#street_number").val() + " " + $("#route").val();
+    briefData.brief.property.geoLocation.latitude = -33.8678064;
+    briefData.brief.property.geoLocation.longitude = 151.1892544;
+    briefData.brief.property.address = $("#street_number").val();
     briefData.brief.property.bathrooms = $("select[name=brief-bathrooms]")[0].selectedOptions[0].value;
     briefData.brief.property.bedrooms = $("select[name=brief-bedrooms]")[0].selectedOptions[0].value;
     briefData.brief.property.parking = $("select[name=brief-parking]")[0].selectedOptions[0].value;
@@ -266,7 +266,7 @@ function createBriefModel() {
   briefData = {
     type: "seller",
     brief: {
-      suburb: ["Something", "Something2", "Something3"],
+      suburb: placeSuburb,
       city: $("#locality").val(),
       priceMin: price[0],
       priceMax: price[1],
@@ -279,16 +279,16 @@ function createBriefModel() {
       property: {
         postCode: $("#postal_code").val(),
         type: $("[name=type]:checked").val(),
-        ownershipStyle: $("[name=ownershipstyle]:checked").val(),
+        ownershipStyle: "family home",
         condition: $("[name=condition]:checked").val(),
         state: $("#administrative_area_level_1").val(),
         city: $("#locality").val(),
         street: $("#route").val(),
-        geolocation: {
-          latitude: -33.8678064,
-          longitude: 151.1892544
+        geoLocation: {
+          latitude: lat,
+          longitude: lng
         },
-        address: $("#address").val(),
+        address: $("#street_number").val(),
         bathrooms: $("[name=bathrooms]").val(),
         bedrooms: $("[name=bedrooms]").val(),
         parking: $("[name=parking]").val(),
@@ -716,11 +716,9 @@ function createInputs() {
 }
 
 //Page offseting
-$('#to-preview-button').click(function() {
+$('#to-preview-button, input[type=submit], [name=to-last-step]').click(function() {
 	$('html,body').animate({ scrollTop: 0 }, 'slow')
 })
-$('input[type=submit]').click(() => {
-    window.pageYOffset = 0});
 
 //Check password strength
 
@@ -836,9 +834,10 @@ $('.btn-skip').click(addHashToUrl);
 window.onhashchange = function () {
   if ($('#sellersignup2 input[type=radio]:checked').val() == 'land') {
     i + 1;
-    window.location.hash = hashes[i + 2];
-    $(`div[data-step=2]`).css('display', 'none');
+    window.location.hash = hashes[i + 3];
     $(`div[data-step=3]`).css('display', 'none');
+    $(`div[data-step=4]`).css('display', 'none');
+    $(`div[data-step=5]`).css('display', 'none');
   }
   if (window.location.hash == '#' || window.location.hash == '') {
     $('.navbar>img').removeClass('signup-image').addClass('wider-img');
