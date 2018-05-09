@@ -114,7 +114,7 @@ if (useSuburbs) {
       url: '/assets/json/suburbs.json'
     }
   });
-  $('#suburbs').tagsinput({
+  $('.suburbs').tagsinput({
     maxTags: 5,
     itemValue: 'SSC_NAME_2016',
     itemText: 'SSC_NAME_2016',
@@ -128,12 +128,12 @@ if (useSuburbs) {
     }],
     freeInput: false
   });
-  $('#suburbs').on('itemAdded', function (event) {
+  $('.suburbs').on('itemAdded', function (event) {
     $('.homepage-hero .tt-input').val($('.homepage-hero .badge').text());
     $('.homepage-hero .badge').hide();
     $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
   });
-  $('#suburbs').on('itemRemoved', function (event) {
+  $('.suburbs').on('itemRemoved', function (event) {
     $("input[name=postcodes]").val($("input[name=postcodes]").val().replace(event.item["POA_CODE_2016"] + ",", ""));
   });
 } else {
@@ -146,7 +146,7 @@ if (useSuburbs) {
       url: '/assets/json/postcodes.json'
     }
   });
-  $('#suburbs').tagsinput({
+  $('.suburbs').tagsinput({
     maxTags: 5,
     typeaheadjs: [{
       hint: true
@@ -178,10 +178,10 @@ if (useSuburbs) {
   fusionId = '1HsbuTttcp2zhLOcTzFIe_5lJLyBlkjhEDAEEqm0';
   fusionQuery = "POSTCODE";
 }
-$("#suburbs").change(function () {
+$(".suburbs").change(function () {
   codes = "";
   if (useSuburbs) {
-    var suburbs = $("#suburbs").val().split(",");
+    var suburbs = $(".suburbs").val().split(",");
     for (suburb in suburbs) {
       codes += "'" + suburbs[suburb] + "'";
       if (suburb != suburbs.length - 1) {
@@ -192,7 +192,7 @@ $("#suburbs").change(function () {
       queryFT(codes, fusionIds[x]);
     }
   } else {
-    var pcarray = $("#suburbs").tagsinput("items");
+    var pcarray = $(".suburbs").tagsinput("items");
     for (item in pcarray) {
       codes += pcarray[item];
       if (item != pcarray.length - 1) {
