@@ -327,7 +327,7 @@ function createBriefPreview() {
   if ($('.badge').text() == '') {
     $("#brief-1").text(sbr);
   } else {
-    $("#brief-1").text($('.badge').text());
+    $("#brief-1").text($('.signup-begin .tt-input').val());
   }
   getResult("#brief-2", "type", "radio")
   $("#brief-3").html(
@@ -386,6 +386,8 @@ var sizeOption = '';
 
 //Put inputs with values in table
 function makeChanges() {
+  $('.preview-suburb').addClass('hidden');
+  $('.edit-suburb').removeClass('hidden');
   madeChanges = true;
   $('[name=make-changes-button]').prop("disabled", true);
   $("#brief-1").html(createBriefInputs("address"));
@@ -479,16 +481,22 @@ function createCheckboxes(name) {
 
 //Get data from inputs and return new inputs for brief table (for makeChanges)
 function createBriefInputs(name) {
-  var autocomplete = "";
+  $('.edit-suburb .tt-input').val('');
   var notification = "";
+  var inputClasss = "";
+  var inputName = "";
   if (name == "address") {
-    autocomplete = "address_autocomplete";
-    notification = "<p class='notification' style='color:#F00'></p> "
+    inputName = `name='suburbs'`
+    inputClasss = "suburbs";
+    notification = "<p class='notification' style='color:#F00'></p> ";
+
+  } else {
+    inputName = "name='brief-";
   }
   var inputs = "";
   questionsArray = $("[name=" + name + "]");
   questionsArray.each(function () {
-    inputs += "<input type=text name=brief-" + name + " value='" + this.value + "' class='form-control my-2 " + autocomplete + "'>" + notification;
+    inputs += "<input type=text " + inputName + "'" + name + " value='" + this.value + "' name='" + inputName + "' class='form-control my-2 " + inputClasss + "'>" + notification;
   });
   return inputs;
 }
@@ -577,7 +585,7 @@ if (useSuburbs) {
       url: '/assets/json/suburbs.json'
     }
   });
-  $('#suburbs').tagsinput({
+  $('.suburbs').tagsinput({
     maxTags: 1,
     itemValue: 'SSC_NAME_2016',
     itemText: 'SSC_NAME_2016',
@@ -591,12 +599,15 @@ if (useSuburbs) {
     }],
     freeInput: false
   });
-  $('#suburbs').on('itemAdded', function (event) {
-    $('.tt-input').val($('.badge').text());
+  $('.suburbs').on('itemAdded', function (event) {
+    $('.tt-input').val($('.signup .badge').text());
+    $('.signup-begin .badge, .signup .badge').html();
+    $('.preview-brief .tt-input').val($('.signup .badge').text());
     $('.badge').hide();
+    $('.badge').html()
     $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
   });
-  $('#suburbs').on('itemRemoved', function (event) {
+  $('.suburbs').on('itemRemoved', function (event) {
     $("input[name=postcodes]").val($("input[name=postcodes]").val().replace(event.item["POA_CODE_2016"] + ",", ""));
   });
 } else {
@@ -609,7 +620,7 @@ if (useSuburbs) {
       url: '/assets/json/postcodes.json'
     }
   });
-  $('#suburbs').tagsinput({
+  $('.suburbs').tagsinput({
     maxTags: 1,
     typeaheadjs: [{
       hint: true
@@ -641,10 +652,10 @@ if (useSuburbs) {
   fusionId = '1HsbuTttcp2zhLOcTzFIe_5lJLyBlkjhEDAEEqm0';
   fusionQuery = "POSTCODE";
 }
-$("#suburbs").change(function () {
+$(".suburbs").change(function () {
   codes = "";
   if (useSuburbs) {
-    var suburbs = $("#suburbs").val().split(",");
+    var suburbs = $(".suburbs").val().split(",");
     for (suburb in suburbs) {
       codes += "'" + suburbs[suburb] + "'";
       if (suburb != suburbs.length - 1) {
@@ -655,7 +666,7 @@ $("#suburbs").change(function () {
       queryFT(codes, fusionIds[x]);
     }
   } else {
-    var pcarray = $("#suburbs").tagsinput("items");
+    var pcarray = $(".suburbs").tagsinput("items");
     for (item in pcarray) {
       codes += pcarray[item];
       if (item != pcarray.length - 1) {
@@ -1023,6 +1034,7 @@ var i = 1;
 function enableSubmit() {
   $('input[name=agree]').addClass('not-checked').prop('disabled', false);
   $('.password-info').hide();
+  
 }
 
 
@@ -1035,8 +1047,7 @@ setInterval(function () {
     $('input[name=firstName]').val() != '' &&
     $('input[name=lastName]').val() != '' &&
     $('input[name=phone]').val() != '' &&
-    $('input[name=password]').val() != '' &&
-    $('input[name=email]').val() != '') ?
+    $('input[name=password]').val() != '' ) ?
     enableSubmit() :
     disableSubmit()
 }, 100);
@@ -1061,7 +1072,6 @@ function suburbSelectedProccess () {
   $(`.signup`).removeClass('hidden');
   $(`div[data-step=1]`).css('display', 'block');
   $(`.top-image`).show();
-  // $(`div[data-step=2]`).css('display', 'none');
   $('.table-start > td:first-child').html('Suburb');
 }
 
@@ -1149,6 +1159,7 @@ window.addEventListener('load', checkHash);
       $(`.signup`).css('display', 'none');
       $(`.signup-begin`).css('display', 'block');
     } else if (window.location.hash == '#email') {
+
       $(`#sellersignup12 .col-xl-8, #sellersignup12 .col-12`).css('display', 'none');
     }
     if (window.location.hash == '#ques') {
@@ -1234,6 +1245,7 @@ $(document).ready(function () {
     $('.password-info').hide();
   }
   $('.to-finish').click(function() {
+    $('#replace-suburb').text($('.signup-begin .tt-input').val());
     $('.email-step-view').css('display','none');
     $('.last-step').css('display','block');
   })

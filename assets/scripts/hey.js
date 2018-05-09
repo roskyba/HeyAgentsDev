@@ -23,10 +23,10 @@ if (useSuburbs) {
       url: '/assets/json/suburbs.json'
     }
   });
-  // $('#suburbs').on('beforeItemAdd', function(event) {
-  //   event.cancel = true;
-  // });
-  $('#suburbs').on('itemAdded', function (event) {
+  $('.homepage-hero .suburbs').on('beforeItemAdd', function(event) {
+    event.cancel = true;
+  });
+  $('.suburbs').on('itemAdded', function (event) {
     $('.homepage-hero .tt-input').val($('.homepage-hero .badge').text());
     $('.homepage-hero .badge').hide();
     $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
@@ -41,7 +41,7 @@ if (useSuburbs) {
       url: '/assets/json/postcodes.json'
     }
   });
-  $('#suburbs').tagsinput({
+  $('.suburbs').tagsinput({
     maxTags: 1,
     typeaheadjs: [{
       hint: true
@@ -453,7 +453,7 @@ if (useSuburbs) {
       url: '/assets/json/suburbs.json'
     }
   });
-  $('#suburbs').tagsinput({
+  $('.suburbs').tagsinput({
     maxTags: 1,
     itemValue: 'SSC_NAME_2016',
     itemText: 'SSC_NAME_2016',
@@ -467,12 +467,12 @@ if (useSuburbs) {
     }],
     freeInput: false
   });
-  $('#suburbs').on('itemAdded', function (event) {
+  $('.suburbs').on('itemAdded', function (event) {
     $('.homepage-hero .tt-input').val($('.homepage-hero .badge').text());
     $('.homepage-hero .selected-tags').hide();
     $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
   });
-  $('#suburbs').on('itemRemoved', function (event) {
+  $('.suburbs').on('itemRemoved', function (event) {
     $("input[name=postcodes]").val($("input[name=postcodes]").val().replace(event.item["POA_CODE_2016"] + ",", ""));
   });
 } else {
@@ -485,7 +485,7 @@ if (useSuburbs) {
       url: '/assets/json/postcodes.json'
     }
   });
-  $('#suburbs').tagsinput({
+  $('.suburbs').tagsinput({
     maxTags: 1,
     typeaheadjs: [{
       hint: true
@@ -517,10 +517,10 @@ if (useSuburbs) {
   fusionId = '1HsbuTttcp2zhLOcTzFIe_5lJLyBlkjhEDAEEqm0';
   fusionQuery = "POSTCODE";
 }
-$("#suburbs").change(function () {
+$(".suburbs").change(function () {
   codes = "";
   if (useSuburbs) {
-    var suburbs = $("#suburbs").val().split(",");
+    var suburbs = $(".suburbs").val().split(",");
     for (suburb in suburbs) {
       codes += "'" + suburbs[suburb] + "'";
       if (suburb != suburbs.length - 1) {
@@ -531,7 +531,7 @@ $("#suburbs").change(function () {
       queryFT(codes, fusionIds[x]);
     }
   } else {
-    var pcarray = $("#suburbs").tagsinput("items");
+    var pcarray = $(".suburbs").tagsinput("items");
     for (item in pcarray) {
       codes += pcarray[item];
       if (item != pcarray.length - 1) {
@@ -772,7 +772,7 @@ function outlineSuburbs(codes, fusionId) {
   }
 }
 
-if($(".address_autocomplete").length>0||$("#suburbs").length>0){
+if($(".address_autocomplete").length>0||$(".suburbs").length>0){
   /* GOOGLE MAPS REAL ESTATE AGENCY AUTOCOMPLETE */
   var map;
   var service;
