@@ -23,9 +23,9 @@ if (useSuburbs) {
       url: '/assets/json/suburbs.json'
     }
   });
-  $('#suburbs').on('beforeItemAdd', function(event) {
-    event.cancel = true;
-  });
+  // $('#suburbs').on('beforeItemAdd', function(event) {
+  //   event.cancel = true;
+  // });
   $('#suburbs').on('itemAdded', function (event) {
     $('.homepage-hero .tt-input').val($('.homepage-hero .badge').text());
     $('.homepage-hero .badge').hide();
