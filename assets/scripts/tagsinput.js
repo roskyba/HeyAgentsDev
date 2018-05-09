@@ -370,14 +370,12 @@
 
         $.fn.typeahead.apply(self.$input, typeaheadjs).on('typeahead:selected', $.proxy(function (obj, datum, name) {
           var index = 1;
-
+          $('.begin button').removeAttr('disabled');
           if (typeaheadjs[index].valueKey) {
             self.add(datum[typeaheadjs[index].valueKey]);
           } else {
             self.add(datum);
           }
-
-          self.$input.typeahead('val', '');
         }, self));
       }
 

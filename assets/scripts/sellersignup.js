@@ -54,7 +54,7 @@ $('[name="agent_name"]').typeahead({
     });
   }).bind('typeahead:select', function (ev, suggestion) {
     $('.twitter-typeahead').hide()
-    $("#sellersignup11 input[disabled]").removeAttr("disabled");
+    $("#sellersignup10 input[disabled]").removeAttr("disabled");
     updateAgentHTML(suggestion.firstname, suggestion.lastname, suggestion.photo, suggestion.agency, suggestion.agentId);
     cancelAgent();
   });
@@ -69,7 +69,7 @@ function updateAgentHTML(firstname, lastname, photo, agency, id) {
     $("[name='agent_name']").val(firstname + " " + lastname);
     $("[name='domain_agent_id']").val(id);
   }
-  $("#sellersignup11 input[disabled]").removeAttr("disabled");
+  $("#sellersignup10 input[disabled]").removeAttr("disabled");
 }
 
 /**
@@ -100,19 +100,6 @@ var marker = new google.maps.Marker({
   anchorPoint: new google.maps.Point(0, -29)
 });
 
-var circle = new google.maps.Circle({
-  map: map,
-  radius: 200,
-  fillColor: '#00AAAA',
-  strokeColor: '#99DAC7',
-  strokeWeight: 1
-});
-circle.bindTo('center', marker, 'position');
-
-
-google.maps.event.addListener(map, 'bounds_changed', function () {
-  google.maps.event.trigger(map, 'resize');
-});
 
 //Submit brief
 function waitingList() {
@@ -149,10 +136,11 @@ $('input[name="begin-firstname"]').keyup(function () {
 
 //Go to second screen
 function beginSignUp() {
-  $('#sellersignup1 h1').html("Great to meet you " + $('input[name="begin-firstname"]').val() + "! What’s your property address?")
+  $('.top-image').show();
+  $('#sellersignup1 h1').html("Hey I’m Matt, let’s get started with your property type")
   $(".signup-begin").fadeOut(500, function () {
     $(".signup").fadeIn(500);
-    google.maps.event.trigger(map, 'resize');
+    // google.maps.event.trigger(map, 'resize');
   });
   $('body').animate({ scrollTop: 0 }, 'slow');
   window.pageYOffset = 0;
@@ -174,10 +162,14 @@ function toPreviewBrief() {
     createBriefPreview();
     $(".step:last").fadeOut(500, function () {
       $(".preview-brief").fadeIn(500);
-      google.maps.event.trigger(map, 'resize');
-      map.fitBounds(autocomplete.getPlace().geometry.viewport);
+      // google.maps.event.trigger(map, 'resize');
     })
   })
+}
+
+function toEmailStep() {
+  $('.preview-brief ').hide();
+  $('.email-step-view').show();
 }
 
 //Put changed values to brief model and go to last step
@@ -242,7 +234,8 @@ function toLastStep() {
 
 $('[name=to-last-step]').click(function (e) {
   e.preventDefault();
-  toLastStep();
+  toEmailStep();
+  // toLastStep();
 })
 //Brief model
 var brief;
@@ -331,7 +324,11 @@ var sizeValues = [];
 //Put labels from steps to brief table
 function createBriefPreview() {
   createBriefModel()
-  $("#brief-1").text($("#address").val());
+  if ($('.badge').text() == '') {
+    $("#brief-1").text(sbr);
+  } else {
+    $("#brief-1").text($('.badge').text());
+  }
   getResult("#brief-2", "type", "radio")
   $("#brief-3").html(
     "<span><img src='/assets/images/signup/bed-preview.png' style='max-width:40px'> " + $("[name=label-bedrooms]").text() +
@@ -496,7 +493,7 @@ function createBriefInputs(name) {
   return inputs;
 }
 
-$('#sellersignup1 input[type=submit]').prop('disabled', true);
+// $('#sellersignup1 input[type=submit]').prop('disabled', true);
 
 //Bind Next button to inputs on current steps
 function buttonActivation(step) {
@@ -535,8 +532,8 @@ function buttonActivation(step) {
 
 //Change values of size inputs dependent on chosen option on property type screen
 function changeSize() {
-  var propertyType = $('#sellersignup2 input[type=radio]:checked').val();
-
+  var propertyType = $('#sellersignup1 input[type=radio]:checked').val();
+  $('#sellersignup1 input[type=submit').removeAttr('disabled');
   var apartmentSizeLabels = ["Less than 75m<sup>2</sup>", "75-100m<sup>2</sup>", "100-150m<sup>2</sup>", "More than 150m<sup>2</sup>"];
   var apartmentSizeValues = ["0-75", "75-100", "100-150", "150+"];
   var houseSizeLabels = ["Less than 150m<sup>2</sup>", "150-250m<sup>2</sup>", "250-500m<sup>2</sup>", "More than 500m<sup>2</sup>"];
@@ -544,30 +541,275 @@ function changeSize() {
   var landSizeLabels = ["Less than 400m<sup>2</sup>", "400-1000m<sup>2</sup>", "1000-1500m<sup>2</sup>", "More than 1500m<sup>2</sup>"];
   var landSizeValues = ["0-400", "400-1000", "1000-1500", "1500+"];
 
-  $('#sellersignup6 h1').text("What’s your opinion of the value?");
+  $('#sellersignup5 h1').text("What’s your opinion of the value?");
 
   if (propertyType == "apartment") {
-    $('#sellersignup6 input[type=radio]').each(function (index) {
+    $('#sellersignup5 input[type=radio]').each(function (index) {
       $("label[for=size]")[index].innerHTML = apartmentSizeLabels[index]
       $(this).val(apartmentSizeValues[index]);
     });
   }
 
   if (propertyType == "house") {
-    $('#sellersignup6 input[type=radio]').each(function (index) {
+    $('#sellersignup5 input[type=radio]').each(function (index) {
       $("label[for=size]")[index].innerHTML = houseSizeLabels[index]
       $(this).val(houseSizeValues[index]);
     });
   }
 
   if (propertyType == "land") {
-    $('#sellersignup6 input[type=radio]').each(function (index) {
+    $('#sellersignup5 input[type=radio]').each(function (index) {
       $("label[for=size]")[index].innerHTML = landSizeLabels[index]
       $(this).val(landSizeValues[index]);
     });
   }
 }
 
+var useSuburbs = true;
+var codes = ""; var layer, layerb;
+if (useSuburbs) {
+  var suburbs = new Bloodhound({
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.SSC_NAME_2016);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: {
+      url: '/assets/json/suburbs.json'
+    }
+  });
+  $('#suburbs').tagsinput({
+    maxTags: 1,
+    itemValue: 'SSC_NAME_2016',
+    itemText: 'SSC_NAME_2016',
+    typeaheadjs: [{
+      hint: true
+    },
+    {
+      name: 'suburbs',
+      displayKey: 'SSC_NAME_2016',
+      source: suburbs
+    }],
+    freeInput: false
+  });
+  $('#suburbs').on('itemAdded', function (event) {
+    $('.tt-input').val($('.badge').text());
+    $('.badge').hide();
+    $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
+  });
+  $('#suburbs').on('itemRemoved', function (event) {
+    $("input[name=postcodes]").val($("input[name=postcodes]").val().replace(event.item["POA_CODE_2016"] + ",", ""));
+  });
+} else {
+  var postcodes = new Bloodhound({
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: {
+      url: '/assets/json/postcodes.json'
+    }
+  });
+  $('#suburbs').tagsinput({
+    maxTags: 1,
+    typeaheadjs: [{
+      hint: true
+    },
+    {
+      name: 'suburbs',
+      displayKey: 'name',
+      valueKey: 'postcode',
+      source: postcodes
+    }],
+    freeInput: false
+  });
+}
+$("#agentsignup2").find(".tt-input").on('keydown', function (event) {
+  if (event.keyCode == 13 || event.keyCode == 44) {
+    event.preventDefault();
+    var selectables = $(this).siblings(".tt-menu").find(".tt-selectable");
+    if (selectables.length > 0) {
+      $(selectables[0]).trigger('click');
+    }
+  }
+});
+
+var fusionId, fusionIds, fusionQuery;
+if (useSuburbs) {
+  fusionIds = ["1dKGkM-jACPSSBAbbTirsNysgYQ558gJrp9aY1w-c", "124KUBlnpvXE2vClPnKjpKOC14qE6U8ZhFyAB1gzF"];
+  fusionQuery = "SSC_NAME16";
+} else {
+  fusionId = '1HsbuTttcp2zhLOcTzFIe_5lJLyBlkjhEDAEEqm0';
+  fusionQuery = "POSTCODE";
+}
+$("#suburbs").change(function () {
+  codes = "";
+  if (useSuburbs) {
+    var suburbs = $("#suburbs").val().split(",");
+    for (suburb in suburbs) {
+      codes += "'" + suburbs[suburb] + "'";
+      if (suburb != suburbs.length - 1) {
+        codes += ","
+      }
+    }
+    for (x in fusionIds) {
+      queryFT(codes, fusionIds[x]);
+    }
+  } else {
+    var pcarray = $("#suburbs").tagsinput("items");
+    for (item in pcarray) {
+      codes += pcarray[item];
+      if (item != pcarray.length - 1) {
+        codes += ","
+      }
+    }
+  }
+});
+function queryFT(codes, fusionId) {
+  var queryText = encodeURIComponent("SELECT 'geometry' FROM " + fusionId + " WHERE '" + fusionQuery + "' IN (" + codes + ")");
+  var query = new google.visualization.Query('https://www.google.com/fusiontables/gvizdata?tq=' + queryText);
+  query.send(function (response) {
+    if (!response) {
+      alert('no response');
+      return;
+    } else if (response.isError()) {
+      console.log('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+      return;
+    } else {
+      table = response.getDataTable();
+      numRows = table.getNumberOfRows();
+      var bounds = new google.maps.LatLngBounds();
+      for (i = 0; i < numRows; i++) {
+        var kml = $.parseXML(response.getDataTable().getValue(i, 0));
+        var coord = kml.getElementsByTagName("coordinates")[0].childNodes[0].nodeValue.split(" ");
+        for (j in coord) {
+          var p = coord[j].split(",");
+          var point = new google.maps.LatLng(
+            parseFloat(p[1]),
+            parseFloat(p[0]));
+          bounds.extend(point);
+        }
+      }
+      // if (numRows > 0) {
+      //   map.fitBounds(bounds);
+      //   outlineSuburbs(codes, fusionId);
+      // }
+    }
+  });
+}
+function outlineSuburbs(codes, fusionId) {
+  var layerindex = fusionIds.indexOf(fusionId);
+  if (layerindex == 0 && layer) {
+    layer.setOptions({
+      query: {
+        select: 'geometry',
+        from: fusionId
+      },
+      styles: [{
+        polygonOptions: {
+          strokeColor: "#4a4a4a",
+          strokeWeight: 0,
+          strokeOpacity: 0.000001,
+          fillColor: "#179990",
+          fillOpacity: 0.00001
+        }
+      }, {
+        where: fusionQuery + " IN (" + codes + ")",
+        polygonOptions: {
+          fillColor: '#179990',
+          strokeColor: '#179990',
+          strokeOpacity: 1.0,
+          strokeWeight: 1.0,
+          fillOpacity: 0.4
+        }
+      }]
+    });
+  } else if (layerindex == 0) {
+    if (layerb) {
+      layerb.setMap(null);
+      layerb = null;
+    }
+    layer = new google.maps.FusionTablesLayer({
+      query: {
+        select: 'geometry',
+        from: fusionId
+      },
+      styles: [{
+        polygonOptions: {
+          strokeColor: "#4a4a4a",
+          strokeWeight: 0,
+          strokeOpacity: 0.000001,
+          fillColor: "#179990",
+          fillOpacity: 0.00001
+        }
+      }, {
+        where: fusionQuery + " IN (" + codes + ")",
+        polygonOptions: {
+          fillColor: '#179990',
+          strokeColor: '#179990',
+          strokeOpacity: 1.0,
+          strokeWeight: 1.0,
+          fillOpacity: 0.4
+        }
+      }]
+    });
+    layer.setMap(map);
+  } else if (layerindex == 1 && layerb) {
+    layerb.setOptions({
+      query: {
+        select: 'geometry',
+        from: fusionIds[1]
+      },
+      styles: [{
+        polygonOptions: {
+          strokeColor: "#4a4a4a",
+          strokeWeight: 0,
+          strokeOpacity: 0.000001,
+          fillColor: "#179990",
+          fillOpacity: 0.00001
+        }
+      }, {
+        where: fusionQuery + " IN (" + codes + ")",
+        polygonOptions: {
+          fillColor: '#179990',
+          strokeColor: '#179990',
+          strokeOpacity: 1.0,
+          strokeWeight: 1.0,
+          fillOpacity: 0.4
+        }
+      }]
+    });
+  } else {
+    if (layer) {
+      layer.setMap(null);
+      layer = null;
+    }
+    layerb = new google.maps.FusionTablesLayer({
+      query: {
+        select: 'geometry',
+        from: fusionIds[1]
+      },
+      styles: [{
+        polygonOptions: {
+          strokeColor: "#4a4a4a",
+          strokeWeight: 0,
+          strokeOpacity: 0.000001,
+          fillColor: "#179990",
+          fillOpacity: 0.00001
+        }
+      }, {
+        where: fusionQuery + " IN (" + codes + ")",
+        polygonOptions: {
+          fillColor: '#179990',
+          strokeColor: '#179990',
+          strokeOpacity: 1.0,
+          strokeWeight: 1.0,
+          fillOpacity: 0.4
+        }
+      }]
+    });
+    layerb.setMap(map);
+  }
+}
 
 //Checks input after click on all area of div
 $('.seller-signup-card').click(function () {
@@ -774,7 +1016,7 @@ $('.question-dropdown').prop('disabled',true);
 
 //Adding hash to url for enabling browsers 'back' button
 
-var hashes = ['', 'adr', 'prop', 'acco', 'desc', 'cond', 'val', 'per', 'reas', 'meth', 'agntype', 'agntname', 'ques', 'prev', 'subm', 'finish'];
+var hashes = ['', 'prop', 'acco', 'desc', 'cond', 'val', 'per', 'reas', 'meth', 'agntype', 'agntname', 'ques', 'prev', 'email', 'subm', 'finish'];
 
 var i = 1;
 
@@ -804,14 +1046,120 @@ function addHashToUrl() {
     $('div[data-step="13"').css('display', 'none');
   }
   $(`.step`).css('display', 'none');
-  window.location.hash = hashes[i + 1];
+  window.location.hash = hashes[i+1];
   i++;
 }
 
-function load() {
-  window.location.hash = '';
+$('[type=email]').on("change paste keyup", function() {
+  $('#sellersignup12 .btn').removeAttr('disabled');
+});
+
+function suburbSelectedProccess () {
+  i+1;
+  $('.navbar>img').removeClass('wider-img').addClass('signup-image');
+  $('.signup-begin, .notify-text').hide();
+  $(`.signup`).removeClass('hidden');
+  $(`div[data-step=1]`).css('display', 'block');
+  $(`.top-image`).show();
+  // $(`div[data-step=2]`).css('display', 'none');
+  $('.table-start > td:first-child').html('Suburb');
 }
-window.onload = load;
+
+function checkHash() {
+  if (window.location.hash == '#prop') {
+    suburbSelectedProccess();
+  } else {
+    $(`.signup-begin`).show();
+  }
+}
+
+window.addEventListener('load', checkHash);
+
+  window.onhashchange = function () {
+    if ($('#sellersignup1 input[type=radio]:checked').val() == 'land') {
+      i + 1;
+      window.location.hash = hashes[i + 3];
+      $(`div[data-step=3]`).css('display', 'none');
+      $(`div[data-step=4]`).css('display', 'none');
+      $(`div[data-step=5]`).css('display', 'none');
+    }
+      $('.navbar>img').removeClass('wider-img').addClass('signup-image');
+    if (window.location.hash == '#prop') {
+      $(`.step`).removeAttr("style").hide();
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=1]`).css('display', 'block');
+      $(`div[data-step=2]`).css('display', 'none');
+    } else if (window.location.hash == '#acco') {
+      $(`.step`).removeAttr("style").hide();
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=1]`).css('display', 'none');
+      $(`div[data-step=2]`).css('display', 'block');
+    } else if (window.location.hash == '#desc') {
+      $(`.step`).removeAttr("style").hide();
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=2]`).css('display', 'none');
+      $(`div[data-step=3]`).css('display', 'block');
+    } else if (window.location.hash == '#cond') {
+      $(`.step`).removeAttr("style").hide();
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=3]`).css('display', 'none');
+      $(`div[data-step=4]`).css('display', 'block');
+    } else if (window.location.hash == '#val') {
+      $(`.step`).removeAttr("style").hide();
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=4]`).css('display', 'none');
+      $(`div[data-step=5]`).css('display', 'block');
+    } else if (window.location.hash == '#per') {
+      $(`.step`).css('display', 'none');
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=5]`).css('display', 'none');
+      $(`div[data-step=6]`).css('display', 'block');
+    } else if (window.location.hash == '#reas') {
+      $(`.step`).css('display', 'none');
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=6]`).css('display', 'none');
+      $(`div[data-step=7]`).css('display', 'block');
+    } else if (window.location.hash == '#meth') {
+      $(`.step`).css('display', 'none');
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=7]`).css('display', 'none');
+      $(`div[data-step=8]`).css('display', 'block');
+    } else if (window.location.hash == '#agntype') {
+      $(`.step`).css('display', 'none');
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=8]`).css('display', 'none');
+      $(`div[data-step=9]`).css('display', 'block');
+    } else if (window.location.hash == '#agntname') {
+      $(`.step`).css('display', 'none');
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=9]`).css('display', 'none');
+      $(`div[data-step=10]`).css('display', 'block');
+    } else if (window.location.hash == '#ques') {
+      $(`.step`).css('display', 'none');
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=10]`).css('display', 'none');
+      $(`div[data-step=11]`).css('display', 'block');
+    } else if (window.location.hash == '#prev') {
+      $(`.step`).css('display', 'none');
+      $('.confirmation').css('display', 'none');
+      $(`div[data-step=11]`).css('display', 'none');
+    } else if (window.location.hash == '') {
+      $(`.step`).css('display', 'none');
+      $('.confirmation').css('display', 'none');
+      $(`.signup`).css('display', 'none');
+      $(`.signup-begin`).css('display', 'block');
+    } else if (window.location.hash == '#email') {
+      $(`#sellersignup12 .col-xl-8, #sellersignup12 .col-12`).css('display', 'none');
+    }
+    if (window.location.hash == '#ques') {
+      $('.preview-brief').css('display', 'none')
+    }
+    if (window.location.hash == '#prev') {
+      $('.preview-brief').css('display', 'block');
+      $('.last-step').css('display', 'none');
+      $('.confirmation').css('display', 'none');
+    }
+  }
 function removeHashFromUrl() {
   $('.form-group>.back').prop('disabled', true);
   setTimeout(function () {
@@ -831,98 +1179,7 @@ $('.form-group>.back').click(removeHashFromUrl);
 $('input[type=submit]').click(addHashToUrl);
 $('.btn-skip').click(addHashToUrl);
 
-window.onhashchange = function () {
-  if ($('#sellersignup2 input[type=radio]:checked').val() == 'land') {
-    i + 1;
-    window.location.hash = hashes[i + 3];
-    $(`div[data-step=3]`).css('display', 'none');
-    $(`div[data-step=4]`).css('display', 'none');
-    $(`div[data-step=5]`).css('display', 'none');
-  }
-  if (window.location.hash == '#' || window.location.hash == '') {
-    $('.navbar>img').removeClass('signup-image').addClass('wider-img');
-  } else {
-    $('.navbar>img').removeClass('wider-img').addClass('signup-image');
-  }
-  if (window.location.hash == '#adr') {
-    $('.confirmation').css('display', 'none');
-    $(`.step`).css('display', 'none');
-    $(`div[data-step=1]`).css('display', 'block');
-  } else if (window.location.hash == '#prop') {
-    $(`.step`).removeAttr("style").hide();
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=1]`).css('display', 'none');
-    $(`div[data-step=2]`).css('display', 'block');
-  } else if (window.location.hash == '#acco') {
-    $(`.step`).removeAttr("style").hide();
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=2]`).css('display', 'none');
-    $(`div[data-step=3]`).css('display', 'block');
-  } else if (window.location.hash == '#desc') {
-    $(`.step`).removeAttr("style").hide();
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=3]`).css('display', 'none');
-    $(`div[data-step=4]`).css('display', 'block');
-  } else if (window.location.hash == '#cond') {
-    $(`.step`).removeAttr("style").hide();
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=4]`).css('display', 'none');
-    $(`div[data-step=5]`).css('display', 'block');
-  } else if (window.location.hash == '#val') {
-    $(`.step`).removeAttr("style").hide();
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=5]`).css('display', 'none');
-    $(`div[data-step=6]`).css('display', 'block');
-  } else if (window.location.hash == '#per') {
-    $(`.step`).css('display', 'none');
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=6]`).css('display', 'none');
-    $(`div[data-step=7]`).css('display', 'block');
-  } else if (window.location.hash == '#reas') {
-    $(`.step`).css('display', 'none');
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=7]`).css('display', 'none');
-    $(`div[data-step=8]`).css('display', 'block');
-  } else if (window.location.hash == '#meth') {
-    $(`.step`).css('display', 'none');
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=8]`).css('display', 'none');
-    $(`div[data-step=9]`).css('display', 'block');
-  } else if (window.location.hash == '#agntype') {
-    $(`.step`).css('display', 'none');
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=9]`).css('display', 'none');
-    $(`div[data-step=10]`).css('display', 'block');
-  } else if (window.location.hash == '#agntname') {
-    $(`.step`).css('display', 'none');
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=10]`).css('display', 'none');
-    $(`div[data-step=11]`).css('display', 'block');
-  } else if (window.location.hash == '#ques') {
-    $(`.step`).css('display', 'none');
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=11]`).css('display', 'none');
-    $(`div[data-step=12]`).css('display', 'block');
-  } else if (window.location.hash == '#prev') {
-    $(`.step`).css('display', 'none');
-    $('.confirmation').css('display', 'none');
-    $(`div[data-step=12]`).css('display', 'none');
-  } else if (window.location.hash == '') {
-    $(`.step`).css('display', 'none');
-    $('.confirmation').css('display', 'none');
-    $(`.signup`).css('display', 'none');
-    $(`.signup-begin`).css('display', 'block');
-  }
-  if (window.location.hash == '#ques') {
-    $('.preview-brief').css('display', 'none')
-  }
-  if (window.location.hash == '#prev') {
-    $('.preview-brief').css('display', 'block');
-    $('.last-step').css('display', 'none');
-    $('.confirmation').css('display', 'none');
-  }
-}
-
+var sbr = localStorage.getItem('suburb')
 $(document).ready(function () {
   $('.signup-begin input').bind('keypress', function(e) {
     if(e.keyCode==13){
@@ -934,12 +1191,8 @@ $(document).ready(function () {
   })
 
   toPreviewBrief();
-  $('#sellersignup2 input[type=radio]').change(function () {
+  $('#sellersignup1 input[type=radio]').change(function () {
     changeSize();
-  });
-  $('[name=address]').keyup(function () {
-    $('#street_number').val("");
-    $('#sellersignup1 input[type=submit]').prop('disabled', true);
   });
   //questions
   createQuestions()
@@ -980,5 +1233,8 @@ $(document).ready(function () {
   if (passRes == 'Strong') {
     $('.password-info').hide();
   }
-
+  $('.to-finish').click(function() {
+    $('.email-step-view').css('display','none');
+    $('.last-step').css('display','block');
+  })
 });

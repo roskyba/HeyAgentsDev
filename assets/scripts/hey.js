@@ -8,6 +8,88 @@ window.addEventListener("load", function() {
 
 mobileSwap();
 
+
+var useSuburbs = true;
+var suburb;
+var codes = ""; 
+var layer, layerb;
+if (useSuburbs) {
+  var suburbs = new Bloodhound({
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.SSC_NAME_2016);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: {
+      url: '/assets/json/suburbs.json'
+    }
+  });
+  $('#suburbs').on('beforeItemAdd', function(event) {
+    event.cancel = true;
+  });
+  $('#suburbs').on('itemAdded', function (event) {
+    $('.homepage-hero .tt-input').val($('.homepage-hero .badge').text());
+    $('.homepage-hero .badge').hide();
+    $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
+  });
+} else {
+  var postcodes = new Bloodhound({
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: {
+      url: '/assets/json/postcodes.json'
+    }
+  });
+  $('#suburbs').tagsinput({
+    maxTags: 1,
+    typeaheadjs: [{
+      hint: true
+    },
+    {
+      name: 'suburbs',
+      displayKey: 'name',
+      valueKey: 'postcode',
+      source: postcodes
+    }]
+  });
+}
+var fusionId, fusionIds, fusionQuery;
+
+function queryFT(codes, fusionId) {
+  var queryText = encodeURIComponent("SELECT 'geometry' FROM " + fusionId + " WHERE '" + fusionQuery + "' IN (" + codes + ")");
+  var query = new google.visualization.Query('https://www.google.com/fusiontables/gvizdata?tq=' + queryText);
+  query.send(function (response) {
+    if (!response) {
+      alert('no response');
+      return;
+    } else if (response.isError()) {
+      console.log('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+      return;
+    } else {
+      table = response.getDataTable();
+      numRows = table.getNumberOfRows();
+      var bounds = new google.maps.LatLngBounds();
+      for (i = 0; i < numRows; i++) {
+        var kml = $.parseXML(response.getDataTable().getValue(i, 0));
+        var coord = kml.getElementsByTagName("coordinates")[0].childNodes[0].nodeValue.split(" ");
+        for (j in coord) {
+          var p = coord[j].split(",");
+          var point = new google.maps.LatLng(
+            parseFloat(p[1]),
+            parseFloat(p[0]));
+          bounds.extend(point);
+        }
+      }
+      if (numRows > 0) {
+        map.fitBounds(bounds);
+        outlineSuburbs(codes, fusionId);
+      }
+    }
+  });
+}
+
+
 function mobileSwap(){
     if($('.hero').length){
         var bg = $('.hero').css('background-image');
@@ -35,6 +117,15 @@ function iphoneSticky(){
 
 $('.step-bar a').click(activateSubHeading);
 
+var selectedSuburb;
+$('.suburb-btn').on("click", function() {
+  selectedSuburb = $('.homepage-hero .tt-input').val();
+  localStorage.setItem('suburb', selectedSuburb);
+  }
+)
+$('#provider-json').on("keyup", function() {
+  $('.suburb-btn').prop('disabled', false);
+});
 $(document).ready(function() {
   var inputVal;
 	var pathname = window.location.pathname;
@@ -42,17 +133,18 @@ $(document).ready(function() {
   $('.main-menu button').click(function() {
     $('.main-menu .dropdown-menu').toggleClass('expanded');
   });
-  $('.twitter-typeahead input').focusout(function() {
+  $('#sellersignup10 .twitter-typeahead input').focusout(function() {
       $(this).removeClass('loader');
    });
    $('.twitter-typeahead input').on("change paste keyup", function() {
     inputVal = $('.twitter-typeahead input').val();
     if (inputVal.length <=3 ) {
-       $('.twitter-typeahead input').addClass('loader');
+       $('#sellersignup10 .twitter-typeahead input').addClass('loader');
     }
   });
   var regexRule = /^0(4)\d{8}$/
   var phoneErrorMsg = $('.phone-info');
+
   $('[type=tel]').on("change paste keyup", function() {
     if($(this).val().match(regexRule)) {
       phoneErrorMsg.addClass('hidden');
@@ -267,9 +359,7 @@ function mapcallback(results, status) {
             checkAddress("[name=to-last-step]"); 
             $("[name=brief-agentexperience]").change();
           }
-          if($("#sellersignup1 input[type=submit]").length){
-            checkAddress("#sellersignup1 input[type=submit]");  
-          } 
+
 
           marker.setVisible(false);
           
@@ -351,6 +441,251 @@ function initStepForm(id, steps) {
     });
   }
 
+  var useSuburbs = true;
+var codes = ""; var layer, layerb;
+if (useSuburbs) {
+  var suburbs = new Bloodhound({
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.SSC_NAME_2016);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: {
+      url: '/assets/json/suburbs.json'
+    }
+  });
+  $('#suburbs').tagsinput({
+    maxTags: 1,
+    itemValue: 'SSC_NAME_2016',
+    itemText: 'SSC_NAME_2016',
+    typeaheadjs: [{
+      hint: true
+    },
+    {
+      name: 'suburbs',
+      displayKey: 'SSC_NAME_2016',
+      source: suburbs
+    }],
+    freeInput: false
+  });
+  $('#suburbs').on('itemAdded', function (event) {
+    $('.homepage-hero .tt-input').val($('.homepage-hero .badge').text());
+    $('.homepage-hero .selected-tags').hide();
+    $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
+  });
+  $('#suburbs').on('itemRemoved', function (event) {
+    $("input[name=postcodes]").val($("input[name=postcodes]").val().replace(event.item["POA_CODE_2016"] + ",", ""));
+  });
+} else {
+  var postcodes = new Bloodhound({
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: {
+      url: '/assets/json/postcodes.json'
+    }
+  });
+  $('#suburbs').tagsinput({
+    maxTags: 1,
+    typeaheadjs: [{
+      hint: true
+    },
+    {
+      name: 'suburbs',
+      displayKey: 'name',
+      valueKey: 'postcode',
+      source: postcodes
+    }],
+    freeInput: false
+  });
+}
+$("#agentsignup2").find(".tt-input").on('keydown', function (event) {
+  if (event.keyCode == 13 || event.keyCode == 44) {
+    event.preventDefault();
+    var selectables = $(this).siblings(".tt-menu").find(".tt-selectable");
+    if (selectables.length > 0) {
+      $(selectables[0]).trigger('click');
+    }
+  }
+});
+
+var fusionId, fusionIds, fusionQuery;
+if (useSuburbs) {
+  fusionIds = ["1dKGkM-jACPSSBAbbTirsNysgYQ558gJrp9aY1w-c", "124KUBlnpvXE2vClPnKjpKOC14qE6U8ZhFyAB1gzF"];
+  fusionQuery = "SSC_NAME16";
+} else {
+  fusionId = '1HsbuTttcp2zhLOcTzFIe_5lJLyBlkjhEDAEEqm0';
+  fusionQuery = "POSTCODE";
+}
+$("#suburbs").change(function () {
+  codes = "";
+  if (useSuburbs) {
+    var suburbs = $("#suburbs").val().split(",");
+    for (suburb in suburbs) {
+      codes += "'" + suburbs[suburb] + "'";
+      if (suburb != suburbs.length - 1) {
+        codes += ","
+      }
+    }
+    for (x in fusionIds) {
+      queryFT(codes, fusionIds[x]);
+    }
+  } else {
+    var pcarray = $("#suburbs").tagsinput("items");
+    for (item in pcarray) {
+      codes += pcarray[item];
+      if (item != pcarray.length - 1) {
+        codes += ","
+      }
+    }
+  }
+});
+function queryFT(codes, fusionId) {
+  var queryText = encodeURIComponent("SELECT 'geometry' FROM " + fusionId + " WHERE '" + fusionQuery + "' IN (" + codes + ")");
+  var query = new google.visualization.Query('https://www.google.com/fusiontables/gvizdata?tq=' + queryText);
+  query.send(function (response) {
+    if (!response) {
+      alert('no response');
+      return;
+    } else if (response.isError()) {
+      console.log('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+      return;
+    } else {
+      table = response.getDataTable();
+      numRows = table.getNumberOfRows();
+      var bounds = new google.maps.LatLngBounds();
+      for (i = 0; i < numRows; i++) {
+        var kml = $.parseXML(response.getDataTable().getValue(i, 0));
+        var coord = kml.getElementsByTagName("coordinates")[0].childNodes[0].nodeValue.split(" ");
+        for (j in coord) {
+          var p = coord[j].split(",");
+          var point = new google.maps.LatLng(
+            parseFloat(p[1]),
+            parseFloat(p[0]));
+          bounds.extend(point);
+        }
+      }
+      // if (numRows > 0) {
+      //   map.fitBounds(bounds);
+      //   outlineSuburbs(codes, fusionId);
+      // }
+    }
+  });
+}
+function outlineSuburbs(codes, fusionId) {
+  var layerindex = fusionIds.indexOf(fusionId);
+  if (layerindex == 0 && layer) {
+    layer.setOptions({
+      query: {
+        select: 'geometry',
+        from: fusionId
+      },
+      styles: [{
+        polygonOptions: {
+          strokeColor: "#4a4a4a",
+          strokeWeight: 0,
+          strokeOpacity: 0.000001,
+          fillColor: "#179990",
+          fillOpacity: 0.00001
+        }
+      }, {
+        where: fusionQuery + " IN (" + codes + ")",
+        polygonOptions: {
+          fillColor: '#179990',
+          strokeColor: '#179990',
+          strokeOpacity: 1.0,
+          strokeWeight: 1.0,
+          fillOpacity: 0.4
+        }
+      }]
+    });
+  } else if (layerindex == 0) {
+    if (layerb) {
+      layerb.setMap(null);
+      layerb = null;
+    }
+    layer = new google.maps.FusionTablesLayer({
+      query: {
+        select: 'geometry',
+        from: fusionId
+      },
+      styles: [{
+        polygonOptions: {
+          strokeColor: "#4a4a4a",
+          strokeWeight: 0,
+          strokeOpacity: 0.000001,
+          fillColor: "#179990",
+          fillOpacity: 0.00001
+        }
+      }, {
+        where: fusionQuery + " IN (" + codes + ")",
+        polygonOptions: {
+          fillColor: '#179990',
+          strokeColor: '#179990',
+          strokeOpacity: 1.0,
+          strokeWeight: 1.0,
+          fillOpacity: 0.4
+        }
+      }]
+    });
+    layer.setMap(map);
+  } else if (layerindex == 1 && layerb) {
+    layerb.setOptions({
+      query: {
+        select: 'geometry',
+        from: fusionIds[1]
+      },
+      styles: [{
+        polygonOptions: {
+          strokeColor: "#4a4a4a",
+          strokeWeight: 0,
+          strokeOpacity: 0.000001,
+          fillColor: "#179990",
+          fillOpacity: 0.00001
+        }
+      }, {
+        where: fusionQuery + " IN (" + codes + ")",
+        polygonOptions: {
+          fillColor: '#179990',
+          strokeColor: '#179990',
+          strokeOpacity: 1.0,
+          strokeWeight: 1.0,
+          fillOpacity: 0.4
+        }
+      }]
+    });
+  } else {
+    if (layer) {
+      layer.setMap(null);
+      layer = null;
+    }
+    layerb = new google.maps.FusionTablesLayer({
+      query: {
+        select: 'geometry',
+        from: fusionIds[1]
+      },
+      styles: [{
+        polygonOptions: {
+          strokeColor: "#4a4a4a",
+          strokeWeight: 0,
+          strokeOpacity: 0.000001,
+          fillColor: "#179990",
+          fillOpacity: 0.00001
+        }
+      }, {
+        where: fusionQuery + " IN (" + codes + ")",
+        polygonOptions: {
+          fillColor: '#179990',
+          strokeColor: '#179990',
+          strokeOpacity: 1.0,
+          strokeWeight: 1.0,
+          fillOpacity: 0.4
+        }
+      }]
+    });
+    layerb.setMap(map);
+  }
+}
 
   /* takes in the step that the form should update to and sets visibility
   accordingly */

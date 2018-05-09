@@ -378,9 +378,26 @@ header {
 -------------------------------------------------------------- */
 
 .homepage-hero {
+    .tt-dataset {
+        margin: 0 !important;
+        max-width: 320px !important;
+    }
     .full-width-input {
+        position: relative;
         input {
             font-size: 17px;
+        }
+        a {
+            position: absolute;
+            left: 475px;
+            top: 7px;
+        }
+        ul {
+            max-width: 300px;
+        }
+        .free-label {
+            position: absolute;
+            bottom: 0;
         }
     }
     .mobile-input {
@@ -1326,6 +1343,14 @@ header {
     }
     .signup-container {
         .signup-begin {
+            #provider-json {
+                width: 100%;
+            }
+            .easy-autocomplete {
+                ul {
+                    max-width: 100%;
+                }  
+            } 
             >div {
                 padding: 0 15px;
             }
@@ -1362,7 +1387,7 @@ header {
                 h1 {
                     font-size: 30px;
                 }
-                #sellersignup3 {
+                #sellersignup2 {
                     .seller-signup-card {
                         padding: 1rem 0;
                         p {
@@ -1382,7 +1407,7 @@ header {
                         
                     
                 }
-                #sellersignup12 {
+                #sellersignup11 {
                     .form-group {
                         padding: 0;
                     }

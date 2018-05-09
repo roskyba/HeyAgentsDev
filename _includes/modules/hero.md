@@ -6,11 +6,12 @@
         transparent view of your local real estate agents.
       </p>
       <div class="full-width-input wow" data-wow-delay="0.6s">
-        <input type="text" placeholder="Enter your property suburb" autofocus /><a href="/signup"> <input type="submit" value="Get started" class="button primary big" /></a><br/>
+      <input id="suburbs" name="suburbs" class="suburbs selected-suburb"  type="text" placeholder="Enter your property suburb" autofocus /> <a href="/signup/#prop"> <input type="submit" value="Get started" class="suburb-btn button primary big" /></a><br/>
+        <input name="postcodes" type="hidden">
         <p class="mt-2 small small-margin-top free-label">100% free for sellers</p>
       </div>
       <div class="mobile-input wow" data-wow-delay="0.6s">
-        <input type="text" placeholder="Enter your suburb" autofocus /><a href="/signup"> <input type="submit" value="Get started" class="button primary big" /></a><br/>
+        <!-- <input type="text" id="suburbs" class="suburbs selected-suburb" name="suburbs" placeholder="Enter your suburb" autofocus /><a href="/signup/#prop"> <input type="submit" value="Get started" class="button primary big" /></a><br/> -->
         <p class="small small-margin-top free-label">100% free for sellers</p>
       </div>
     </div>

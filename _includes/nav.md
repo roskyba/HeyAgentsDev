@@ -15,7 +15,7 @@
     <nav class="row navbar navbar-toggleable-md navbar-light {% if include.min == true %} min {% endif %}">
   {% when "/signup/" %}
     <nav class="row navbar navbar-signup navbar-signup-sellers navbar-toggleable-md navbar-light {% if include.min == true %} min {% endif %}">
-        <img src='/assets/img/matthew-gregory-profile-picture.png' class="rounded-circle top-image wider-img">
+        <img src='/assets/img/matthew-gregory-profile-picture.png' class="hidden rounded-circle top-image wider-img">
   {% else %}
     <nav class="row navbar navbar-toggleable-md navbar-light {% if include.min == true %} min {% endif %}">
 {% endcase %}

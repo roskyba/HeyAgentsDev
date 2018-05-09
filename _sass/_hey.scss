@@ -503,13 +503,30 @@ section.hero {
     }
 }
 
+#sellersignup12 {
+    h1 {
+        font-family: 'TiemposHeadline-Semibold', 'Helvetica', 'Helvetica Neue', helvetica, sans-serif;
+        color: #1E2B4D;
+        font-size: 35px;
+    }
+    .email-notify {
+        color: #1E2B4D;
+        font-size: 14px;
+    }
+}
+
 .signup-container {
     min-height: 100vh;
     .signup-begin {
+        margin: auto;
         padding-left: 15px;
         padding-right: 15px;
-        padding-top: 140px;
         .sub-headline-blue {
+            color: #1E2B4D;
+        }
+        h1 {
+            font-size: 38px;
+            font-family: 'TiemposHeadline-Semibold', 'Helvetica', 'Helvetica Neue', helvetica, sans-serif;
             color: #1E2B4D;
         }
         > div {
@@ -522,6 +539,9 @@ section.hero {
         }
         input {
             line-height: 1.8;
+        }
+        .badge-container {
+            width: 100%;
         }
     }
     .signupagent {
@@ -1008,7 +1028,7 @@ span.twitter-typeahead {
     }
 }
 
-#sellersignup12 {
+#sellersignup11 {
     .form-control:disabled {
         background: #fff !important;
     }
@@ -1145,7 +1165,7 @@ span.twitter-typeahead {
         margin: auto;
         margin-top: 25px;
         h1 {
-            font-size: 43px;
+            font-size: 38px;
             font-family: 'TiemposHeadline-Semibold', 'Helvetica', 'Helvetica Neue', helvetica, sans-serif;
             color: #1E2B4D;
         }
@@ -1454,7 +1474,7 @@ body.wrapper {
     max-width: 600px;
 }
 
-#sellersignup9 {
+#sellersignup8{
     .seller-signup-card {
         height: 100%;
         label {

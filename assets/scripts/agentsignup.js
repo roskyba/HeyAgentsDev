@@ -129,6 +129,8 @@ if (useSuburbs) {
     freeInput: false
   });
   $('#suburbs').on('itemAdded', function (event) {
+    $('.homepage-hero .tt-input').val($('.homepage-hero .badge').text());
+    $('.homepage-hero .badge').hide();
     $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
   });
   $('#suburbs').on('itemRemoved', function (event) {
