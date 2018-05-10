@@ -102,12 +102,21 @@ var marker = new google.maps.Marker({
 
 
 //Submit brief
-function waitingList() {
-  briefData.email = $("[name=email]").val();
-  briefData.password = $("[name=password]").val();
-  briefData.firstName = $("[name=firstName]").val();
-  briefData.lastName = $("[name=lastName]").val();
-  briefData.phone = $("[name=phone]").val();
+
+$('#sellersignup13 #submit-form').on('click', function() {
+  briefData.brief.city = $("#locality")[0].value;
+  briefData.brief.property.postCode = $("#postal_code")[0].value;
+  briefData.brief.property.state = $("#administrative_area_level_1")[0].value;
+  briefData.brief.property.city = $("#locality")[0].value;
+  briefData.brief.property.street = $("#route")[0].value;
+  briefData.brief.property.geoLocation.latitude = -33.8678064;
+  briefData.brief.property.geoLocation.longitude = 151.1892544;
+  briefData.brief.property.address = $("#street_number")[0].value;
+  briefData.email = $("[name=email]").value;
+  briefData.password = $("[name=password]").value;
+  briefData.firstName = $("[name=firstName]").value;
+  briefData.lastName = $("[name=lastName]").value;
+  briefData.phone = $("[name=phone]").value;
   console.log(briefData);
   $.ajax({
     method: 'post',
@@ -122,7 +131,7 @@ function waitingList() {
       $("body").append('<div class="alert alert-danger alert-dismissible signup-alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Oh no – something went wrong. Please try again soon, or email us at <a href="mailto:support@heyagents.com.au">support@heyagents.com.au</a>.</div>');
     }
   });
-}
+});
 
 //Bind button to name input of first screen
 $('.signup-begin button').prop('disabled', true);
@@ -168,6 +177,7 @@ function toPreviewBrief() {
 }
 
 function toEmailStep() {
+  window.location.hash = '#finish';
   $('.preview-brief ').hide();
   $('.email-step-view').show();
 }
@@ -200,15 +210,15 @@ function toLastStep() {
     briefData.brief.requestedAgentLevels = agentexperience;
 
     briefData.brief.property.type = $("select[name=brief-type]")[0].selectedOptions[0].value;
-    briefData.brief.property.postCode = $("#postal_code").val();
+    briefData.brief.property.postCode = $("#postal_code")[0].value;
     briefData.brief.property.ownershipStyle = $("select[name=brief-ownershipstyle]")[0].selectedOptions[0].value;
     briefData.brief.property.condition = $("select[name=brief-condition]")[0].selectedOptions[0].value;
-    briefData.brief.property.state = $("#administrative_area_level_1").val();
-    briefData.brief.property.city = $("#locality").val();
-    briefData.brief.property.street = $("#route").val();
+    briefData.brief.property.state = $("#administrative_area_level_1")[0].value;
+    briefData.brief.property.city = $("#locality")[0].value;
+    briefData.brief.property.street = $("#route")[0].value;
     briefData.brief.property.geoLocation.latitude = -33.8678064;
     briefData.brief.property.geoLocation.longitude = 151.1892544;
-    briefData.brief.property.address = $("#street_number").val();
+    briefData.brief.property.address = $("#street_number")[0].value;
     briefData.brief.property.bathrooms = $("select[name=brief-bathrooms]")[0].selectedOptions[0].value;
     briefData.brief.property.bedrooms = $("select[name=brief-bedrooms]")[0].selectedOptions[0].value;
     briefData.brief.property.parking = $("select[name=brief-parking]")[0].selectedOptions[0].value;
@@ -218,9 +228,6 @@ function toLastStep() {
   })
   $("#replace-city").text(briefData.brief.property.city);
   $("[name=firstName]").val($('input[name="begin-firstname"]').val());
-  // if ($('[name=lastname]').val() != '' && $('[name=contactnumber]').val() != '' && $('[name=email]').val() != '' && $('[name=password]').val() != '' ) {
-  //   $("[name=agree]").addClass("not-checked");
-  // }
   $("[name=agree]").change(function () {
     if (this.checked) {
       $("#submit-form").prop("disabled", false);
@@ -232,10 +239,15 @@ function toLastStep() {
   });
 }
 
+$('.to-finish').click(function (e) {
+  e.preventDefault();
+  toLastStep();
+})
+
 $('[name=to-last-step]').click(function (e) {
+  briefData.brief.suburb = $('#brief-1').text();
   e.preventDefault();
   toEmailStep();
-  // toLastStep();
 })
 //Brief model
 var brief;
@@ -259,8 +271,8 @@ function createBriefModel() {
   briefData = {
     type: "seller",
     brief: {
-      suburb: placeSuburb,
-      city: $("#locality").val(),
+      suburb: '',
+      city: $("#locality")[0].value,
       priceMin: price[0],
       priceMax: price[1],
       sizeRange: 'unsure',
@@ -270,18 +282,18 @@ function createBriefModel() {
       saleReason: $("[name=salereason]:checked").val(),
       requestedAgentLevels: agentexperience,
       property: {
-        postCode: $("#postal_code").val(),
+        postCode: $("#postal_code")[0].value,
         type: $("[name=type]:checked").val(),
         ownershipStyle: "family home",
         condition: $("[name=condition]:checked").val(),
-        state: $("#administrative_area_level_1").val(),
-        city: $("#locality").val(),
-        street: $("#route").val(),
+        state: $("#administrative_area_level_1")[0].value,
+        city: $("#locality")[0].value,
+        street: $("#route")[0].value,
         geoLocation: {
           latitude: lat,
           longitude: lng
         },
-        address: $("#street_number").val(),
+        address: $("#street_number")[0].value,
         bathrooms: $("[name=bathrooms]").val(),
         bedrooms: $("[name=bedrooms]").val(),
         parking: $("[name=parking]").val(),
@@ -585,7 +597,7 @@ if (useSuburbs) {
       url: '/assets/json/suburbs.json'
     }
   });
-  $('.sellerSuburbs').tagsinput({
+  $('.begin-suburbs, .preview-suburbs').tagsinput({
     maxTags: 1,
     itemValue: 'SSC_NAME_2016',
     itemText: 'SSC_NAME_2016',
@@ -599,8 +611,8 @@ if (useSuburbs) {
     }],
     freeInput: false
   });
-  $('.sellerSuburbs').on('itemAdded', function (event) {
-    $('.tt-input').val($('.signup .badge').text());
+  $('.begin-suburbs, .preview-suburbs').on('itemAdded', function (event) {
+    $('.signup-begin .tt-input').val($('.signup .badge').text());
     $('.signup-begin .badge, .signup .badge').html();
     $('.preview-brief .tt-input').val($('.signup .badge').text());
     $('.signup .badge').text('');
@@ -608,7 +620,7 @@ if (useSuburbs) {
     $('.badge').html()
     $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
   });
-  $('.sellerSuburbs').on('itemRemoved', function (event) {
+  $('.begin-suburbs, .preview-suburbs').on('itemRemoved', function (event) {
     $("input[name=postcodes]").val($("input[name=postcodes]").val().replace(event.item["POA_CODE_2016"] + ",", ""));
   });
 } else {
@@ -621,7 +633,7 @@ if (useSuburbs) {
       url: '/assets/json/postcodes.json'
     }
   });
-  $('.sellerSuburbs').tagsinput({
+  $('.begin-suburbs, .preview-suburbs').tagsinput({
     maxTags: 1,
     typeaheadjs: [{
       hint: true
@@ -991,8 +1003,14 @@ window.addEventListener('load', checkHash);
       $(`.signup`).css('display', 'none');
       $(`.signup-begin`).css('display', 'block');
     } else if (window.location.hash == '#email') {
-
+      $('.signup-preview').css('display','none');
+      $('.signup-proccess').css('display','none');
+      $('.email-step-view').css('display','block');
+      $('.last-step-view').css('display','none');
       $(`#sellersignup12 .col-xl-8, #sellersignup12 .col-12`).css('display', 'none');
+    } else if (window.location.hash == '#subm') {
+      $('.last-step-view').css('display','block');
+      $('.email-step-view').css('display','none');
     }
     if (window.location.hash == '#ques') {
       $('.preview-brief').css('display', 'none')
@@ -1012,9 +1030,9 @@ function removeHashFromUrl() {
   window.location.hash = hashes[i];
 }
 $(`.step`).removeAttr("style");
-$('input[name=to-last-step]').click(function () {
-  window.location.hash = hashes[i];
-})
+// $('input[name=to-last-step]').click(function () {
+//   window.location.hash = hashes[i];
+// })
 if (window.location.hash == '#' || window.location.hash == '') {
   $('.navbar>img').removeClass('signup-image');
 }
@@ -1024,6 +1042,9 @@ $('.btn-skip').click(addHashToUrl);
 
 var sbr = localStorage.getItem('suburb')
 $(document).ready(function () {
+  $("[name=agree]").click(function() {
+    $("#submit-form").prop("disabled", false);	
+  })
   $('.signup-begin input').bind('keypress', function(e) {
     if(e.keyCode==13){
 		  beginSignUp();

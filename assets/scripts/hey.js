@@ -133,12 +133,13 @@ $(document).ready(function() {
   $('.main-menu button').click(function() {
     $('.main-menu .dropdown-menu').toggleClass('expanded');
   });
+  $('#sellersignup10 .twitter-typeahead input').removeClass('loader');
   $('#sellersignup10 .twitter-typeahead input').focusout(function() {
       $(this).removeClass('loader');
    });
-   $('.twitter-typeahead input').on("change paste keyup", function() {
-    inputVal = $('.twitter-typeahead input').val();
-    if (inputVal.length <=3 ) {
+   $('#sellersignup10 .twitter-typeahead input').on("change paste keyup", function() {
+    inputVal = $('#sellersignup10 .twitter-typeahead input').val();
+    if (inputVal.length >=3 ) {
        $('#sellersignup10 .twitter-typeahead input').addClass('loader');
     }
   });
