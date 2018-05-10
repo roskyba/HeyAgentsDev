@@ -21,7 +21,7 @@ layout: sellersignup
             <div class="row pt-4">
               <h1 class="m-auto pb-3">What's your property's suburb?</h1>
               <div class="mt-3 offset-sm-3 col-sm-6 col-lg-6 offset-lg-3 col-md-8 offset-md-2">
-                  <input class="suburbs" name="suburbs" type="text" placeholder="Suburb">
+                  <input id="suburbs" class="suburbs" name="suburbs" type="text" placeholder="Suburb">
                   <input name="postcodes" type="hidden">
               </div>
               <div class="offset-sm-3 col-sm-6 col-lg-6 offset-lg-3 col-md-8 offset-md-2 text-center begin">
@@ -738,7 +738,7 @@ layout: sellersignup
                       <td id="brief-1" class="preview-suburb text-right text-lg-left">
                       </td>
                       <td id="brief-1" class="edit-suburb hidden text-right text-lg-left">
-                          <input class="suburbs" name="suburbs" value="" type="text" placeholder="Suburb">
+                          <input id="edit-suburb" class="suburbs" name="suburbs" value="" type="text" placeholder="Suburb">
                           <input name="postcodes" type="hidden" />
                       </td>
                     </tr>

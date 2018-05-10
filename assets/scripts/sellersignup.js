@@ -385,7 +385,7 @@ function outputQuestions() {
 var sizeOption = '';
 
 //Put inputs with values in table
-function makeChanges() {
+function makeChanges() {  
   $('.preview-suburb').addClass('hidden');
   $('.edit-suburb').removeClass('hidden');
   madeChanges = true;
@@ -603,6 +603,7 @@ if (useSuburbs) {
     $('.tt-input').val($('.signup .badge').text());
     $('.signup-begin .badge, .signup .badge').html();
     $('.preview-brief .tt-input').val($('.signup .badge').text());
+    $('.signup .badge').text('');
     $('.badge').hide();
     $('.badge').html()
     $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
@@ -643,184 +644,15 @@ $("#agentsignup2").find(".tt-input").on('keydown', function (event) {
     }
   }
 });
-
-var fusionId, fusionIds, fusionQuery;
-if (useSuburbs) {
-  fusionIds = ["1dKGkM-jACPSSBAbbTirsNysgYQ558gJrp9aY1w-c", "124KUBlnpvXE2vClPnKjpKOC14qE6U8ZhFyAB1gzF"];
-  fusionQuery = "SSC_NAME16";
-} else {
-  fusionId = '1HsbuTttcp2zhLOcTzFIe_5lJLyBlkjhEDAEEqm0';
-  fusionQuery = "POSTCODE";
-}
-$(".suburbs").change(function () {
+$("#edit-suburb").change(function () {
   codes = "";
   if (useSuburbs) {
-    var suburbs = $(".suburbs").val().split(",");
-    for (suburb in suburbs) {
-      codes += "'" + suburbs[suburb] + "'";
-      if (suburb != suburbs.length - 1) {
-        codes += ","
-      }
-    }
+    var suburbs = $("#edit-suburb").val()
     for (x in fusionIds) {
-      queryFT(codes, fusionIds[x]);
+      queryFT("'" + suburbs + "'", fusionIds[x]);
     }
-  } else {
-    var pcarray = $(".suburbs").tagsinput("items");
-    for (item in pcarray) {
-      codes += pcarray[item];
-      if (item != pcarray.length - 1) {
-        codes += ","
-      }
-    }
-  }
+  } 
 });
-function queryFT(codes, fusionId) {
-  var queryText = encodeURIComponent("SELECT 'geometry' FROM " + fusionId + " WHERE '" + fusionQuery + "' IN (" + codes + ")");
-  var query = new google.visualization.Query('https://www.google.com/fusiontables/gvizdata?tq=' + queryText);
-  query.send(function (response) {
-    if (!response) {
-      alert('no response');
-      return;
-    } else if (response.isError()) {
-      console.log('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-      return;
-    } else {
-      table = response.getDataTable();
-      numRows = table.getNumberOfRows();
-      var bounds = new google.maps.LatLngBounds();
-      for (i = 0; i < numRows; i++) {
-        var kml = $.parseXML(response.getDataTable().getValue(i, 0));
-        var coord = kml.getElementsByTagName("coordinates")[0].childNodes[0].nodeValue.split(" ");
-        for (j in coord) {
-          var p = coord[j].split(",");
-          var point = new google.maps.LatLng(
-            parseFloat(p[1]),
-            parseFloat(p[0]));
-          bounds.extend(point);
-        }
-      }
-      // if (numRows > 0) {
-      //   map.fitBounds(bounds);
-      //   outlineSuburbs(codes, fusionId);
-      // }
-    }
-  });
-}
-function outlineSuburbs(codes, fusionId) {
-  var layerindex = fusionIds.indexOf(fusionId);
-  if (layerindex == 0 && layer) {
-    layer.setOptions({
-      query: {
-        select: 'geometry',
-        from: fusionId
-      },
-      styles: [{
-        polygonOptions: {
-          strokeColor: "#4a4a4a",
-          strokeWeight: 0,
-          strokeOpacity: 0.000001,
-          fillColor: "#179990",
-          fillOpacity: 0.00001
-        }
-      }, {
-        where: fusionQuery + " IN (" + codes + ")",
-        polygonOptions: {
-          fillColor: '#179990',
-          strokeColor: '#179990',
-          strokeOpacity: 1.0,
-          strokeWeight: 1.0,
-          fillOpacity: 0.4
-        }
-      }]
-    });
-  } else if (layerindex == 0) {
-    if (layerb) {
-      layerb.setMap(null);
-      layerb = null;
-    }
-    layer = new google.maps.FusionTablesLayer({
-      query: {
-        select: 'geometry',
-        from: fusionId
-      },
-      styles: [{
-        polygonOptions: {
-          strokeColor: "#4a4a4a",
-          strokeWeight: 0,
-          strokeOpacity: 0.000001,
-          fillColor: "#179990",
-          fillOpacity: 0.00001
-        }
-      }, {
-        where: fusionQuery + " IN (" + codes + ")",
-        polygonOptions: {
-          fillColor: '#179990',
-          strokeColor: '#179990',
-          strokeOpacity: 1.0,
-          strokeWeight: 1.0,
-          fillOpacity: 0.4
-        }
-      }]
-    });
-    layer.setMap(map);
-  } else if (layerindex == 1 && layerb) {
-    layerb.setOptions({
-      query: {
-        select: 'geometry',
-        from: fusionIds[1]
-      },
-      styles: [{
-        polygonOptions: {
-          strokeColor: "#4a4a4a",
-          strokeWeight: 0,
-          strokeOpacity: 0.000001,
-          fillColor: "#179990",
-          fillOpacity: 0.00001
-        }
-      }, {
-        where: fusionQuery + " IN (" + codes + ")",
-        polygonOptions: {
-          fillColor: '#179990',
-          strokeColor: '#179990',
-          strokeOpacity: 1.0,
-          strokeWeight: 1.0,
-          fillOpacity: 0.4
-        }
-      }]
-    });
-  } else {
-    if (layer) {
-      layer.setMap(null);
-      layer = null;
-    }
-    layerb = new google.maps.FusionTablesLayer({
-      query: {
-        select: 'geometry',
-        from: fusionIds[1]
-      },
-      styles: [{
-        polygonOptions: {
-          strokeColor: "#4a4a4a",
-          strokeWeight: 0,
-          strokeOpacity: 0.000001,
-          fillColor: "#179990",
-          fillOpacity: 0.00001
-        }
-      }, {
-        where: fusionQuery + " IN (" + codes + ")",
-        polygonOptions: {
-          fillColor: '#179990',
-          strokeColor: '#179990',
-          strokeOpacity: 1.0,
-          strokeWeight: 1.0,
-          fillOpacity: 0.4
-        }
-      }]
-    });
-    layerb.setMap(map);
-  }
-}
 
 //Checks input after click on all area of div
 $('.seller-signup-card').click(function () {
@@ -1254,7 +1086,6 @@ $(document).ready(function () {
 function initializeMap() {
     var suburb = $("#suburbs").val();
     suburb = suburb ? suburb : localStorage.getItem('suburb');
-    console.log(suburb);
     for (x in fusionIds) {
       queryFT("'" + suburb + "'", fusionIds[x]);
     }
