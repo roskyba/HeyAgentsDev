@@ -4,6 +4,7 @@ google.load('visualization', '1', {
 });
 
 var briefData = {};
+var i = 0;
 
 //Agents dropdown
 var agents = new Bloodhound({
@@ -40,10 +41,10 @@ $('[name="agent_name"]').typeahead({
     displayKey: 'name',
     templates: {
       suggestion: function (data) {
-        if (data.photo || checkAgentInput()) {
-          return '<div class="tt-suggestion tt-selectable"><img src="' + data.photo + '" class="thumbnail mr-2">' + data.name + '&emsp;<small class="text-muted push-down">' + data.agency + '</span></div>';
+        if (data.photo) {
+          return '<div class="tt-suggestion tt-selectable"><img src="' + data.photo + '" class="thumbnail mr-2">' + data.name + '&emsp;<small class="push-down">' + data.agency + '</span></div>';
         } else {
-          return '<div class="tt-suggestion tt-selectable"><span class="thumbnail mr-2">' + data.name.slice(0, 1) + '</span>' + data.name + '&emsp;<small class="text-muted push-down">' + data.agency + '</span></div>';
+          return '<div class="tt-suggestion tt-selectable"><span class="thumbnail mr-2">' + data.name.slice(0, 1) + '</span>' + data.name + '&emsp;<small class="push-down">' + data.agency + '</span></div>';
         }
       }
     }
@@ -67,7 +68,9 @@ function updateAgentHTML(firstname, lastname, photo, agency, id) {
     $(".agent-card").addClass("d-flex");
     $(".agent-card").html(createAgentCard(photo, firstname + " " + lastname, agency));
     $("[name='agent_name']").val(firstname + " " + lastname);
-    $("[name='domain_agent_id']").val(id);
+    $("[name='domainAgentId']").val(id);
+    $("[name='license']").val(id);
+    $("[name='company']").val(agency);
   }
   $("#sellersignup10 input[disabled]").removeAttr("disabled");
 }
@@ -80,7 +83,11 @@ function updateAgentHTML(firstname, lastname, photo, agency, id) {
  * @return {string} The html string of the created card
  */
 function createAgentCard(profilePhoto, agentName, agency) {
-  return '<img src=' + profilePhoto + ' class="rounded-circle" style="width: 100px"><div class="ml-4 text-left"><p class="m-0">' + agentName + '</p><small>' + agency + '</small></div><button id="cancel-agent" class="btn-cancel-agent"><i class="fa fa-times fa-lg"></i></button>';
+  if (profilePhoto != '') {
+    return '<img src=' + profilePhoto + ' class="rounded-circle" style="width: 100px"><div class="ml-4 text-left"><p class="m-0">' + agentName + '</p><small>' + agency + '</small></div><button id="cancel-agent" class="btn-cancel-agent"><i class="fa fa-times fa-lg"></i></button>';
+  } else {
+    return '<div class="ml-4 text-left"><p class="m-0">' + agentName + '</p><small>' + agency + '</small></div><button id="cancel-agent" class="btn-cancel-agent"><i class="fa fa-times fa-lg"></i></button>';
+  }
 }
 
 function cancelAgent() {
@@ -145,6 +152,12 @@ $('input[name="begin-firstname"]').keyup(function () {
 
 //Go to second screen
 function beginSignUp() {
+  if (i < 0) {
+    i=i+2;
+  } else  {
+    i=i+1;
+  }
+  window.location.hash = hashes[i];
   $('.top-image').show();
   $('#sellersignup1 h1').html("Hey I’m Matt, let’s get started with your property type")
   $(".signup-begin").fadeOut(500, function () {
@@ -153,15 +166,6 @@ function beginSignUp() {
   });
   $('body').animate({ scrollTop: 0 }, 'slow');
   window.pageYOffset = 0;
-  window.location.hash = hashes[1];
-}
-//Go back to first screen
-function toSignupBeginning() {
-  $(".signup").fadeOut(500, function () {
-    $(".signup-begin").fadeIn(500);
-  });
-  window.location.hash = '';
-  i = 0;
 }
 
 //Create brief model and go to preview brief screen
@@ -176,11 +180,6 @@ function toPreviewBrief() {
   })
 }
 
-function toEmailStep() {
-  window.location.hash = '#finish';
-  $('.preview-brief ').hide();
-  $('.email-step-view').show();
-}
 
 //Put changed values to brief model and go to last step
 function toLastStep() {
@@ -226,7 +225,7 @@ function toLastStep() {
   $(".preview-brief").fadeOut(500, function () {
     $(".last-step").fadeIn(500);
   })
-  $("#replace-city").text(briefData.brief.property.city);
+  $('#replace-suburb').text(briefData.brief.suburb);
   $("[name=firstName]").val($('input[name="begin-firstname"]').val());
   $("[name=agree]").change(function () {
     if (this.checked) {
@@ -239,15 +238,11 @@ function toLastStep() {
   });
 }
 
-$('.to-finish').click(function (e) {
-  e.preventDefault();
-  toLastStep();
-})
 
 $('[name=to-last-step]').click(function (e) {
-  briefData.brief.suburb = $('#brief-1').text();
+  addHashToUrl();
   e.preventDefault();
-  toEmailStep();
+  briefData.brief.suburb = $('#brief-1').text();
 })
 //Brief model
 var brief;
@@ -423,14 +418,8 @@ function makeChanges() {
   $("#brief-11").html(createDropdown("salereason", "radio"));
   $("#brief-questions").html(createBriefInputs("agentquestions"));
   $("[name=brief-agentexperience]").change(function () {
-    $("[name=to-last-step]").prop("disabled", !($("[name=brief-agentexperience]:checked").length && ($('#street_number').val() != '')));
+    $("[name=to-last-step]").prop("disabled", !($("[name=brief-agentexperience]:checked").length ));
   })
-  $(".address-wrap").html("");
-  makeAutocomplete();
-  $('[name=brief-address]').keyup(function () {
-    $('#street_number').val("");
-    $('[name=to-last-step]').prop('disabled', true);
-  });
 }
 
 //Make changes flag
@@ -486,14 +475,13 @@ function createCheckboxes(name) {
     if (this.checked) {
       checked = "checked";
     }
-    checkboxes += "<span class='mr-3'><input type=checkbox name=brief-" + name + " value='" + this.value + "' " + checked + "> " + $("label[for=" + name + "]")[index].innerHTML + "</span>"
+    checkboxes += "<span class='d-block mr-3'><input type=checkbox name=brief-" + name + " value='" + this.value + "' " + checked + "> " + $("label[for=" + name + "]")[index].innerHTML + "</span>"
   })
   return checkboxes;
 }
 
 //Get data from inputs and return new inputs for brief table (for makeChanges)
 function createBriefInputs(name) {
-  $('.edit-suburb .tt-input').val('');
   var notification = "";
   var inputClasss = "";
   var inputName = "";
@@ -873,12 +861,10 @@ $('.question-dropdown').prop('disabled',true);
 
 var hashes = ['', 'prop', 'acco', 'desc', 'cond', 'val', 'per', 'reas', 'meth', 'agntype', 'agntname', 'ques', 'prev', 'email', 'subm', 'finish'];
 
-var i = 1;
 
 function enableSubmit() {
   $('input[name=agree]').addClass('not-checked').prop('disabled', false);
   $('.password-info').hide();
-  
 }
 
 
@@ -897,12 +883,11 @@ setInterval(function () {
 }, 100);
 
 function addHashToUrl() {
-  if (i == 14) {
-    $('div[data-step="13"').css('display', 'none');
-  }
+  console.log(i);
   $(`.step`).css('display', 'none');
-  window.location.hash = hashes[i+1];
   i++;
+  console.log(i);
+  window.location.hash = hashes[i];
 }
 
 $('[type=email]').on("change paste keyup", function() {
@@ -911,6 +896,7 @@ $('[type=email]').on("change paste keyup", function() {
 
 function suburbSelectedProccess () {
   i+1;
+  $('.back-step-begin').hide();
   $('.navbar>img').removeClass('wider-img').addClass('signup-image');
   $('.signup-begin, .notify-text').hide();
   $(`.signup`).removeClass('hidden');
@@ -997,6 +983,8 @@ window.addEventListener('load', checkHash);
       $(`.step`).css('display', 'none');
       $('.confirmation').css('display', 'none');
       $(`div[data-step=11]`).css('display', 'none');
+      $('.signup-preview').css('display','block');
+      $('.email-step-view').css('display','none');
     } else if (window.location.hash == '') {
       $(`.step`).css('display', 'none');
       $('.confirmation').css('display', 'none');
@@ -1009,7 +997,7 @@ window.addEventListener('load', checkHash);
       $('.last-step-view').css('display','none');
       $(`#sellersignup12 .col-xl-8, #sellersignup12 .col-12`).css('display', 'none');
     } else if (window.location.hash == '#subm') {
-      $('.last-step-view').css('display','block');
+      $('.last-step').css('display','block');
       $('.email-step-view').css('display','none');
     }
     if (window.location.hash == '#ques') {
@@ -1025,31 +1013,43 @@ function removeHashFromUrl() {
   $('.form-group>.back').prop('disabled', true);
   setTimeout(function () {
     $('.form-group>.back').prop('disabled', false);
-  }, 600);
-  i--;
+  }, 1000);
+  console.log(i);
   window.location.hash = hashes[i];
+  i--;
 }
 $(`.step`).removeAttr("style");
-// $('input[name=to-last-step]').click(function () {
-//   window.location.hash = hashes[i];
-// })
 if (window.location.hash == '#' || window.location.hash == '') {
   $('.navbar>img').removeClass('signup-image');
 }
 $('.form-group>.back').click(removeHashFromUrl);
-$('input[type=submit]').click(addHashToUrl);
+$('.hash-step').click(function() {
+    $('.form-group>.back').prop('disabled', false);
+  addHashToUrl();
+});
+$('.back-step-begin .back-step').click(function() {
+  console.log(i);
+  i = 0;
+  window.location.hash = hashes[i];
+  $('.top-image').hide();
+  $(`div[data-step=1]`).css('display', 'none');
+  $('.signup-begin').css('display','block');
+});
 $('.btn-skip').click(addHashToUrl);
 
-var sbr = localStorage.getItem('suburb')
+var sbr = localStorage.getItem('suburb');
+
+$(document).mouseup(function(e) {
+    var container = $(".question-menu");
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+      container.hide();
+    }
+});
+
 $(document).ready(function () {
   $("[name=agree]").click(function() {
     $("#submit-form").prop("disabled", false);	
   })
-  $('.signup-begin input').bind('keypress', function(e) {
-    if(e.keyCode==13){
-		  beginSignUp();
-    }
-  });
   $('.btn-question').click(function() {
     $('.scrollbar').show()
   })
@@ -1097,14 +1097,15 @@ $(document).ready(function () {
   if (passRes == 'Strong') {
     $('.password-info').hide();
   }
-  $('.to-finish').click(function() {
-    $('#replace-suburb').text($('.signup-begin .tt-input').val());
+  $('.to-finish').click(function(e) {
+    e.preventDefault();
+    toLastStep();
     $('.email-step-view').css('display','none');
-    $('.last-step').css('display','block');
+    $('.last-step-view').css('display','block');
   })
 });
 
-function initializeMap() {
+function initializeMapSeller() {
     var suburb = $("#suburbs").val();
     suburb = suburb ? suburb : localStorage.getItem('suburb');
     for (x in fusionIds) {
@@ -1130,7 +1131,7 @@ function queryFT(codes, fusionId) {
       table = response.getDataTable();
       numRows = table.getNumberOfRows();
       var bounds = new google.maps.LatLngBounds();
-      for (i = 0; i < numRows; i++) {
+      for (var i = 0; i < numRows; i++) {
         var kml = $.parseXML(response.getDataTable().getValue(i, 0));
         var coord = kml.getElementsByTagName("coordinates")[0].childNodes[0].nodeValue.split(" ");
         for (j in coord) {
@@ -1266,3 +1267,7 @@ function outlineSuburbs(codes, fusionId) {
 google.maps.event.addListener(map, 'bounds_changed', function () {
   google.maps.event.trigger(map, 'resize');
 });
+
+function resizeMap() {
+  initializeMapSeller();
+}
