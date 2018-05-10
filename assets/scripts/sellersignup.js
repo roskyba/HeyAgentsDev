@@ -585,7 +585,7 @@ if (useSuburbs) {
       url: '/assets/json/suburbs.json'
     }
   });
-  $('.suburbs').tagsinput({
+  $('.sellerSuburbs').tagsinput({
     maxTags: 1,
     itemValue: 'SSC_NAME_2016',
     itemText: 'SSC_NAME_2016',
@@ -599,7 +599,7 @@ if (useSuburbs) {
     }],
     freeInput: false
   });
-  $('.suburbs').on('itemAdded', function (event) {
+  $('.sellerSuburbs').on('itemAdded', function (event) {
     $('.tt-input').val($('.signup .badge').text());
     $('.signup-begin .badge, .signup .badge').html();
     $('.preview-brief .tt-input').val($('.signup .badge').text());
@@ -608,7 +608,7 @@ if (useSuburbs) {
     $('.badge').html()
     $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
   });
-  $('.suburbs').on('itemRemoved', function (event) {
+  $('.sellerSuburbs').on('itemRemoved', function (event) {
     $("input[name=postcodes]").val($("input[name=postcodes]").val().replace(event.item["POA_CODE_2016"] + ",", ""));
   });
 } else {
@@ -621,7 +621,7 @@ if (useSuburbs) {
       url: '/assets/json/postcodes.json'
     }
   });
-  $('.suburbs').tagsinput({
+  $('.sellerSuburbs').tagsinput({
     maxTags: 1,
     typeaheadjs: [{
       hint: true
