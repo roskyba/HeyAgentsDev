@@ -39,7 +39,6 @@ var agents = new Bloodhound({
       templates: {
         suggestion: function (data) {
           if (data.photo) {
-            $('.twitter-typeahead input').css('background', 'none');
             return '<div class="tt-suggestion tt-selectable"><img src="' + data.photo + '" class="thumbnail mr-2">' + data.name + '&emsp;<small class="push-down">' + data.agency + '</span></div>';
           } else {
             return '<div class="tt-suggestion tt-selectable"><span class="thumbnail mr-2">' + data.name.slice(0, 1) + '</span>' + data.name + '&emsp;<small class="push-down">' + data.agency + '</span></div>';
@@ -70,13 +69,6 @@ function updateAgentHTML(firstname, lastname, photo, agency, id) {
     $("[name='license']").val(id);
     $("[name='company']").val(agency);
   }
-  $(".replace-agent-name").each(function () {
-    if ($(this).hasClass("possessive")) {
-      $(this).html(firstname + "'s");
-    } else {
-      $(this).html(firstname);
-    }
-  });
   $("#agentsignup1 input[disabled]").removeAttr("disabled");
 }
 /**
@@ -87,7 +79,11 @@ function updateAgentHTML(firstname, lastname, photo, agency, id) {
  * @return {string} The html string of the created card
  */
 function createAgentCard(profilePhoto, agentName, agency) {
-  return '<img src=' + profilePhoto + ' class="rounded-circle" style="width: 100px"><div class="ml-4 text-left"><p class="m-0">' + agentName + '</p><small>' + agency + '</small></div><button id="cancel-agent" class="btn-cancel-agent"><i class="fa fa-times fa-lg"></i></button>';
+  if (profilePhoto != '') {
+    return '<img src=' + profilePhoto + ' class="rounded-circle" style="width: 100px"><div class="ml-4 text-left"><p class="m-0">' + agentName + '</p><small>' + agency + '</small></div><button id="cancel-agent" class="btn-cancel-agent"><i class="fa fa-times fa-lg"></i></button>';
+  } else {
+    return '<div class="ml-4 text-left"><p class="m-0">' + agentName + '</p><small>' + agency + '</small></div><button id="cancel-agent" class="btn-cancel-agent"><i class="fa fa-times fa-lg"></i></button>';
+  }
 }
 
 function cancelAgent() {

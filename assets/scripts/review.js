@@ -12,7 +12,7 @@ var agents = new Bloodhound({
   queryTokenizer: Bloodhound.tokenizers.whitespace,
   remote: {
     wildcard: '%QUERY',
-    url: 'https://api.heyagents.com.au/v1/agents/search?agent_name=%QUERY',
+    url: 'https://api-dev.heyagents.com.au/v2/agents?agent_name=%QUERY',
     rateLimitBy: 'debounce',
     rateLimitWait: 500,
     filter: function (data) {

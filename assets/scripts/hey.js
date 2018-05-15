@@ -8,7 +8,7 @@ window.addEventListener("load", function() {
 
 mobileSwap();
 
-
+var suburdSelected = false;
 var useSuburbs = true;
 var suburb;
 var codes = ""; 
@@ -24,6 +24,8 @@ if (useSuburbs) {
     }
   });
   $('.homepage-hero .suburbs').on('beforeItemAdd', function(event) {
+    localStorage.setItem('suburb', event.item["SSC_NAME_2016"]);
+    $('.suburb-btn').removeClass('is-disabled');
     event.cancel = true;
   });
   $('.suburbs').on('itemAdded', function (event) {
@@ -43,7 +45,7 @@ if (useSuburbs) {
     }
   });
   $('.suburbs').tagsinput({
-    maxTags: 1,
+    maxTags: 5,
     typeaheadjs: [{
       hint: true
     },
@@ -52,7 +54,8 @@ if (useSuburbs) {
       displayKey: 'name',
       valueKey: 'postcode',
       source: postcodes
-    }]
+    }],
+    freeInput: false
   });
 }
 var fusionId, fusionIds, fusionQuery;
@@ -118,30 +121,25 @@ function iphoneSticky(){
 
 $('.step-bar a').click(activateSubHeading);
 
-var selectedSuburb;
-$('.suburb-btn').on("click", function() {
-  selectedSuburb = $('.homepage-hero .tt-input').val();
-  localStorage.setItem('suburb', selectedSuburb);
-  }
-)
 $('#provider-json').on("keyup", function() {
   $('.suburb-btn').prop('disabled', false);
 });
 $(document).ready(function() {
   var inputVal;
-	var pathname = window.location.pathname;
+  var pathname = window.location.pathname;
+  var loaderInputs = '#agentsignup1 .twitter-typeahead input, #agentreview1 .twitter-typeahead input, #sellersignup10 .twitter-typeahead input';
   $('.main-menu  li > a[href="'+pathname+'"]').parent().addClass('active');
   $('.main-menu button').click(function() {
     $('.main-menu .dropdown-menu').toggleClass('expanded');
   });
-  $('#sellersignup10 .twitter-typeahead input').removeClass('loader');
-  $('#sellersignup10 .twitter-typeahead input').focusout(function() {
+  $(loaderInputs).removeClass('loader');
+  $(loaderInputs).focusout(function() {
       $(this).removeClass('loader');
    });
-   $('#sellersignup10 .twitter-typeahead input').on("change paste keyup", function() {
-    inputVal = $('#sellersignup10 .twitter-typeahead input').val();
+  $(loaderInputs).on("change paste keyup", function() {
+    inputVal = $(this).closest('.twitter-typeahead input').val();
     if (inputVal.length >=3 ) {
-       $('#sellersignup10 .twitter-typeahead input').addClass('loader');
+       $(loaderInputs).addClass('loader');
     }
   });
   var regexRule = /^0(4)\d{8}$/
@@ -294,7 +292,8 @@ function mapcallback(results, status) {
   var sydney = new google.maps.LatLng(-33.8688,151.2093),
       lat, 
       lng,
-      placeSuburb;
+      placeSuburb,
+      submitSuburb;
   if ($(".address_autocomplete").length) {
     var input;
     var options = {
@@ -305,7 +304,7 @@ function mapcallback(results, status) {
       rankBy: google.maps.places.RankBy.DISTANCE
     };
     var autocomplete;
-    makeAutocomplete()
+    makeAutocomplete();
   }
 
   function makeAutocomplete(){
@@ -316,6 +315,11 @@ function mapcallback(results, status) {
 
   //Check address and show notification if invalid
   function checkAddress(inputName){
+    if (submitSuburb == $('#replace-suburb').text()) {
+      $('#suburb-tooltip').css('display','none');
+    } else {
+      $('#suburb-tooltip').css('display','block');
+    }
     if($('#street_number').val()!= ''){
       $(".notification").html("");
       $(inputName).prop('disabled', false);
@@ -337,7 +341,7 @@ function mapcallback(results, status) {
         administrative_area_level_1: 'short_name',
         postal_code: 'short_name'
       };
-      
+      submitSuburb = place.address_components[2].long_name;
       $('#street_number').val("");
         // Get each component of the address from the place details
         // and fill the corresponding field on the form.
@@ -456,7 +460,7 @@ if (useSuburbs) {
     }
   });
   $('.suburbs').tagsinput({
-    maxTags: 1,
+    maxTags: 5,
     itemValue: 'SSC_NAME_2016',
     itemText: 'SSC_NAME_2016',
     typeaheadjs: [{
@@ -473,6 +477,7 @@ if (useSuburbs) {
     $('.homepage-hero .tt-input').val($('.homepage-hero .badge').text());
     $('.homepage-hero .selected-tags').hide();
     $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
+    console.log($("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ","));
   });
   $('.suburbs').on('itemRemoved', function (event) {
     $("input[name=postcodes]").val($("input[name=postcodes]").val().replace(event.item["POA_CODE_2016"] + ",", ""));
@@ -488,7 +493,7 @@ if (useSuburbs) {
     }
   });
   $('.suburbs').tagsinput({
-    maxTags: 1,
+    maxTags: 5,
     typeaheadjs: [{
       hint: true
     },
@@ -755,23 +760,6 @@ function outlineSuburbs(codes, fusionId) {
       sessionStorage.setItem($input.name, $input.value);
     }
   });
-
-  /* adds functionality to back buttons */
-  $(".back").click(function() {
-    backStep($(this).data("backstep"));
-    return false;
-  });
-
-  function backStep(prevStep){
-    $(".step[data-step='" + (prevStep+1) + "']").fadeOut(500, function() {
-      //for agent signup
-      if(($(".signupagent").length>0)&&prevStep===2){
-        $(".left").removeClass("hidden");
-        $(".right").removeClass("offset-lg-3");
-      }
-      setStep(prevStep);
-    });
-  }
 }
 
 if($(".address_autocomplete").length>0||$(".suburbs").length>0){

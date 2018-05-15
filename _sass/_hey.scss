@@ -780,6 +780,9 @@ section.hero {
                     }
                 }
             }
+            #suburb-tooltip {
+                color: #f00;
+            }
             .last-step-field {
                 padding-left: 5px;
                 padding-right: 5px;
@@ -882,12 +885,12 @@ section.hero {
 }
 
 .loader {
-     background-image: url('../img/ajax_loader.gif');
+     background-image: url('../img/ajax_loader.gif') !important;
      display: inline-block;
-     background-size: 5%;
-     background-repeat: no-repeat;
-     background-position: right;
-     vertical-align: middle;
+     background-size: 5% !important;
+     background-repeat: no-repeat !important;
+     background-position: right !important;
+     vertical-align: middle !important;
 }
 
 span.twitter-typeahead {
@@ -1094,7 +1097,6 @@ span.twitter-typeahead {
             font-size: 12px;
             display: inline-block;
             line-height: 2.3;
-            float: right;
         }
     }
     .accordion__heading {
@@ -1140,7 +1142,6 @@ span.twitter-typeahead {
             font-size: 12px;
             display: inline-block;
             line-height: 2.3;
-            float: right;
         }
     }
     .accordion__heading {

@@ -42,7 +42,6 @@ body {
     visibility: hidden;
 }
 
-
 /* --------------------------------------------------------------
 /* =TYPOGRAPHY
 -------------------------------------------------------------- */
@@ -110,7 +109,6 @@ a:hover {
     text-decoration: none;
     color: #07D390;
 }
-
 
 /* --------------------------------------------------------------
 /* =HEADER
@@ -280,7 +278,6 @@ header {
     }
 }
 
-
 /* --------------------------------------------------------------
 /* =FOOTER
 -------------------------------------------------------------- */
@@ -377,6 +374,15 @@ header {
 /* =HOMEPAGE
 -------------------------------------------------------------- */
 
+.is-disabled {
+    pointer-events: none;
+    cursor: default;
+    border: none;
+}
+.step-disabled {
+    background-color: #06d391 !important;
+}
+
 .homepage-hero {
     .tt-dataset {
         margin: 0 !important;
@@ -465,7 +471,6 @@ header {
     font-weight: normal;
     font-size: 18px;
 }
-
 
 .one-step h6 {
     margin: 25px 0 0 0;
@@ -661,7 +666,6 @@ header {
     background: url('../img/arrow-left.svg') center no-repeat;
 }
 
-
 /* --------------------------------------------------------------
 /* =ABOUT
 -------------------------------------------------------------- */
@@ -730,7 +734,7 @@ header {
 }
 
 .about-section-2 {
-    h1  {
+    h1 {
         font-size: 42px;
     }
     .agents-diff {
@@ -742,7 +746,8 @@ header {
             list-style-image: url('../img/minus.png');
             li {
                 margin-bottom: 30px;
-                span, p {
+                span,
+                p {
                     font-family: 'HarmoniaSansProCyr-SemiBd';
                     color: #1e2b4d;
                     position: relative;
@@ -803,7 +808,6 @@ header {
 .job-email:hover {
     opacity: 0.7;
 }
-
 
 /* --------------------------------------------------------------
 /* =AGENTS
@@ -889,7 +893,6 @@ header {
     padding-right: 50px;
 }
 
-
 /* --------------------------------------------------------------
 /* =TABLET
 -------------------------------------------------------------- */
@@ -966,7 +969,6 @@ header {
         margin: 100px auto;
     }
 }
-
 
 /* --------------------------------------------------------------
 /* =SMARTPHONE
@@ -1219,9 +1221,9 @@ header {
     .homepage-section-7 .fisrt-col {
         padding-bottom: 80px;
     }
-  }
-  
-  @media screen and (min-width: 768px) {
+}
+
+@media screen and (min-width: 768px) {
     .homepage-hero {
         background: #f0f0f0 url('../img/homepage-hero_1600.jpg') right center no-repeat;
         background-size: contain;
@@ -1325,15 +1327,16 @@ header {
 }
 
 @media screen and (max-width: 767px) {
-  nav, .navbar-signup {
-    height: 60px;
-    padding-bottom: 0;
-    padding-top: 0;
-    .header-branding {
-      padding-top: 5px;
+    nav,
+    .navbar-signup {
+        height: 60px;
+        padding-bottom: 0;
+        padding-top: 0;
+        .header-branding {
+            padding-top: 5px;
+        }
     }
-  }
-      .main-menu {
+    .main-menu {
         li {
             button {
                 font-size: 22px;
@@ -1362,9 +1365,11 @@ header {
             .seller-signup-card {
                 padding: 0;
                 padding-top: 0.05rem;
-                label[for=condition], label[for=salestimeframe], label[for=salereason]  {
-                  margin-bottom: 0;
-                  padding-top: 10px;
+                label[for=condition],
+                label[for=salestimeframe],
+                label[for=salereason] {
+                    margin-bottom: 0;
+                    padding-top: 10px;
                 }
             }
             .last-step {
@@ -1391,16 +1396,14 @@ header {
                     }
                 }
                 #sellersignup9 {
-                            .seller-signup-card {
-                                padding: 0;
-                                padding: 1rem 0;
-                                .agents-rank {
-                                    margin-bottom: 20px;
-                                    padding: 0 10px;
-                                 }
-                            }
-                        
-                    
+                    .seller-signup-card {
+                        padding: 0;
+                        padding: 1rem 0;
+                        .agents-rank {
+                            margin-bottom: 20px;
+                            padding: 0 10px;
+                        }
+                    }
                 }
                 #sellersignup11 {
                     .form-group {
@@ -1410,15 +1413,14 @@ header {
                         padding: 0 15px;
                     }
                 }
-               
             }
             .last-step-view {
-              margin-top: 0 !important;
-              #sellersignup13 {
-                h1 {
-                  padding: 0 !important;
+                margin-top: 0 !important;
+                #sellersignup13 {
+                    h1 {
+                        padding: 0 !important;
+                    }
                 }
-              } 
             }
             .email-step-view {
                 #sellersignup12 {
@@ -1489,7 +1491,7 @@ header {
     }
     .homepage-section-3 {
         .row {
-          padding: 0 65px;
+            padding: 0 65px;
         }
     }
     .homepage-section-8 {
@@ -1565,10 +1567,10 @@ header {
                 height: 60px;
             }
             input[type="submit"] {
-              width: 110px;
-              padding: 0 10px;
-              margin-left: -124px;
-          }
+                width: 110px;
+                padding: 0 10px;
+                margin-left: -124px;
+            }
         }
     }
     .agents-hero {
@@ -1637,7 +1639,7 @@ header {
         padding-bottom: 98px;
         position: relative;
         .hero-testimonial-text {
-          right: 10vw;
-      }
+            right: 10vw;
+        }
     }
 }

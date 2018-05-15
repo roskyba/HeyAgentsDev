@@ -14,7 +14,7 @@ var agents = new Bloodhound({
   queryTokenizer: Bloodhound.tokenizers.whitespace,
   remote: {
     wildcard: '%QUERY',
-    url: 'https://api.heyagents.com.au/v1/agents/search?agent_name=%QUERY',
+    url: 'https://api-dev.heyagents.com.au/v2/agents?agent_name=%QUERY',
     filter: function (data) {
       return $.map(data.agents, function (agent) {
         return {
@@ -54,7 +54,7 @@ $('[name="agent_name"]').typeahead({
       $(this).blur();
     });
   }).bind('typeahead:select', function (ev, suggestion) {
-    $('.twitter-typeahead').hide()
+    $('.twitter-typeahead').hide();
     $("#sellersignup10 input[disabled]").removeAttr("disabled");
     updateAgentHTML(suggestion.firstname, suggestion.lastname, suggestion.photo, suggestion.agency, suggestion.agentId);
     cancelAgent();
@@ -92,12 +92,14 @@ function createAgentCard(profilePhoto, agentName, agency) {
 
 function cancelAgent() {
   $("#cancel-agent").click(function (event) {
-    $('.twitter-typeahead').show();
-    $('.btn-agnt').prop('disabled', true);
     event.preventDefault();
-    $(".agent-card").removeClass("d-flex");
-    $("[name=agent_name]").val("");
-    $("[name='domain_agent_id']").val("");
+    $(".signup [name='agent_name'], .signup [name='domainAgentId'], .signup [name='license'], .signup [name='company']").val("");
+    $(".signup .agent-name").removeClass("hidden");
+    $('#sellersignup10 .input-width').css('background','white');
+    $(".signup .agent-card").removeClass("d-flex");
+    $('.signup .twitter-typeahead').show();
+    $('.signup .btn-agnt').prop('disabled', true);
+    $(".signup .agent-card").removeClass("d-flex");
   });
 }
 
@@ -110,7 +112,8 @@ var marker = new google.maps.Marker({
 
 //Submit brief
 
-$('#sellersignup13 #submit-form').on('click', function() {
+$('#sellersignup13 #submit-form').on('click', function () {
+  briefData.brief.suburb = submitSuburb;
   briefData.brief.city = $("#locality")[0].value;
   briefData.brief.property.postCode = $("#postal_code")[0].value;
   briefData.brief.property.state = $("#administrative_area_level_1")[0].value;
@@ -119,11 +122,16 @@ $('#sellersignup13 #submit-form').on('click', function() {
   briefData.brief.property.geoLocation.latitude = -33.8678064;
   briefData.brief.property.geoLocation.longitude = 151.1892544;
   briefData.brief.property.address = $("#street_number")[0].value;
-  briefData.email = $("[name=email]").value;
-  briefData.password = $("[name=password]").value;
-  briefData.firstName = $("[name=firstName]").value;
-  briefData.lastName = $("[name=lastName]").value;
-  briefData.phone = $("[name=phone]").value;
+  briefData.email = $("[name=email]").val();
+  briefData.password = $("[name=password]").val();
+  briefData.firstName = $("[name=firstName]").val();
+  briefData.lastName = $("[name=lastName]").val();
+  briefData.phone = $("[name=phone]").val();
+  if ($("[name=agent_name]").val() != "") {
+    briefData.brief.requestedAgent = {
+      domainAgentId: $("[name=domainAgentId]").val()
+    }
+  }
   console.log(briefData);
   $.ajax({
     method: 'post',
@@ -153,9 +161,9 @@ $('input[name="begin-firstname"]').keyup(function () {
 //Go to second screen
 function beginSignUp() {
   if (i < 0) {
-    i=i+2;
-  } else  {
-    i=i+1;
+    i = i + 2;
+  } else {
+    i = i + 1;
   }
   window.location.hash = hashes[i];
   $('.top-image').show();
@@ -175,7 +183,6 @@ function toPreviewBrief() {
     createBriefPreview();
     $(".step:last").fadeOut(500, function () {
       $(".preview-brief").fadeIn(500);
-      // google.maps.event.trigger(map, 'resize');
     })
   })
 }
@@ -184,6 +191,7 @@ function toPreviewBrief() {
 //Put changed values to brief model and go to last step
 function toLastStep() {
   if (madeChanges) {
+    $('#replace-suburb').text($('#brief-1 .tt-input').val());
     agentquestions = [];
     $("input[name=brief-agentquestions]").each(function (index) {
       agentquestions[index] = this.value;
@@ -196,7 +204,7 @@ function toLastStep() {
 
     var price = parsePrice("brief-price");
 
-    briefData.brief.city = $("#locality").val();
+    briefData.brief.city = $("#locality").val();        
     briefData.brief.priceMin = price[0];
     briefData.brief.priceMax = price[1];
     briefData.brief.sizeRange = $('select[name=brief-size]')[0].selectedOptions[0].value;
@@ -221,11 +229,12 @@ function toLastStep() {
     briefData.brief.property.bathrooms = $("select[name=brief-bathrooms]")[0].selectedOptions[0].value;
     briefData.brief.property.bedrooms = $("select[name=brief-bedrooms]")[0].selectedOptions[0].value;
     briefData.brief.property.parking = $("select[name=brief-parking]")[0].selectedOptions[0].value;
+  } else {
+    $('#replace-suburb').text($('#brief-1').text());
   }
   $(".preview-brief").fadeOut(500, function () {
     $(".last-step").fadeIn(500);
   })
-  $('#replace-suburb').text(briefData.brief.suburb);
   $("[name=firstName]").val($('input[name="begin-firstname"]').val());
   $("[name=agree]").change(function () {
     if (this.checked) {
@@ -238,10 +247,10 @@ function toLastStep() {
   });
 }
 
+$('#brief-1').text();
 
-$('[name=to-last-step]').click(function (e) {
+$('[name=to-last-step]').click(function () {
   addHashToUrl();
-  e.preventDefault();
   briefData.brief.suburb = $('#brief-1').text();
 })
 //Brief model
@@ -297,7 +306,7 @@ function createBriefModel() {
   }
   if ($("[name=agent_name]").val() != "") {
     briefData.brief.requestedAgent = {
-      domainAgentId: $("[name=domain_agent_id]").val()
+      domainAgentId: $("[name=domainAgentId]").val()
     }
   }
 }
@@ -333,6 +342,7 @@ function createBriefPreview() {
   createBriefModel()
   if ($('.badge').text() == '') {
     $("#brief-1").text(sbr);
+    $('#replace-suburb').text(sbr);
   } else {
     $("#brief-1").text($('.signup-begin .tt-input').val());
   }
@@ -392,7 +402,10 @@ function outputQuestions() {
 var sizeOption = '';
 
 //Put inputs with values in table
-function makeChanges() {  
+function makeChanges() {
+  $('[name=to-last-step]').click(function() {
+    $('#brief-1 .tt-input').val();
+  });
   $('.preview-suburb').addClass('hidden');
   $('.edit-suburb').removeClass('hidden');
   madeChanges = true;
@@ -418,7 +431,7 @@ function makeChanges() {
   $("#brief-11").html(createDropdown("salereason", "radio"));
   $("#brief-questions").html(createBriefInputs("agentquestions"));
   $("[name=brief-agentexperience]").change(function () {
-    $("[name=to-last-step]").prop("disabled", !($("[name=brief-agentexperience]:checked").length ));
+    $("[name=to-last-step]").prop("disabled", !($("[name=brief-agentexperience]:checked").length));
   })
 }
 
@@ -462,7 +475,7 @@ function createDropdown(name, type) {
       dropdown += "<option value='" + this.dataset.value + "' " + selected + ">" + this.innerText + "</option>"
     })
   }
-  
+
   dropdown += "</select>"
   return dropdown;
 }
@@ -601,11 +614,11 @@ if (useSuburbs) {
   });
   $('.begin-suburbs, .preview-suburbs').on('itemAdded', function (event) {
     $('.signup-begin .tt-input').val($('.signup .badge').text());
-    $('.signup-begin .badge, .signup .badge').html();
+    $('.tt-input').removeAttr('disabled');
+    $('.signup-begin .badge').html();
     $('.preview-brief .tt-input').val($('.signup .badge').text());
     $('.signup .badge').text('');
     $('.badge').hide();
-    $('.badge').html()
     $("input[name=postcodes]").val($("input[name=postcodes]").val() + event.item["POA_CODE_2016"] + ",");
   });
   $('.begin-suburbs, .preview-suburbs').on('itemRemoved', function (event) {
@@ -635,23 +648,14 @@ if (useSuburbs) {
     freeInput: false
   });
 }
-$("#agentsignup2").find(".tt-input").on('keydown', function (event) {
-  if (event.keyCode == 13 || event.keyCode == 44) {
-    event.preventDefault();
-    var selectables = $(this).siblings(".tt-menu").find(".tt-selectable");
-    if (selectables.length > 0) {
-      $(selectables[0]).trigger('click');
-    }
-  }
-});
 $("#edit-suburb").change(function () {
   codes = "";
   if (useSuburbs) {
     var suburbs = $("#edit-suburb").val()
     for (x in fusionIds) {
-      queryFT("'" + suburbs + "'", fusionIds[x]);
+      querySellerFT("'" + suburbs + "'", fusionIds[x]);
     }
-  } 
+  }
 });
 
 //Checks input after click on all area of div
@@ -737,8 +741,8 @@ function deleteQuestion(index) {
   })
 }
 
-function checkAgentInput(){
-  if ($('input[name=agent_name').val()!= '') {
+function checkAgentInput() {
+  if ($('input[name=agent_name').val() != '') {
     return true;
   } else {
     return false;
@@ -801,8 +805,8 @@ function createInputs() {
 }
 
 //Page offseting
-$('#to-preview-button, input[type=submit], [name=to-last-step]').click(function() {
-	$('html,body').animate({ scrollTop: 0 }, 'slow')
+$('#to-preview-button, input[type=submit], [name=to-last-step]').click(function () {
+  $('html,body').animate({ scrollTop: 0 }, 'slow')
 })
 
 //Check password strength
@@ -855,7 +859,7 @@ $(".custom-dropdown-option").click(function () {
   sellerCardBlock.find("input[type=hidden]").val(optionValue).change();
 });
 
-$('.question-dropdown').prop('disabled',true);
+$('.question-dropdown').prop('disabled', true);
 
 //Adding hash to url for enabling browsers 'back' button
 
@@ -877,25 +881,32 @@ setInterval(function () {
     $('input[name=firstName]').val() != '' &&
     $('input[name=lastName]').val() != '' &&
     $('input[name=phone]').val() != '' &&
-    $('input[name=password]').val() != '' ) ?
+    $('input[name=password]').val() != '') ?
     enableSubmit() :
     disableSubmit()
 }, 100);
 
 function addHashToUrl() {
-  console.log(i);
+  if (window.location.hash === '#prop') {
+    i = 1;
+  }
   $(`.step`).css('display', 'none');
+  window.location.hash = hashes[i + 1];
   i++;
-  console.log(i);
-  window.location.hash = hashes[i];
 }
 
 $('[type=email]').on("change paste keyup", function() {
-  $('#sellersignup12 .btn').removeAttr('disabled');
+  var testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+    if (testEmail.test(this.value)) {
+      $(".to-finish").removeAttr('disabled');
+    }else {
+      $(".to-finish").attr('disabled', true);
+    }
 });
 
-function suburbSelectedProccess () {
-  i+1;
+function suburbSelectedProccess() {
+  $('#replace-suburb').html(sbr);
+  i + 1;
   $('.back-step-begin').hide();
   $('.navbar>img').removeClass('wider-img').addClass('signup-image');
   $('.signup-begin, .notify-text').hide();
@@ -908,6 +919,7 @@ function suburbSelectedProccess () {
 function checkHash() {
   if (window.location.hash == '#prop') {
     suburbSelectedProccess();
+    suburdSelected = true;
   } else {
     $(`.signup-begin`).show();
   }
@@ -915,147 +927,144 @@ function checkHash() {
 
 window.addEventListener('load', checkHash);
 
-  window.onhashchange = function () {
-    if ($('#sellersignup1 input[type=radio]:checked').val() == 'land') {
-      i + 1;
-      window.location.hash = hashes[i + 3];
-      $(`div[data-step=3]`).css('display', 'none');
-      $(`div[data-step=4]`).css('display', 'none');
-      $(`div[data-step=5]`).css('display', 'none');
-    }
-      $('.navbar>img').removeClass('wider-img').addClass('signup-image');
-    if (window.location.hash == '#prop') {
-      $(`.step`).removeAttr("style").hide();
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=1]`).css('display', 'block');
-      $(`div[data-step=2]`).css('display', 'none');
-    } else if (window.location.hash == '#acco') {
-      $(`.step`).removeAttr("style").hide();
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=1]`).css('display', 'none');
-      $(`div[data-step=2]`).css('display', 'block');
-    } else if (window.location.hash == '#desc') {
-      $(`.step`).removeAttr("style").hide();
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=2]`).css('display', 'none');
-      $(`div[data-step=3]`).css('display', 'block');
-    } else if (window.location.hash == '#cond') {
-      $(`.step`).removeAttr("style").hide();
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=3]`).css('display', 'none');
-      $(`div[data-step=4]`).css('display', 'block');
-    } else if (window.location.hash == '#val') {
-      $(`.step`).removeAttr("style").hide();
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=4]`).css('display', 'none');
-      $(`div[data-step=5]`).css('display', 'block');
-    } else if (window.location.hash == '#per') {
-      $(`.step`).css('display', 'none');
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=5]`).css('display', 'none');
-      $(`div[data-step=6]`).css('display', 'block');
-    } else if (window.location.hash == '#reas') {
-      $(`.step`).css('display', 'none');
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=6]`).css('display', 'none');
-      $(`div[data-step=7]`).css('display', 'block');
-    } else if (window.location.hash == '#meth') {
-      $(`.step`).css('display', 'none');
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=7]`).css('display', 'none');
-      $(`div[data-step=8]`).css('display', 'block');
-    } else if (window.location.hash == '#agntype') {
-      $(`.step`).css('display', 'none');
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=8]`).css('display', 'none');
-      $(`div[data-step=9]`).css('display', 'block');
-    } else if (window.location.hash == '#agntname') {
-      $(`.step`).css('display', 'none');
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=9]`).css('display', 'none');
-      $(`div[data-step=10]`).css('display', 'block');
-    } else if (window.location.hash == '#ques') {
-      $(`.step`).css('display', 'none');
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=10]`).css('display', 'none');
-      $(`div[data-step=11]`).css('display', 'block');
-    } else if (window.location.hash == '#prev') {
-      $(`.step`).css('display', 'none');
-      $('.confirmation').css('display', 'none');
-      $(`div[data-step=11]`).css('display', 'none');
-      $('.signup-preview').css('display','block');
-      $('.email-step-view').css('display','none');
-    } else if (window.location.hash == '') {
-      $(`.step`).css('display', 'none');
-      $('.confirmation').css('display', 'none');
-      $(`.signup`).css('display', 'none');
-      $(`.signup-begin`).css('display', 'block');
-    } else if (window.location.hash == '#email') {
-      $('.signup-preview').css('display','none');
-      $('.signup-proccess').css('display','none');
-      $('.email-step-view').css('display','block');
-      $('.last-step-view').css('display','none');
-      $(`#sellersignup12 .col-xl-8, #sellersignup12 .col-12`).css('display', 'none');
-    } else if (window.location.hash == '#subm') {
-      $('.last-step').css('display','block');
-      $('.email-step-view').css('display','none');
-    }
-    if (window.location.hash == '#ques') {
-      $('.preview-brief').css('display', 'none')
-    }
-    if (window.location.hash == '#prev') {
-      $('.preview-brief').css('display', 'block');
-      $('.last-step').css('display', 'none');
-      $('.confirmation').css('display', 'none');
-    }
+window.onhashchange = function () {;
+  hashes.indexOf(window.location.hash.substr(1))
+  if ($('#sellersignup1 input[type=radio]:checked').val() == 'land') {
+    i + 1;
+    window.location.hash = hashes[i + 3];
+    $(`div[data-step=3]`).css('display', 'none');
+    $(`div[data-step=4]`).css('display', 'none');
+    $(`div[data-step=5]`).css('display', 'none');
   }
+  $('.navbar>img').removeClass('wider-img').addClass('signup-image');
+  if (window.location.hash == '#prop') {
+    $(`.step`).removeAttr("style").hide();
+    $(`div[data-step=1]`).css('display', 'block');
+    $(`div[data-step=2]`).css('display', 'none');
+  } else if (window.location.hash == '#acco') {
+    $(`.step`).removeAttr("style").hide();
+    $(`div[data-step=1]`).css('display', 'none');
+    $(`div[data-step=2]`).css('display', 'block');
+    initializeSellerMap();
+  } else if (window.location.hash == '#desc') {
+    $(`.step`).removeAttr("style").hide();
+    $(`div[data-step=2]`).css('display', 'none');
+    $(`div[data-step=3]`).css('display', 'block');
+  } else if (window.location.hash == '#cond') {
+    $(`.step`).removeAttr("style").hide();
+    $(`div[data-step=3]`).css('display', 'none');
+    $(`div[data-step=4]`).css('display', 'block');
+  } else if (window.location.hash == '#val') {
+    $(`.step`).removeAttr("style").hide();
+    $(`div[data-step=4]`).css('display', 'none');
+    $(`div[data-step=5]`).css('display', 'block');
+  } else if (window.location.hash == '#per') {
+    $(`.step`).css('display', 'none');
+    $(`div[data-step=5]`).css('display', 'none');
+    $(`div[data-step=6]`).css('display', 'block');
+  } else if (window.location.hash == '#reas') {
+    $(`.step`).css('display', 'none');
+    $(`div[data-step=6]`).css('display', 'none');
+    $(`div[data-step=7]`).css('display', 'block');
+  } else if (window.location.hash == '#meth') {
+    $(`.step`).css('display', 'none');
+    $(`div[data-step=7]`).css('display', 'none');
+    $(`div[data-step=8]`).css('display', 'block');
+  } else if (window.location.hash == '#agntype') {
+    $(`.step`).css('display', 'none');
+    $(`div[data-step=8]`).css('display', 'none');
+    $(`div[data-step=9]`).css('display', 'block');
+  } else if (window.location.hash == '#agntname') {
+    $(`.step`).css('display', 'none');
+    $(`div[data-step=9]`).css('display', 'none');
+    $(`div[data-step=10]`).css('display', 'block');
+  } else if (window.location.hash == '#ques') {
+    $(`.step`).css('display', 'none');
+    $(`div[data-step=10]`).css('display', 'none');
+    $(`div[data-step=11]`).css('display', 'block');
+  } else if (window.location.hash == '#prev') {
+    $(`.step`).css('display', 'none');
+    $(`div[data-step=11]`).css('display', 'none');
+    $('.signup-preview').css('display', 'block');
+    $('.email-step-view').css('display', 'none');
+  } else if (window.location.hash == '') {
+    $(`.step`).css('display', 'none');
+    $('.confirmation').css('display', 'none');
+    $(`.signup`).css('display', 'none');
+    $(`.signup-begin`).css('display', 'block');
+  } else if (window.location.hash == '#email') {
+    $('.signup-preview').css('display', 'none');
+    $('.signup-proccess').css('display', 'none');
+    $('.email-step-view').css('display', 'block');
+    $('.last-step-view').css('display', 'none');
+    $(`#sellersignup12 .col-xl-8, #sellersignup12 .col-12`).css('display', 'none');
+  } else if (window.location.hash == '#subm') {
+    $('.last-step').css('display', 'block');
+    $('.email-step-view').css('display', 'none');
+  }
+  if (window.location.hash == '#ques') {
+    $('.preview-brief').css('display', 'none')
+  }
+  if (window.location.hash == '#prev') {
+    $('.preview-brief').css('display', 'block');
+    $('.last-step').css('display', 'none');
+    $('.confirmation').css('display', 'none');
+    map.fitBounds(sellerBounds);
+  }
+}
 function removeHashFromUrl() {
   $('.form-group>.back').prop('disabled', true);
   setTimeout(function () {
     $('.form-group>.back').prop('disabled', false);
-  }, 1000);
-  console.log(i);
-  window.location.hash = hashes[i];
+  }, 200);
   i--;
+  window.location.hash = hashes[i];
 }
 $(`.step`).removeAttr("style");
 if (window.location.hash == '#' || window.location.hash == '') {
   $('.navbar>img').removeClass('signup-image');
 }
 $('.form-group>.back').click(removeHashFromUrl);
-$('.hash-step').click(function() {
-    $('.form-group>.back').prop('disabled', false);
+$('.hash-step').click(function () {
+  $('.form-group>.back').prop('disabled', false);
   addHashToUrl();
 });
-$('.back-step-begin .back-step').click(function() {
-  console.log(i);
+$('.back-step-begin .back-step').click(function () {
   i = 0;
   window.location.hash = hashes[i];
   $('.top-image').hide();
   $(`div[data-step=1]`).css('display', 'none');
-  $('.signup-begin').css('display','block');
+  $('.signup-begin').css('display', 'block');
 });
 $('.btn-skip').click(addHashToUrl);
 
 var sbr = localStorage.getItem('suburb');
 
-$(document).mouseup(function(e) {
-    var container = $(".question-menu");
-    if (!container.is(e.target) && container.has(e.target).length === 0) {
-      container.hide();
-    }
+$(document).mouseup(function (e) {
+  var container = $(".question-menu");
+  if (!container.is(e.target) && container.has(e.target).length === 0) {
+    container.hide();
+  }
 });
 
 $(document).ready(function () {
-  $("[name=agree]").click(function() {
-    $("#submit-form").prop("disabled", false);	
+  $('.signup-begin .tt-input').on("change paste keyup", function(){
+    if ($(this).val() == '') { 
+      $('.signup-begin button').attr('disabled','true');
+    } 
   })
-  $('.btn-question').click(function() {
+  $("[name=agree]").click(function () {
+    $("#submit-form").prop("disabled", false);
+  })
+  $('.btn-question').click(function () {
     $('.scrollbar').show()
   })
 
+  $('#sellersignup1 .seller-signup-card').click(function() {
+    $('#sellersignup1 input[type=submit').addClass('step-disabled').removeClass('is-disabled');
+  });
   toPreviewBrief();
-  $('#sellersignup1 input[type=radio]').change(function () {
+  $('#sellersignup1 input[type=radio]').on("change", function () {
     changeSize();
   });
   //questions
@@ -1097,28 +1106,23 @@ $(document).ready(function () {
   if (passRes == 'Strong') {
     $('.password-info').hide();
   }
-  $('.to-finish').click(function(e) {
-    e.preventDefault();
+  $('.to-finish').click(function () {
     toLastStep();
-    $('.email-step-view').css('display','none');
-    $('.last-step-view').css('display','block');
+    $('.email-step-view').css('display', 'none');
+    $('.last-step-view').css('display', 'block');
   })
 });
 
-function initializeMapSeller() {
-    var suburb = $("#suburbs").val();
-    suburb = suburb ? suburb : localStorage.getItem('suburb');
-    for (x in fusionIds) {
-      queryFT("'" + suburb + "'", fusionIds[x]);
-    }
+function initializeSellerMap() {
+  var suburb = $("#suburbs").val();
+  suburb = suburb ? suburb : localStorage.getItem('suburb');
+  for (x in ["1dKGkM-jACPSSBAbbTirsNysgYQ558gJrp9aY1w-c", "124KUBlnpvXE2vClPnKjpKOC14qE6U8ZhFyAB1gzF"]) {
+    querySellerFT("'" + suburb + "'", fusionIds[x]);
+  }
 }
-
-var fusionId, fusionIds, fusionQuery;
-  fusionIds = ["1dKGkM-jACPSSBAbbTirsNysgYQ558gJrp9aY1w-c", "124KUBlnpvXE2vClPnKjpKOC14qE6U8ZhFyAB1gzF"];
-  fusionQuery = "SSC_NAME16";
-
-function queryFT(codes, fusionId) {
-  var queryText = encodeURIComponent("SELECT 'geometry' FROM " + fusionId + " WHERE '" + fusionQuery + "' IN (" + codes + ")");
+var sellerBounds;
+function querySellerFT(codes, fusionId) {
+  var queryText = encodeURIComponent("SELECT 'geometry' FROM " + fusionId + " WHERE 'SSC_NAME16' IN (" + codes + ")");
   var query = new google.visualization.Query('https://www.google.com/fusiontables/gvizdata?tq=' + queryText);
   query.send(function (response) {
     if (!response) {
@@ -1131,8 +1135,8 @@ function queryFT(codes, fusionId) {
       table = response.getDataTable();
       numRows = table.getNumberOfRows();
       var bounds = new google.maps.LatLngBounds();
-      for (var i = 0; i < numRows; i++) {
-        var kml = $.parseXML(response.getDataTable().getValue(i, 0));
+      for (var k = 0; k < numRows; k++) {
+        var kml = $.parseXML(response.getDataTable().getValue(k, 0));
         var coord = kml.getElementsByTagName("coordinates")[0].childNodes[0].nodeValue.split(" ");
         for (j in coord) {
           var p = coord[j].split(",");
@@ -1143,14 +1147,15 @@ function queryFT(codes, fusionId) {
         }
       }
       if (numRows > 0) {
+        sellerBounds = bounds;
         map.fitBounds(bounds);
-        outlineSuburbs(codes, fusionId);
+        outlineSuburbsSeller(codes, fusionId);
       }
     }
   });
 }
 
-function outlineSuburbs(codes, fusionId) {
+function outlineSuburbsSeller(codes, fusionId) {
   var layerindex = fusionIds.indexOf(fusionId);
   if (layerindex == 0 && layer) {
     layer.setOptions({
@@ -1267,7 +1272,3 @@ function outlineSuburbs(codes, fusionId) {
 google.maps.event.addListener(map, 'bounds_changed', function () {
   google.maps.event.trigger(map, 'resize');
 });
-
-function resizeMap() {
-  initializeMapSeller();
-}
