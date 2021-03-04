@@ -1,17 +1,10 @@
-$(window).on('load', function(e) {
-  $('body').addClass('loaded');
+$(window).on("load", function (e) {
+  $("body").addClass("loaded");
 });
 
 new WOW().init();
 
-$(document).ready(function(){
-
-  // $('.slider-dashboard').slick({
-  //   lazyLoad: 'progressive',
-  //   arrows: false,
-  //   dots: true
-  // });
-
+$(document).ready(function () {
   // $('.slider-testimonials').slick({
   //   lazyLoad: 'progressive',
   //   arrows: false,
@@ -26,23 +19,18 @@ $(document).ready(function(){
   //   $('.slider-testimonials').slick('slickPrev');
   // });
 
-  $('.responsive-nav-btn').on('click', function(e) {
-    $('.header-navigation').addClass('activated');
-    $('.responsive-close-nav-btn').fadeIn('slow');
+  $(".responsive-nav-btn").on("click", function (e) {
+    $(".header-navigation").addClass("activated");
+    $(".responsive-close-nav-btn").fadeIn("slow");
   });
 
-  $('.responsive-close-nav-btn').on('click', function(e) {
-    $('.header-navigation').removeClass('activated');
-    $('.responsive-close-nav-btn').hide();
+  $(".responsive-close-nav-btn").on("click", function (e) {
+    $(".header-navigation").removeClass("activated");
+    $(".responsive-close-nav-btn").hide();
   });
 
-  $('.question').on('click', function(e) {
+  $(".question").on("click", function (e) {
     $(this).next().slideToggle();
-    $(this).toggleClass('opened');
+    $(this).toggleClass("opened");
   });
-
-
-
-
-
 });

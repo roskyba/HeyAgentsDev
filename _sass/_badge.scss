@@ -4,7 +4,7 @@
 // `background-color`.
 
 .badge {
-  display: inline-block;
+  display: flex;
   padding: $badge-padding-y $badge-padding-x;
   font-size: $badge-font-size;
   font-weight: $badge-font-weight;
@@ -34,6 +34,7 @@ a.badge {
     color: $badge-link-hover-color;
     text-decoration: none;
     cursor: pointer;
+    font-size: 19px;
   }
 }
 // scss-lint:enable QualifyingElement
